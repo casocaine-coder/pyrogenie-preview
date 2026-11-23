@@ -143,8 +143,8 @@
   /* Wir bieten */
   .offer{width:min(1240px,100% - 48px);margin:clamp(70px,9vw,140px) auto clamp(90px,10vw,170px)}
   .offer__title{text-align:center}
-  .fx{margin-top:clamp(36px,4.5vw,70px)}
-  .fx__media{position:relative;aspect-ratio:16/7;overflow:hidden;background:#0b0b0b}
+  .fx{margin-top:clamp(18px,2.4vw,36px)}
+  .fx__media{position:relative;aspect-ratio:16/5;overflow:hidden;background:#0b0b0b}
   .fx__media img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)}
   .fx:hover .fx__media img{transform:scale(1.03)}
   .fx__media video{width:100%;height:100%;object-fit:cover;display:block}
@@ -164,7 +164,7 @@
   /* Referenzen */
   .refs{width:min(1240px,100% - 48px);margin:clamp(60px,7vw,110px) auto clamp(90px,10vw,170px)}
   .refs__title{text-align:center;margin-bottom:clamp(30px,4vw,60px)}
-  .refs__grid{display:grid;grid-template-columns:minmax(0,600px) minmax(0,460px);justify-content:center;gap:clamp(10px,1.4vw,22px);align-items:stretch}
+  .refs__grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:clamp(10px,1.4vw,22px);align-items:stretch}
   .refs__yt{display:grid;gap:clamp(8px,1vw,14px)}
   .refs__grid{align-items:start}
   .refs__igcol{display:flex;flex-direction:column;gap:clamp(14px,1.6vw,24px);min-width:0}
@@ -238,7 +238,7 @@
   .req__send:hover{background:var(--gold2);transform:translateY(-2px)}
   .req__note{grid-column:1/-1;font-size:13px;color:rgba(255,255,255,.55);margin-top:-14px;min-height:1em}
   @media (max-width:700px){ .req form{grid-template-columns:1fr} }
-  @media (max-width:700px){ .fx__media{aspect-ratio:4/3} }
+  @media (max-width:700px){ .fx__media{aspect-ratio:2/1} }
 </style>
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="mobile.css">
