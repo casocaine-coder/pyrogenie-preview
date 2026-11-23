@@ -90,3 +90,29 @@ html.mobile .p__img img.alt{display:none}       /* zweites Produktbild beim Drü
 html.mobile .moments__track{cursor:auto}
 /* Videos: Vorschaubild bleibt sichtbar, bis das Video wirklich läuft */
 html.mobile video{background:#000}
+
+/* ===== Handy-Feinschliff (Prüfung aller Seiten) ===== */
+/* Mindestschriftgröße für kleine Beschriftungen (vorher 9–10 px) */
+html.mobile .cat__name,html.mobile .cat__n,html.mobile .fbtn,html.mobile .count,html.mobile .p__meta,
+html.mobile .rc__brand,html.mobile .rc__code,html.mobile .rc__price,html.mobile .lbl,html.mobile .side__note,
+html.mobile .hs__src,html.mobile .hs__src a,html.mobile .info__note,html.mobile .back small,html.mobile small{font-size:11px}
+/* Größere Tippflächen: Fußzeile */
+html.mobile .footer li a{display:inline-block;padding:7px 0}
+html.mobile .footer__bottom a{display:inline-block;padding:8px 0}
+/* Größere Tippflächen: einzelne Links und Knöpfe */
+html.mobile .hero__sfx{padding:10px 0}
+html.mobile .ytlink{display:inline-block;padding:12px 0}
+html.mobile #prev,html.mobile #next{display:inline-block;padding:14px 0}
+html.mobile .af__link{display:inline-block;padding:10px 0}
+html.mobile #allCat{display:inline-block;padding:10px 0}
+html.mobile .side__logo{padding:8px 0}
+html.mobile .more__arr{min-width:40px;min-height:40px}
+html.mobile .fbtn{min-height:36px}
+/* Bildpunkte in der Galerie: unsichtbar größere Tippfläche */
+html.mobile .dots{gap:4px}
+html.mobile .dots button{box-sizing:content-box;padding:9px;background-clip:content-box}
+html.mobile .dots button[aria-current="true"]{transform:none;width:10px;height:10px;padding:8px}
+html.mobile .hero__down::after{content:"";position:absolute;inset:-12px -14px}
+html.mobile .serv__tabs button{padding-top:9px;padding-bottom:9px}
+html.mobile .igc__open{padding:10px 12px}
+html.mobile .igc__foot a{display:inline-block;padding:6px 0}

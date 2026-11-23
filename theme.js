@@ -129,3 +129,10 @@ document.addEventListener('click', function(e){
     nav.classList.remove('open'); var b = document.getElementById('menuBtn'); if (b) b.setAttribute('aria-expanded', 'false');
   }
 });
+
+/* Handy: kürzerer Platzhalter im Shop-Suchfeld, damit er nicht abgeschnitten wird */
+(function(){
+  if (!document.documentElement.classList.contains('mobile')) return;
+  var s = document.querySelector('#search[placeholder="Artikelnummer suchen"]');
+  if (s) s.placeholder = 'Art.-Nr. suchen';
+})();
