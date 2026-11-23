@@ -166,9 +166,13 @@
   .refs__title{text-align:center;margin-bottom:clamp(30px,4vw,60px)}
   .refs__grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:clamp(10px,1.4vw,22px);align-items:stretch}
   .refs__yt{display:grid;gap:clamp(8px,1vw,14px)}
-  .refs__igcol{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:clamp(8px,1vw,14px);min-height:0}
-  .refs__igcol .ref{aspect-ratio:auto;height:auto;min-height:0}
-  .refs__igcol .ref img{position:absolute;inset:0}
+  .refs__grid{align-items:start}
+  .refs__igcol{display:flex;flex-direction:column;gap:clamp(14px,1.6vw,24px);min-width:0}
+  .refs__igcol .ref{aspect-ratio:4/5}
+  .refs__igcol .ref.ig-post{aspect-ratio:auto;overflow:visible;background:none;cursor:auto;opacity:1;transform:none}
+  .ref.ig-post iframe{position:static;display:block;width:100%;max-width:540px;margin:0 auto;border:0;border-radius:8px;background:#fff}
+  html.mobile .refs__grid{grid-template-columns:minmax(0,1fr)}
+  @media (max-width:700px){ .refs__grid{grid-template-columns:minmax(0,1fr)} }
   .ref--noimg{background:radial-gradient(120% 90% at 50% 40%,#1d1a15 0%,#0b0b0b 70%)}
   .ref{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;background:#0b0b0b;cursor:pointer}
   .ref--wide{grid-column:1/-1;aspect-ratio:16/7}
@@ -283,8 +287,8 @@
     </div>
     <div class="refs__igcol">
       <a class="ref rv" href="https://www.instagram.com/reel/DOsxGTrDe-s/" target="_blank" rel="noopener" data-ig="reel/DOsxGTrDe-s" aria-label="Referenzvideo auf Instagram: Fußball im Regen"><img src="sfx/ref/ref4.jpg" width="1600" height="1106" loading="lazy" alt="Fußballer grätscht im Regen nach dem Ball" style="object-position:50% 60%"><span class="ref__play"></span><span class="ref__ig">Instagram</span></a>
-      <a class="ref rv ref--noimg" href="https://www.instagram.com/reel/DWOy6TciLrS/" target="_blank" rel="noopener" data-ig="reel/DWOy6TciLrS" aria-label="Referenzvideo auf Instagram"><span class="ref__play"></span><span class="ref__ig">Instagram</span></a>
       <a class="ref rv" href="https://www.instagram.com/p/DNd4zAcijZA/?img_index=5" target="_blank" rel="noopener" data-ig="p/DNd4zAcijZA" data-ig-index="5" aria-label="Referenzvideo auf Instagram: Sneaker mit Lichteffekt"><img src="sfx/ref/ref5.jpg" width="1600" height="901" loading="lazy" alt="Rote Sneaker-Sohle mit leuchtenden Kammern"><span class="ref__play"></span><span class="ref__ig">Instagram</span></a>
+      <a class="ref rv ref--noimg" href="https://www.instagram.com/reel/DWOy6TciLrS/" target="_blank" rel="noopener" data-ig="reel/DWOy6TciLrS" aria-label="Referenzvideo auf Instagram"><span class="ref__play"></span><span class="ref__ig">Instagram</span></a>
     </div>
   </div>
 </section>
@@ -410,60 +414,24 @@
     swap(a, f);
   });
 
-  /* Instagram: Beitrag mittig in der Kachel, so skaliert, dass er ganz hineinpasst; Hintergrund = unser Bild abgedunkelt */
-  var IGW = 400, igs = [];
-  function igSrc(a){ return 'https://www.instagram.com/' + a.dataset.ig + '/embed/' + (a.dataset.igIndex ? '?img_index=' + a.dataset.igIndex : ''); }
+  /* Instagram: Beiträge in Originalgröße untereinander wie im Feed; Höhe meldet Instagram selbst ("MEASURE") */
+  var igs = [];
   [].forEach.call(document.querySelectorAll('.ref[data-ig]'), function(a){
-    var img = a.querySelector('img');
-    var wrap = document.createElement('div'); wrap.className = 'ig';
-    var bg = document.createElement('div'); bg.className = 'ig__bg'; if (img) bg.style.backgroundImage = 'url("' + img.currentSrc + '")';
-    if (img && !img.currentSrc) bg.style.backgroundImage = 'url("' + img.getAttribute('src') + '")';
-    var st = document.createElement('div'); st.className = 'ig__stage';
     var f = document.createElement('iframe');
-    f.src = igSrc(a); f.title = a.getAttribute('aria-label'); f.loading = 'lazy'; f.setAttribute('scrolling', 'no'); f.allowFullscreen = true;
+    f.src = 'https://www.instagram.com/' + a.dataset.ig + '/embed/captioned/' + (a.dataset.igIndex ? '?img_index=' + a.dataset.igIndex : '');
+    f.title = a.getAttribute('aria-label'); f.setAttribute('scrolling', 'no'); f.allowFullscreen = true;
     f.allow = 'autoplay; encrypted-media; picture-in-picture; clipboard-write';
-    f.style.width = IGW + 'px'; f.style.height = '760px';
-    var big = document.createElement('button'); big.type = 'button'; big.className = 'ig__big'; big.setAttribute('aria-label', 'Groß ansehen'); big.innerHTML = '<span></span>';
-    st.appendChild(f); wrap.appendChild(bg); wrap.appendChild(st); wrap.appendChild(big);
-    var d = swap(a, wrap);
-    var o = { d: d, st: st, f: f, h: 760, src: igSrc(a), label: a.getAttribute('aria-label') };
-    big.addEventListener('click', function(){ openBig(o); });
-    igs.push(o);
+    var d = swap(a, f); d.classList.add('ig-post');
+    var o = { f: f, h: 0 }; igs.push(o);
+    function guess(){ if (!o.h) f.style.height = Math.round((f.clientWidth || 400) * 1.25 + 260) + 'px'; }
+    guess(); addEventListener('resize', guess);
   });
-  function fit(o){
-    var H = o.d.clientHeight, W = o.d.clientWidth; if (!H) return;
-    var s = Math.min(1, (H - 16) / o.h, (W - 16) / IGW);
-    o.st.style.width = IGW + 'px'; o.st.style.height = o.h + 'px';
-    o.st.style.transform = 'translate(-50%,-50%) scale(' + s + ')';
-    o.f.style.height = o.h + 'px';
-  }
-  function fitAll(){ igs.forEach(fit); }
-  if (igs.length){
-    fitAll(); addEventListener('resize', fitAll);
-    if ('ResizeObserver' in window){ var ro = new ResizeObserver(fitAll); igs.forEach(function(o){ ro.observe(o.d); }); }
-    /* Instagram meldet seine echte Höhe per postMessage ("MEASURE") */
-    addEventListener('message', function(e){
-      if (!/instagram\.com$/.test((e.origin || '').replace(/^https?:\/\//, ''))) return;
-      var m = e.data; try { if (typeof m === 'string') m = JSON.parse(m); } catch (x) { return; }
-      if (!m || m.type !== 'MEASURE' || !m.details || !m.details.height) return;
-      igs.forEach(function(o){ if (o.f.contentWindow === e.source){ o.h = Math.max(300, Math.round(m.details.height)); fit(o); } });
-    });
-  }
-
-  /* Groß ansehen: Fenster über der Seite */
-  var mo = null, last = null;
-  function closeBig(){ if (!mo) return; var x = mo; mo = null; x.classList.remove('on'); document.documentElement.style.overflow = ''; setTimeout(function(){ x.remove(); }, 250); if (last) last.focus(); }
-  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeBig(); });
-  function openBig(o){
-    last = document.activeElement;
-    mo = document.createElement('div'); mo.className = 'igm'; mo.setAttribute('role', 'dialog'); mo.setAttribute('aria-modal', 'true'); mo.setAttribute('aria-label', o.label);
-    mo.innerHTML = '<button class="igm__x" type="button" aria-label="Schließen">&times;</button><div class="igm__box"><iframe allowfullscreen allow="autoplay; encrypted-media; picture-in-picture; clipboard-write"></iframe></div>';
-    var f = mo.querySelector('iframe'); f.src = o.src; f.title = o.label;
-    mo.addEventListener('click', function(ev){ if (ev.target === mo) closeBig(); });
-    mo.querySelector('.igm__x').addEventListener('click', closeBig);
-    document.body.appendChild(mo); document.documentElement.style.overflow = 'hidden';
-    requestAnimationFrame(function(){ mo.classList.add('on'); }); mo.querySelector('.igm__x').focus();
-  }
+  if (igs.length) addEventListener('message', function(e){
+    if (!/(^|\.)instagram\.com$/.test((e.origin || '').replace(/^https?:\/\//, ''))) return;
+    var m = e.data; try { if (typeof m === 'string') m = JSON.parse(m); } catch (x) { return; }
+    if (!m || m.type !== 'MEASURE' || !m.details || !m.details.height) return;
+    igs.forEach(function(o){ if (o.f.contentWindow === e.source){ o.h = Math.round(m.details.height); o.f.style.height = o.h + 'px'; } });
+  });
 })();
 
 /* ---------- Wind: Scroll-Position steuert das Video (vor & zurück), die Seite läuft dabei normal weiter ---------- */
