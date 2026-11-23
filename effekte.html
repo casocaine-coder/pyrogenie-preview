@@ -170,7 +170,9 @@
   .refs__igcol{display:flex;flex-direction:column;gap:clamp(14px,1.6vw,24px);min-width:0}
   .refs__igcol .ref{aspect-ratio:4/5}
   .refs__igcol .ref.ig-post{aspect-ratio:auto;overflow:visible;background:none;cursor:auto;opacity:1;transform:none}
-  .ref.ig-post iframe{position:static;display:block;width:100%;max-width:540px;margin:0 auto;border:0;border-radius:8px;background:#fff}
+  .ref.ig-post iframe{position:static;inset:auto;display:block;margin:0 auto!important;border-radius:8px!important}
+  .ref.ig-post .instagram-media{width:100%!important;max-width:540px!important;min-width:0!important;margin:0 auto!important;background:#fff;border:0!important;border-radius:8px;padding:16px;color:#000;font-size:14px}
+  .ref.ig-post .instagram-media a{color:#3b5bdb}
   html.mobile .refs__grid{grid-template-columns:minmax(0,1fr)}
   @media (max-width:700px){ .refs__grid{grid-template-columns:minmax(0,1fr)} }
   .ref--noimg{background:radial-gradient(120% 90% at 50% 40%,#1d1a15 0%,#0b0b0b 70%)}
@@ -414,24 +416,23 @@
     swap(a, f);
   });
 
-  /* Instagram: Beiträge in Originalgröße untereinander wie im Feed; Höhe meldet Instagram selbst ("MEASURE") */
-  var igs = [];
-  [].forEach.call(document.querySelectorAll('.ref[data-ig]'), function(a){
-    var f = document.createElement('iframe');
-    f.src = 'https://www.instagram.com/' + a.dataset.ig + '/embed/captioned/' + (a.dataset.igIndex ? '?img_index=' + a.dataset.igIndex : '');
-    f.title = a.getAttribute('aria-label'); f.setAttribute('scrolling', 'no'); f.allowFullscreen = true;
-    f.allow = 'autoplay; encrypted-media; picture-in-picture; clipboard-write';
-    var d = swap(a, f); d.classList.add('ig-post');
-    var o = { f: f, h: 0 }; igs.push(o);
-    function guess(){ if (!o.h) f.style.height = Math.round((f.clientWidth || 400) * 1.25 + 260) + 'px'; }
-    guess(); addEventListener('resize', guess);
-  });
-  if (igs.length) addEventListener('message', function(e){
-    if (!/(^|\.)instagram\.com$/.test((e.origin || '').replace(/^https?:\/\//, ''))) return;
-    var m = e.data; try { if (typeof m === 'string') m = JSON.parse(m); } catch (x) { return; }
-    if (!m || m.type !== 'MEASURE' || !m.details || !m.details.height) return;
-    igs.forEach(function(o){ if (o.f.contentWindow === e.source){ o.h = Math.round(m.details.height); o.f.style.height = o.h + 'px'; } });
-  });
+  /* Instagram: offizielles Einbettungs-Skript (setzt die Höhe selbst), ohne Bildunterschrift, untereinander wie im Feed */
+  var igq = document.querySelectorAll('.ref[data-ig]');
+  if (igq.length){
+    [].forEach.call(igq, function(a){
+      var url = 'https://www.instagram.com/' + a.dataset.ig + '/';
+      var q = document.createElement('blockquote');
+      q.className = 'instagram-media';
+      q.setAttribute('data-instgrm-permalink', url);
+      q.setAttribute('data-instgrm-version', '14');
+      q.innerHTML = '<a href="' + url + '" target="_blank" rel="noopener">' + a.getAttribute('aria-label') + '</a>';
+      var d = swap(a, q); d.classList.add('ig-post');
+    });
+    var sc = document.createElement('script');
+    sc.async = true; sc.src = 'https://www.instagram.com/embed.js';
+    sc.onload = function(){ try { window.instgrm && window.instgrm.Embeds.process(); } catch (e) {} };
+    document.body.appendChild(sc);
+  }
 })();
 
 /* ---------- Wind: Scroll-Position steuert das Video (vor & zurück), die Seite läuft dabei normal weiter ---------- */
