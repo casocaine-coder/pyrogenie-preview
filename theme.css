@@ -1,0 +1,201 @@
+/* =====================================================================
+   Pyrogenie – helle Version (Tag-Modus)
+   Aktiv, wenn <html> die Klasse "light" hat. Wird per Tag/Nacht-Schalter
+   oben links umgeschaltet (theme.js). Bild- und Videoflächen bleiben
+   dunkel, Text auf Bildern bleibt weiß – alles andere wird hell.
+   ===================================================================== */
+:root{ --paper:#f4f0e9; --paper2:#e8e2d7; --ink:#16130f; --ink-muted:rgba(22,19,15,.58); --gold-ink:#a8761c; --shade-max:.62 }
+html.light{ --shade-max:.86; color-scheme:light }
+
+/* ---------- Tag/Nacht-Schalter ---------- */
+.theme-btn{position:fixed;z-index:21;top:clamp(18px,2.9vw,42px);left:clamp(14px,2.6vw,44px);width:34px;height:34px;padding:0;border-radius:50%;
+  border:1px solid rgba(200,149,58,.85);background:rgba(0,0,0,.28);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:grid;place-items:center;cursor:pointer;transition:transform .3s,background .3s,border-color .3s}
+.theme-btn.has-back{left:calc(clamp(14px,2.6vw,44px) + 48px)}
+.theme-btn svg{width:17px;height:17px;stroke:#c8953a;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.theme-btn .sun{position:absolute;opacity:0;transform:rotate(-90deg) scale(.5)}
+.theme-btn .moon{opacity:1}
+html.light .theme-btn{background:#fff;border:1.5px solid #a8761c;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+html.light .theme-btn svg{stroke:#a8761c;stroke-width:2.2}
+html.light .theme-btn:hover{background:#fff6e6}
+html.light .theme-btn .sun{opacity:1;transform:none}
+html.light .theme-btn .moon{opacity:0;transform:rotate(90deg) scale(.5)}
+.theme-btn:hover{transform:scale(1.08);background:rgba(200,149,58,.25)}
+.theme-btn{transition:transform .3s,background .3s,border-color .3s,opacity .35s,visibility 0s}
+.theme-btn.away{opacity:0;visibility:hidden;transform:translateY(-12px);pointer-events:none;transition:opacity .35s,transform .35s,visibility 0s .35s}
+.theme-btn:focus-visible{outline:2px solid #c8953a;outline-offset:3px}
+/* weiche Umschaltung */
+html.theme-anim, html.theme-anim *, html.theme-anim *::before, html.theme-anim *::after{
+  transition:background-color .4s ease,color .4s ease,border-color .4s ease,fill .4s ease,stroke .4s ease !important}
+
+/* ---------- Grundfarben ---------- */
+html.light body{background:var(--paper);color:var(--ink)}
+html.light .pt{background:var(--paper)}
+html.light .hero{background:var(--paper)}
+html.light #hero.hero{background:transparent}
+html.light .hero::after{background:linear-gradient(180deg,rgba(244,240,233,0) 66%,rgba(244,240,233,.55) 86%,var(--paper) 100%)}
+html.light .gold{color:var(--gold-ink)}
+html.light .hero .gold{color:var(--gold)}
+html.light .back,html.light .totop{filter:drop-shadow(0 1px 5px rgba(0,0,0,.35))}
+html.light .muted{color:var(--ink-muted)}
+
+/* Text, der auf Bildern liegt, bleibt hell */
+html.light .hero__title,html.light .hero__sub,html.light .hero__cap,html.light .card__label,
+html.light .wave__label,html.light .wave__toggle,html.light .help-btn{color:#fff}
+
+/* ---------- Footer ---------- */
+html.light .footer::after{background:linear-gradient(180deg,var(--paper) 0%,rgba(244,240,233,.88) 14%,rgba(244,240,233,.82) 40%,rgba(244,240,233,.86) 100%)}
+html.light .footer{color:var(--ink)}
+html.light .footer__brand span{color:var(--ink-muted)}
+
+/* ---------- Startseite ---------- */
+html.light .about{background:var(--paper)}
+html.light .about__bg::after{background:linear-gradient(180deg,var(--paper) 0%,rgba(244,240,233,.9) 16%,rgba(244,240,233,.62) 34%,rgba(244,240,233,.72) 52%,rgba(244,240,233,.92) 68%,var(--paper) 84%)}
+html.light .about__text .lead{color:var(--gold-ink)}
+html.light .card{box-shadow:0 10px 30px rgba(0,0,0,.18),0 0 0 1px rgba(0,0,0,.06)}
+html.light .card:hover{box-shadow:0 18px 40px rgba(0,0,0,.28),0 0 0 1px rgba(200,149,58,.6)}
+html.light .reel__frame,html.light .frame{border-color:rgba(168,118,28,.7)}
+html.light .marquee{-webkit-mask-image:none;mask-image:none;position:relative}
+html.light .marquee::before,html.light .marquee::after{content:"";position:absolute;top:0;bottom:0;width:12%;z-index:2;pointer-events:none}
+html.light .marquee::before{left:0;background:linear-gradient(90deg,var(--paper),rgba(244,240,233,0))}
+html.light .marquee::after{right:0;background:linear-gradient(270deg,var(--paper),rgba(244,240,233,0))}
+html.light .marquee img{mix-blend-mode:normal;filter:brightness(0);opacity:.72}
+
+/* ---------- Show-Seite ---------- */
+html.light .intro__bg{background-color:var(--paper)}
+html.light .intro__bg::after{background:linear-gradient(180deg,var(--paper) 0%,rgba(244,240,233,.8) 20%,rgba(244,240,233,.74) 50%,rgba(244,240,233,.8) 80%,var(--paper) 100%)}
+html.light .intro .h2,html.light .intro__text{text-shadow:none}
+html.light .moment__sub{color:var(--ink-muted)}
+html.light .moment:hover .moment__img{box-shadow:0 16px 36px rgba(0,0,0,.25)}
+html.light .moments__page:not(.active){opacity:.3}
+html.light .level__tube{background:rgba(0,0,0,.08)}
+html.light .approach__bg::after{background:linear-gradient(180deg,var(--paper) 0%,rgba(244,240,233,.8) 18%,rgba(244,240,233,.74) 50%,rgba(244,240,233,.8) 82%,var(--paper) 100%)}
+html.light .approach .h2,html.light .approach p{text-shadow:none}
+html.light .approach .gold{color:var(--gold-ink)}
+html.light .support__bg::after{background:linear-gradient(180deg,var(--paper) 0%,rgba(244,240,233,.2) 16%,rgba(244,240,233,0) 40%,rgba(244,240,233,0) 80%,var(--paper) 100%)}
+
+/* ---------- Show-Detailseite ---------- */
+html.light .bgfix{background:var(--paper)}
+html.light .bgfix__shade{background:var(--paper)}
+html.light .info h2,html.light .info p{text-shadow:none}
+html.light .dots button{background:rgba(0,0,0,.25)}
+
+/* ---------- Über uns ---------- */
+html.light .person__role{color:var(--ink-muted)}
+html.light .person:hover .person__img{box-shadow:0 16px 36px rgba(0,0,0,.25)}
+
+/* ---------- Shop ---------- */
+html.light .cat__img img{filter:drop-shadow(0 16px 22px rgba(0,0,0,.22))}
+html.light .cat:hover .cat__name{color:var(--gold-ink)}
+html.light .more-cats a:hover{color:var(--gold-ink)}
+html.light .bar{background:rgba(244,240,233,.92);border-bottom-color:rgba(0,0,0,.08)}
+html.light .tab{color:var(--ink-muted)}
+html.light .tab:hover{color:var(--ink)}
+html.light .tab[aria-pressed="true"]{color:var(--ink);border-color:var(--ink)}
+html.light .chip{border-color:rgba(0,0,0,.2);color:var(--ink-muted)}
+html.light .chip:hover{border-color:var(--ink);color:var(--ink)}
+html.light .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+html.light .p__img{background:var(--paper2)}
+html.light .p__img img{filter:drop-shadow(0 12px 16px rgba(0,0,0,.2))}
+html.light .p:hover .p__code{color:var(--gold-ink)}
+html.light .loadmore{border-color:rgba(0,0,0,.4);color:var(--ink)}
+html.light .loadmore:hover{background:var(--ink);color:var(--paper)}
+
+/* ---------- Produktseite ---------- */
+html.light .navwrap .menu-btn span{background:var(--ink)}
+html.light .navwrap .nav.open .menu-btn span{background:var(--gold)}
+html.light .navwrap .menu a{color:var(--ink);text-shadow:none}
+html.light .navwrap .menu a:hover{color:var(--gold-ink)}
+html.light .win{background:var(--paper2)}
+html.light .win--main img,html.light .win--pair img{filter:drop-shadow(0 18px 24px rgba(0,0,0,.22))}
+html.light .specs,html.light .specs div{border-color:rgba(0,0,0,.12)}
+html.light .info__btn{background:var(--ink);color:var(--paper)}
+html.light .info__btn:hover{background:var(--gold);color:#000}
+html.light .win--video .play{border-color:var(--ink);background:rgba(0,0,0,.05)}
+html.light .win--video .play svg{fill:var(--ink)}
+html.light .pp__nav a:hover{color:var(--gold-ink)}
+
+/* ---------- Tag-Modus: keine dunkle Dämpfung auf Bildern ----------
+   Nur die abdunkelnden Schichten/Filter fallen weg – die weichen Übergänge
+   an den Bildrändern (Verläufe ins Helle) bleiben erhalten. */
+html.light .hero__img,html.light .hero__video{filter:none}
+html.light .card::after{background:none}
+html.light .reel__poster::after,html.light .reel__poster:hover::after{background:none}
+html.light .player__btn::after{background:none}
+html.light .bgfix::after{background:none}
+html.light .wave__item{opacity:.92}
+/* Text auf hellen Bildern bekommt etwas mehr Kontur, damit er lesbar bleibt */
+html.light .hero__name,html.light .hero__title,html.light .hero__sub,html.light .hero__cap,html.light .card__label{text-shadow:0 1px 3px rgba(0,0,0,.55),0 0 18px rgba(0,0,0,.45)}
+
+/* ---------- Tag-Modus: Bildflächen hinter Text wie in der dunklen Version ----------
+   Kein heller Schleier über dem ganzen Bild – nur die Ränder laufen weich ins Helle aus.
+   Text auf diesen Bildern bleibt deshalb weiß mit Schatten. */
+html.light .intro__bg::after{background:linear-gradient(180deg,var(--paper) 0%,rgba(0,0,0,.35) 20%,rgba(0,0,0,.4) 50%,rgba(0,0,0,.35) 80%,var(--paper) 100%)}
+html.light .approach__bg::after{background:linear-gradient(180deg,var(--paper) 0%,rgba(0,0,0,.3) 18%,rgba(0,0,0,.35) 50%,rgba(0,0,0,.3) 82%,var(--paper) 100%)}
+html.light .about__bg::after{background:linear-gradient(180deg,var(--paper) 0%,rgba(0,0,0,.55) 16%,rgba(0,0,0,.3) 40%,rgba(0,0,0,.3) 72%,var(--paper) 100%)}
+html.light .intro,html.light .approach,html.light .about__bottom .h2{color:#fff}
+/* Intro-Text auf der Startseite: im Tag-Modus schwarz */
+html.light .about .hello,html.light .about__text{color:#16130f;text-shadow:0 0 3px rgba(244,240,233,.9),0 0 10px rgba(244,240,233,.9),0 0 22px rgba(244,240,233,.7)}
+html.light .intro .h2,html.light .intro__text,html.light .approach .h2,html.light .approach p,
+html.light .about__bottom .h2{text-shadow:0 1px 3px rgba(0,0,0,.8),0 0 18px rgba(0,0,0,.5)}
+html.light .approach .gold,html.light .about__bottom .gold{color:var(--gold)}
+html.light .about .hello .gold,html.light .about__text .lead{color:var(--gold-ink)}
+
+/* =====================================================================
+   Weiche Übergänge (beide Modi)
+   Die Bilder selbst laufen per Maske sanft ins Transparente aus – darunter liegt
+   die Seitenfarbe (Schwarz bzw. Hell). Keine Farbbalken, keine harten Kanten.
+   Die Abdunklung für lesbaren Text ist eine gleichmäßige, leichte Tönung.
+   ===================================================================== */
+.hero::after,#hero.hero::after{display:none}
+.hero__bgwrap,.hero > .hero__img,.hero > .hero__video{-webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,1.00) 58.0%,rgba(0,0,0,0.98) 62.7%,rgba(0,0,0,0.91) 67.3%,rgba(0,0,0,0.79) 72.0%,rgba(0,0,0,0.63) 76.7%,rgba(0,0,0,0.45) 81.3%,rgba(0,0,0,0.27) 86.0%,rgba(0,0,0,0.13) 90.7%,rgba(0,0,0,0.04) 95.3%,rgba(0,0,0,0.00) 100.0%);mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,1.00) 58.0%,rgba(0,0,0,0.98) 62.7%,rgba(0,0,0,0.91) 67.3%,rgba(0,0,0,0.79) 72.0%,rgba(0,0,0,0.63) 76.7%,rgba(0,0,0,0.45) 81.3%,rgba(0,0,0,0.27) 86.0%,rgba(0,0,0,0.13) 90.7%,rgba(0,0,0,0.04) 95.3%,rgba(0,0,0,0.00) 100.0%)}
+.about__bg,.intro__bg,.approach__bg{-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,0.00) 0.0%,rgba(0,0,0,0.04) 3.8%,rgba(0,0,0,0.13) 7.6%,rgba(0,0,0,0.27) 11.3%,rgba(0,0,0,0.45) 15.1%,rgba(0,0,0,0.63) 18.9%,rgba(0,0,0,0.79) 22.7%,rgba(0,0,0,0.91) 26.4%,rgba(0,0,0,0.98) 30.2%,rgba(0,0,0,1.00) 34.0%,rgba(0,0,0,1.00) 66.0%,rgba(0,0,0,0.98) 69.8%,rgba(0,0,0,0.91) 73.6%,rgba(0,0,0,0.79) 77.3%,rgba(0,0,0,0.63) 81.1%,rgba(0,0,0,0.45) 84.9%,rgba(0,0,0,0.27) 88.7%,rgba(0,0,0,0.13) 92.4%,rgba(0,0,0,0.04) 96.2%,rgba(0,0,0,0.00) 100.0%);mask-image:linear-gradient(180deg,rgba(0,0,0,0.00) 0.0%,rgba(0,0,0,0.04) 3.8%,rgba(0,0,0,0.13) 7.6%,rgba(0,0,0,0.27) 11.3%,rgba(0,0,0,0.45) 15.1%,rgba(0,0,0,0.63) 18.9%,rgba(0,0,0,0.79) 22.7%,rgba(0,0,0,0.91) 26.4%,rgba(0,0,0,0.98) 30.2%,rgba(0,0,0,1.00) 34.0%,rgba(0,0,0,1.00) 66.0%,rgba(0,0,0,0.98) 69.8%,rgba(0,0,0,0.91) 73.6%,rgba(0,0,0,0.79) 77.3%,rgba(0,0,0,0.63) 81.1%,rgba(0,0,0,0.45) 84.9%,rgba(0,0,0,0.27) 88.7%,rgba(0,0,0,0.13) 92.4%,rgba(0,0,0,0.04) 96.2%,rgba(0,0,0,0.00) 100.0%)}
+.support__bg{-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,0.00) 0.0%,rgba(0,0,0,0.04) 3.1%,rgba(0,0,0,0.13) 6.2%,rgba(0,0,0,0.27) 9.3%,rgba(0,0,0,0.45) 12.4%,rgba(0,0,0,0.63) 15.6%,rgba(0,0,0,0.79) 18.7%,rgba(0,0,0,0.91) 21.8%,rgba(0,0,0,0.98) 24.9%,rgba(0,0,0,1.00) 28.0%,rgba(0,0,0,1.00) 72.0%,rgba(0,0,0,0.98) 75.1%,rgba(0,0,0,0.91) 78.2%,rgba(0,0,0,0.79) 81.3%,rgba(0,0,0,0.63) 84.4%,rgba(0,0,0,0.45) 87.6%,rgba(0,0,0,0.27) 90.7%,rgba(0,0,0,0.13) 93.8%,rgba(0,0,0,0.04) 96.9%,rgba(0,0,0,0.00) 100.0%);mask-image:linear-gradient(180deg,rgba(0,0,0,0.00) 0.0%,rgba(0,0,0,0.04) 3.1%,rgba(0,0,0,0.13) 6.2%,rgba(0,0,0,0.27) 9.3%,rgba(0,0,0,0.45) 12.4%,rgba(0,0,0,0.63) 15.6%,rgba(0,0,0,0.79) 18.7%,rgba(0,0,0,0.91) 21.8%,rgba(0,0,0,0.98) 24.9%,rgba(0,0,0,1.00) 28.0%,rgba(0,0,0,1.00) 72.0%,rgba(0,0,0,0.98) 75.1%,rgba(0,0,0,0.91) 78.2%,rgba(0,0,0,0.79) 81.3%,rgba(0,0,0,0.63) 84.4%,rgba(0,0,0,0.45) 87.6%,rgba(0,0,0,0.27) 90.7%,rgba(0,0,0,0.13) 93.8%,rgba(0,0,0,0.04) 96.9%,rgba(0,0,0,0.00) 100.0%)}
+.footer__bg{-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,0.00) 0.0%,rgba(0,0,0,0.04) 5.0%,rgba(0,0,0,0.13) 10.0%,rgba(0,0,0,0.27) 15.0%,rgba(0,0,0,0.45) 20.0%,rgba(0,0,0,0.63) 25.0%,rgba(0,0,0,0.79) 30.0%,rgba(0,0,0,0.91) 35.0%,rgba(0,0,0,0.98) 40.0%,rgba(0,0,0,1.00) 45.0%,#000 100%);mask-image:linear-gradient(180deg,rgba(0,0,0,0.00) 0.0%,rgba(0,0,0,0.04) 5.0%,rgba(0,0,0,0.13) 10.0%,rgba(0,0,0,0.27) 15.0%,rgba(0,0,0,0.45) 20.0%,rgba(0,0,0,0.63) 25.0%,rgba(0,0,0,0.79) 30.0%,rgba(0,0,0,0.91) 35.0%,rgba(0,0,0,0.98) 40.0%,rgba(0,0,0,1.00) 45.0%,#000 100%)}
+.footer::after,html.light .footer::after{background:none}
+.footer__bg::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.5)}
+.about__bg::after{background:rgba(0,0,0,.38)}
+.intro__bg::after{background:rgba(0,0,0,.45)}
+.approach__bg::after{background:rgba(0,0,0,.4)}
+.support__bg::after{background:none}
+html.light .about__bg::after{background:rgba(0,0,0,.3)}
+html.light .bgfix::after{background:none}
+html.light .intro__bg::after{background:rgba(0,0,0,.36)}
+html.light .approach__bg::after{background:rgba(0,0,0,.3)}
+html.light .support__bg::after{background:none}
+html.light .footer__bg::after{background:rgba(0,0,0,.42)}
+html.light .intro__bg{background-color:transparent}
+/* Footer im Tag-Modus: Text weiß auf dem Bild */
+html.light .footer{color:#fff}
+html.light .footer__brand span{color:rgba(255,255,255,.75)}
+html.light .footer a:hover{color:var(--gold)}
+html.light .footer h4,html.light .footer p,html.light .footer li,html.light .footer__bottom{text-shadow:0 1px 3px rgba(0,0,0,.6)}
+
+/* Menü: Home oben, Anmelden unten – gestaffeltes Einblenden auch für Punkt 7 und 8 */
+.nav.open .menu li:nth-child(7) a{transition-delay:.42s,0s,0s}.nav.open .menu li:nth-child(8) a{transition-delay:.48s,0s,0s}
+
+/* ---------- Warenkorb & Profil oben links (ersetzt den Tag/Nacht-Schalter) ---------- */
+.hdr-btns{position:fixed;z-index:21;top:clamp(18px,2.9vw,42px);left:clamp(14px,2.6vw,44px);display:flex;gap:10px;transition:opacity .35s,transform .35s}
+.hdr-btns.has-back{left:calc(clamp(14px,2.6vw,44px) + 48px)}
+.hdr-btns.away{opacity:0;transform:translateY(-12px);pointer-events:none}
+.hdr-btn{position:relative;width:34px;height:34px;border-radius:50%;border:1px solid rgba(200,149,58,.85);background:rgba(0,0,0,.28);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:grid;place-items:center;transition:transform .3s,background .3s}
+.hdr-btn:hover,.hdr-btn[aria-current="page"]{background:rgba(200,149,58,.22);transform:translateY(-2px)}
+.hdr-btn svg{width:17px;height:17px;stroke:#c8953a;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hdr-badge{position:absolute;top:-6px;right:-7px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#c8953a;color:#000;
+  font:700 10px/18px var(--body,sans-serif);text-align:center}
+.hdr-badge.bump{animation:hdrbump .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes hdrbump{40%{transform:scale(1.35)}}
+
+/* ---------- Ladebildschirm: Lampe steht, der Schriftzug dreht sich (nur beim ersten Aufruf pro Besuch) ---------- */
+.loader{display:none}
+html.loading{overflow:hidden}
+html.loading .loader{display:grid;position:fixed;inset:0;z-index:9999;place-items:center;background:#000;transition:opacity .6s ease,visibility 0s .6s}
+.loader__badge{position:relative;width:clamp(150px,18vw,220px);aspect-ratio:1}
+.loader__badge img{position:absolute;inset:0;width:100%;height:100%}
+.loader__ring{animation:loaderSpin 1.6s cubic-bezier(.55,.1,.45,.9) infinite}
+.loader__lamp{animation:loaderGlow 1.6s ease-in-out infinite}
+@keyframes loaderSpin{to{transform:rotate(360deg)}}
+@keyframes loaderGlow{50%{filter:drop-shadow(0 0 14px rgba(200,149,58,.55))}}
+html.loading .loader.done{opacity:0;visibility:hidden}
+@media (prefers-reduced-motion:reduce){ .loader__ring,.loader__lamp{animation:none} }

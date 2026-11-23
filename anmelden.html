@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<script>(function(){var d=document.documentElement,fr=false;try{fr=window.self!==window.top}catch(e){fr=true}if(fr)return;var ok=false;try{ok=sessionStorage.getItem("pg-gate")==="aa193c8cace945a96af4523e34132bc73b953ec564201c5fc4ace0db6e1f0a6f"}catch(e){}if(!ok)d.classList.add("pg-locked")})()</script><style>html.pg-locked body>*:not(.pg-gate){visibility:hidden!important}html.pg-locked,html.pg-locked body{overflow:hidden!important;background:#000}</style>
+<script>try{if(!sessionStorage.getItem("pg-intro"))document.documentElement.classList.add("loading")}catch(e){}</script>
+<script>(function(){var d=document.documentElement;function m(){var t=("ontouchstart" in window)||navigator.maxTouchPoints>0,s=Math.min(screen.width,screen.height)<=820||window.innerWidth<=820,u=/iPhone|iPod|Android.+Mobile|Mobile Safari/i.test(navigator.userAgent);d.classList.toggle("mobile",(t&&s)||u)}m();addEventListener("resize",m);addEventListener("orientationchange",m)})()</script>
+<script>try{localStorage.removeItem("pg-theme")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anmelden – Pyrogenie Feuerwerk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#c8953a; --gold2:#e2b867; --purple:#a66bf5; --purple-hover:#b886ff;
+    --head:"Fira Sans","Komet",system-ui,sans-serif;
+    --body:"Fira Sans","Komet",system-ui,sans-serif;
+    --cond:"Oswald","Arial Narrow",sans-serif;
+    --max:1120px;
+    --ease:cubic-bezier(.2,.7,.1,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:#000;color:#fff;font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{width:min(var(--max),100% - 48px);margin-inline:auto}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .h2{font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:clamp(22px,2.1vw,32px);line-height:1.15}
+  .gold{color:var(--gold)} .purple{color:var(--purple)}
+  .zoom{will-change:transform}
+
+  /* ---------- 1 · HERO (Bild 1:1 aus dem Entwurf) ---------- */
+  .hero{position:relative;width:100%;height:92vh;height:92svh;min-height:520px;max-height:1000px;overflow:hidden;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+  .hero__img{position:absolute;inset:0}
+  .hero__img{width:100%;height:100%;object-fit:cover;object-position:50% 60%;transform-origin:50% 55%;filter:brightness(.72)}
+  .hero::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:linear-gradient(180deg,rgba(0,0,0,0) 70%,rgba(0,0,0,.6) 88%,#000 100%)}
+  .hero__home{position:relative;z-index:3;display:block;margin-top:-6vh;transition:transform .3s}
+  .hero__home:hover{transform:scale(1.05)}
+  .hero__logo{width:clamp(78px,7.5vw,120px);filter:drop-shadow(0 4px 18px rgba(0,0,0,.55))}
+  .hero__title{position:relative;z-index:3;margin-top:clamp(40px,7vh,90px);font-family:var(--head);font-weight:600;text-transform:uppercase;
+    font-size:clamp(20px,2.3vw,36px);letter-spacing:.02em;text-shadow:0 2px 18px rgba(0,0,0,.7)}
+  .hero__home:focus-visible{outline:2px solid var(--gold)}
+
+  /* ---------- Menü (rechts): öffnet bei Maus-Hover, ohne Hintergrund ---------- */
+  .nav{position:absolute;z-index:5;right:clamp(18px,3vw,48px);top:clamp(18px,3vw,40px);padding:0 0 40px 40px;text-align:right}
+  .menu-btn{position:relative;display:inline-flex;flex-direction:column;align-items:flex-end;gap:5px;width:30px;padding:6px 0;background:none;border:0;cursor:pointer}
+  .menu-btn span{display:block;width:100%;height:4px;border-radius:99px;background:#fff;transform-origin:right;transition:transform .45s var(--ease),background .3s}
+  .nav.open .menu-btn span{background:var(--gold)}
+  .nav.open .menu-btn span:nth-child(1){transform:scaleX(.55)}
+  .nav.open .menu-btn span:nth-child(3){transform:scaleX(.3)}
+  .menu{position:relative;margin:22px 2px 0 0;padding-right:22px;list-style:none;pointer-events:none}
+  .menu::before{content:"";position:absolute;right:0;top:0;bottom:0;width:1px;
+    background:linear-gradient(var(--gold),rgba(200,149,58,0));transform:scaleY(0);transform-origin:top;transition:transform .5s var(--ease) .1s}
+  .nav.open .menu{pointer-events:auto}
+  .nav.open .menu::before{transform:scaleY(1);transition-delay:0s}
+  .menu li{overflow:hidden}
+  .menu a{position:relative;display:inline-block;padding:7px 0;font-family:var(--head);font-weight:500;text-transform:uppercase;
+    font-size:clamp(14px,1.15vw,17px);letter-spacing:.22em;color:#fff;
+    text-shadow:0 1px 2px rgba(0,0,0,.85),0 0 22px rgba(0,0,0,.75);
+    transform:translateY(110%);transition:transform .55s var(--ease),color .3s,letter-spacing .4s}
+  .menu a::after{content:"";position:absolute;right:-22px;top:50%;width:14px;height:1px;background:var(--gold);
+    transform:scaleX(0);transform-origin:right;transition:transform .35s var(--ease)}
+  .nav.open .menu a{transform:none}
+  .nav.open .menu li:nth-child(1) a{transition-delay:.06s,0s,0s}.nav.open .menu li:nth-child(2) a{transition-delay:.12s,0s,0s}
+  .nav.open .menu li:nth-child(3) a{transition-delay:.18s,0s,0s}.nav.open .menu li:nth-child(4) a{transition-delay:.24s,0s,0s}
+  .nav.open .menu li:nth-child(5) a{transition-delay:.30s,0s,0s}.nav.open .menu li:nth-child(6) a{transition-delay:.36s,0s,0s}
+  .menu a:hover,.menu a:focus-visible,.menu a[aria-current]{color:var(--gold2);outline:none}
+  .menu a:hover,.menu a:focus-visible{letter-spacing:.3em}
+  .menu a:hover::after,.menu a:focus-visible::after{transform:scaleX(1)}
+
+  /* ---------- 6 · MAGIC CTA ---------- */
+  .magic{text-align:center;padding:clamp(50px,6vw,100px) 0 clamp(50px,6vw,100px)}
+  .magic p{margin-top:16px;font-size:clamp(15px,1.2vw,18px);line-height:1.5}
+  .btn{display:inline-block;background:var(--purple);color:#fff;border:0;border-radius:999px;cursor:pointer;
+    font-family:var(--cond);font-weight:500;font-size:17px;padding:.5em 1.6em;margin-top:clamp(22px,2.5vw,34px);
+    transition:background .2s,transform .2s,box-shadow .2s}
+  .btn:hover{background:var(--purple-hover);transform:translateY(-2px);box-shadow:0 8px 30px rgba(166,107,245,.45)}
+
+  /* ---------- 7 · FOOTER ---------- */
+  .footer{position:relative;isolation:isolate;padding:clamp(70px,9vw,160px) 0 28px;font-family:var(--cond);overflow:hidden}
+  .footer__bg{position:absolute;inset:0;z-index:-2;background:url(img/footer.jpg) center/cover no-repeat}
+  .footer::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#000 0%,rgba(0,0,0,.75) 12%,rgba(0,0,0,.5) 30%,rgba(0,0,0,.6) 100%)}
+  .footer__top{display:grid;grid-template-columns:1.6fr 1fr 1fr .7fr;gap:clamp(20px,3vw,40px);align-items:start}
+  .footer__brand{display:flex;align-items:center;gap:16px}
+  .footer__brand img{width:clamp(70px,6vw,100px)}
+  .footer__brand span{font-weight:600;font-size:clamp(15px,1.3vw,20px);color:rgba(255,255,255,.45);text-transform:uppercase;line-height:1.1;max-width:9em}
+  .footer h4{font-weight:500;font-size:15px;margin-bottom:12px}
+  .footer p,.footer li{font-size:14px;line-height:1.4;list-style:none}
+  .footer li+li{margin-top:12px}
+  .footer a:hover{color:var(--gold)}
+  .footer__bottom{display:grid;grid-template-columns:1.6fr 1fr 1fr .7fr;gap:clamp(20px,3vw,40px);margin-top:clamp(50px,6vw,100px);font-size:12px}
+
+  @media (max-width:1000px){
+    .moments__page{grid-template-columns:repeat(2,1fr)}
+    .footer__top{grid-template-columns:1fr 1fr 1fr}
+    .footer__brand{grid-column:1/-1}
+    .footer__bottom{grid-template-columns:repeat(3,auto);justify-content:space-between}
+    .footer__bottom .spacer{display:none}
+  }
+  @media (max-width:640px){
+    .intro__inner{margin-left:24px}
+    .moments__page{grid-template-columns:repeat(2,1fr);gap:24px 12px}
+    .moments__track{--peek:22px}
+    .moment__title{font-size:13px}.moment__sub{font-size:10px}
+    .support{aspect-ratio:auto;min-height:440px}
+    .footer__top{grid-template-columns:1fr 1fr}
+    .footer__bottom{grid-template-columns:1fr;gap:10px}
+  }
+
+  /* ---------- Zurück-Pfeil (fest oben links) ---------- */
+  .back{position:fixed;z-index:20;left:clamp(14px,2.6vw,44px);top:clamp(16px,2.8vw,40px);width:34px;height:46px;display:grid;place-items:center;
+    filter:drop-shadow(0 1px 6px rgba(0,0,0,.7));transition:transform .25s}
+  .back svg{width:16px;height:40px;stroke:var(--gold);stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+  .back:hover{transform:translateX(-5px)} .back:hover svg{stroke:var(--gold2)}
+  .back:focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:6px}
+  .zoom,.hero__img,.bgfix img{backface-visibility:hidden;transform:translateZ(0)}
+  /* Seitenwechsel-Blende */
+  .pt{position:fixed;inset:0;z-index:9999;background:#000;pointer-events:none;opacity:1;transition:opacity .18s ease}
+  .pt.off{opacity:0}
+  @media (prefers-reduced-motion:reduce){.pt{transition:none}}
+
+
+  /* ======== Anmelden / Kundenkonto ======== */
+  .navwrap{position:absolute;top:0;left:0;right:0;height:0}
+  .acc{width:min(1180px,100% - 48px);margin:0 auto;padding:clamp(120px,13vw,170px) 0 clamp(80px,9vw,140px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,90px);align-items:start}
+  .acc h1{font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:clamp(36px,4.4vw,68px);line-height:.95;margin-bottom:clamp(24px,3vw,40px)}
+  .acc__card{border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:clamp(24px,3vw,40px)}
+  .af{display:grid;gap:clamp(20px,2.2vw,28px)}
+  .af__lbl{display:block;font-size:15px;margin-bottom:10px;color:rgba(255,255,255,.85)}
+  .af__lbl b{color:var(--gold);font-weight:600;margin-left:4px}
+  .af input[type=text],.af input[type=email],.af input[type=password],.af select{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.22);border-radius:30px;
+    color:#fff;font:inherit;font-size:15px;padding:15px 22px;outline:none;transition:border-color .2s,background .2s}
+  .af select{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23c99a3e' stroke-width='2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 22px center;background-size:14px 9px}
+  .af select option{color:#000}
+  .af input:focus,.af select:focus{border-color:var(--gold);background-color:rgba(255,255,255,.07)}
+  .af .bad{border-color:#d0573f!important}
+  .af__note{font-size:14px;line-height:1.6;color:rgba(255,255,255,.7)}
+  .af__chk{display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.6;color:rgba(255,255,255,.85);cursor:pointer}
+  .af__chk input{appearance:none;-webkit-appearance:none;flex:0 0 22px;width:22px;height:22px;margin-top:1px;border:1px solid rgba(255,255,255,.4);border-radius:5px;background:none;cursor:pointer;display:grid;place-items:center}
+  .af__chk input:checked{background:var(--gold);border-color:var(--gold)}
+  .af__chk input:checked::after{content:"";width:6px;height:11px;border:solid #000;border-width:0 2px 2px 0;transform:translateY(-1px) rotate(45deg)}
+  .af__chk input.bad{border-color:#d0573f}
+  .af__chk a,.af__link{color:var(--gold);text-decoration:underline;text-underline-offset:3px}
+  .af__link{justify-self:start;font-size:15px}.af__link:hover{color:var(--gold2)}
+  .af__file{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .af__file input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+  .af__filebtn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;border-radius:30px;padding:12px 24px;cursor:pointer;font-size:14px;transition:border-color .2s}
+  .af__filebtn:hover{border-color:var(--gold)}
+  .af__filebtn.bad{border-color:#d0573f}
+  .af__fname{font-size:13px;color:rgba(255,255,255,.6);word-break:break-all}
+  .af__go{justify-self:start;background:var(--gold);color:#000;border:0;border-radius:40px;font:inherit;font-family:var(--head);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:15px;padding:16px 36px;cursor:pointer;transition:background .2s}
+  .af__go:hover{background:var(--gold2)}
+  .af__msg{font-size:13px;color:#d0573f;min-height:1em;line-height:1.5}
+  .af__msg.ok{color:var(--gold)}
+  .af [hidden]{display:none}
+  html.light .acc__card{border-color:rgba(0,0,0,.14)}
+  html.light .af__lbl,html.light .af__chk{color:rgba(0,0,0,.8)} html.light .af__note,html.light .af__fname{color:rgba(0,0,0,.6)}
+  html.light .af input[type=text],html.light .af input[type=email],html.light .af input[type=password],html.light .af select{background-color:#fff;border-color:rgba(0,0,0,.2);color:var(--ink)}
+  html.light .af__filebtn{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.2);color:var(--ink)} html.light .af__chk input{border-color:rgba(0,0,0,.35)}
+  @media (max-width:900px){ .acc{grid-template-columns:1fr} }
+</style>
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+<div class="loader" id="loader" aria-hidden="true"><div class="loader__badge"><img class="loader__ring" src="img/loader-ring.png" alt=""><img class="loader__lamp" src="img/loader-lamp.png" alt=""></div></div>
+<div class="pt" id="pt" aria-hidden="true"></div>
+<a class="back" id="back" href="index.html" aria-label="Zurück"><svg viewBox="0 0 20 60"><path d="M16 4 L4 30 L16 56"/></svg></a>
+<div class="navwrap">
+  <nav class="nav" id="nav" aria-label="Hauptmenü">
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Menü" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+    <ul class="menu" id="menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shows.html">Shows</a></li>
+      <li><a href="effekte.html">Special Effects</a></li>
+      <li><a href="rental.html">Vermietung</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="ueber-uns.html">Über uns</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+      <li><a href="#anmelden" class="menu__login">Anmelden</a></li>
+    </ul>
+  </nav>
+</div>
+<main class="acc">
+  <section>
+    <h1><span class="gold">Anmelden</span></h1>
+    <div class="acc__card">
+      <form class="af" id="login" novalidate>
+        <div><label class="af__lbl" for="lgUser">Benutzername oder E-Mail-Adresse<b>*</b></label><input type="text" id="lgUser" name="user" autocomplete="username"></div>
+        <div><label class="af__lbl" for="lgPass">Passwort<b>*</b></label><input type="password" id="lgPass" name="pass" autocomplete="current-password"></div>
+        <label class="af__chk"><input type="checkbox" name="stay"><span>Angemeldet bleiben</span></label>
+        <p class="af__msg" id="lgOut" aria-live="polite"></p>
+        <button class="af__go" type="submit">Anmelden</button>
+        <a class="af__link" href="#passwort-vergessen" id="lgForgot">Passwort vergessen?</a>
+      </form>
+    </div>
+  </section>
+  <section>
+    <h1>Neues <span class="gold">Kundenkonto</span> anlegen</h1>
+    <form class="af" id="reg" novalidate>
+      <div><label class="af__lbl" for="rgMail">E-Mail-Adresse<b>*</b></label><input type="email" id="rgMail" name="mail" autocomplete="email"></div>
+      <p class="af__note">Ein Link zum Erstellen eines neuen Passworts wird an Ihre E-Mail-Adresse gesendet.</p>
+      <div><label class="af__lbl" for="rgType">Kundentyp</label>
+        <select id="rgType" name="type"><option value="b2b">Geschäftskunden</option><option value="b2c">Privatkunden</option></select></div>
+      <div id="rgDoc"><span class="af__lbl">Upload des Befähigungsscheins nach §20 des Sprengstoffgesetzes (JPG, PDF, PNG, max. 2500 kB)<b>*</b></span>
+        <div class="af__file"><label class="af__filebtn" for="rgFile">Datei auswählen</label><input type="file" id="rgFile" name="doc" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"><span class="af__fname" id="rgName">Keine Datei ausgewählt</span></div></div>
+      <label class="af__chk"><input type="checkbox" name="ds"><span>Ich habe die <a href="#datenschutz">Datenschutzerklärung</a> gelesen und stimme ihr zu.<b style="color:var(--gold);margin-left:4px">*</b></span></label>
+      <p class="af__msg" id="rgOut" aria-live="polite"></p>
+      <button class="af__go" type="submit">Neues Kundenkonto anlegen</button>
+    </form>
+  </section>
+</main>
+<footer class="footer">
+  <div class="footer__bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="footer__top">
+      <a class="footer__brand" href="index.html"><img src="img/logo.png" alt="Pyrogenie Logo"><span>Einfach gutes Feuerwerk</span></a>
+      <div><h4>Sprich uns an</h4><p>+49.(0)160.1265857<br>info@pyrogenie.de</p></div>
+      <div><h4>Büro</h4><p>PYROGENIE Feuerwerk GmbH<br>Lindenufer 39<br>13597 Berlin</p></div>
+      <ul><li><a href="https://www.instagram.com/pyrogenie" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.facebook.com/pyrogenie" target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href="https://youtube.com/@pyrogeniefeuerwerkgmbh3972" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a href="https://vimeo.com/pyrogenie" target="_blank" rel="noopener">Vimeo</a></li></ul>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 – Pyrogenie Feuerwerk GmbH</span><a href="#datenschutz">Datenschutz</a><a href="#impressum">Impressum</a><span class="spacer"></span>
+    </div>
+  </div>
+</footer>
+<script>
+/* ---------- Menü: öffnet beim Drüberfahren, auf Touch per Tippen ---------- */
+(function(){
+  var nav = document.getElementById('nav'), btn = document.getElementById('menuBtn'), t, hoverAt = 0;
+  function set(o){ clearTimeout(t); nav.classList.toggle('open', o); btn.setAttribute('aria-expanded', o); }
+  btn.addEventListener('mouseenter', function(){ hoverAt = Date.now(); set(true); });
+  nav.addEventListener('mouseenter', function(){ clearTimeout(t); });
+  nav.addEventListener('mouseleave', function(){ t = setTimeout(function(){ set(false); }, 350); });
+  btn.addEventListener('click', function(){ if (Date.now() - hoverAt < 600) return set(true); set(!nav.classList.contains('open')); });
+  nav.addEventListener('focusin', function(){ set(true); });
+  nav.addEventListener('focusout', function(e){ if (!nav.contains(e.relatedTarget)) set(false); });
+  document.addEventListener('click', function(e){ if (!nav.contains(e.target)) set(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') set(false); });
+})();
+
+/* ---------- Zoom-Out beim Scrollen (wie auf der Startseite) ---------- */
+(function(){
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var els = [].map.call(document.querySelectorAll('[data-zoom]'), function(el){
+    var hero = el.dataset.zoom === 'hero';
+    return {el:el, box: hero ? el.parentNode : el.parentNode, hero:hero, max: hero ? 1.08 : parseFloat(el.dataset.zoom), cur:0, tgt:0};
+  });
+  var ticking = false;
+  function clamp(v){ return Math.max(0, Math.min(1, v)); }
+  function measure(){
+    var vh = window.innerHeight;
+    els.forEach(function(z){
+      var r = z.box.getBoundingClientRect();
+      var p = z.hero ? clamp(-r.top / r.height) : clamp((vh - r.top) / (vh + r.height));
+      z.tgt = z.max - (z.max - 1) * p;
+    });
+  }
+  function frame(){
+    var moving = false;
+    els.forEach(function(z){ z.cur += (z.tgt - z.cur) * 0.15; if (Math.abs(z.tgt - z.cur) > 0.0005) moving = true; z.el.style.transform = 'scale(' + z.cur.toFixed(4) + ')'; });
+    if (moving) requestAnimationFrame(frame); else ticking = false;
+  }
+  function onScroll(){ measure(); if (!ticking){ ticking = true; requestAnimationFrame(frame); } }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  measure(); els.forEach(function(z){ z.cur = z.tgt; }); ticking = true; frame();
+})();
+
+/* ---------- Einblenden beim Reinscrollen ---------- */
+(function(){
+  var els = document.querySelectorAll('.rv');
+  if (!('IntersectionObserver' in window)) { els.forEach(function(e){ e.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:.15});
+  els.forEach(function(e, i){ e.style.transitionDelay = ((i % 3) * 0.08) + 's'; io.observe(e); });
+})();
+
+/* ---------- Anmelden / Registrieren: Eingaben prüfen. Ein Kundenkonto-Server ist noch nicht angeschlossen. ---------- */
+(function(){
+  var MAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+  function clear(e){ e.target.classList.remove('bad'); if (e.target.id === 'rgFile') document.querySelector('.af__filebtn').classList.remove('bad'); }
+  function say(el, txt, ok){ el.className = 'af__msg' + (ok ? ' ok' : ''); el.textContent = txt; }
+  var lg = document.getElementById('login'), rg = document.getElementById('reg');
+  [lg, rg].forEach(function(f){ f.addEventListener('input', clear); f.addEventListener('change', clear); });
+  lg.addEventListener('submit', function(e){
+    e.preventDefault(); var bad = [];
+    if (!lg.user.value.trim()) bad.push(lg.user); if (!lg.pass.value) bad.push(lg.pass);
+    bad.forEach(function(x){ x.classList.add('bad'); });
+    if (bad.length) return say(document.getElementById('lgOut'), 'Bitte Benutzername bzw. E-Mail-Adresse und Passwort eingeben.');
+    lg.pass.value = '';
+    say(document.getElementById('lgOut'), 'Die Anmeldung ist in dieser Vorschau noch nicht angeschlossen.', true);
+  });
+  document.getElementById('lgForgot').addEventListener('click', function(e){ e.preventDefault();
+    say(document.getElementById('lgOut'), 'Das Zurücksetzen des Passworts ist in dieser Vorschau noch nicht angeschlossen.', true); });
+  var type = document.getElementById('rgType'), doc = document.getElementById('rgDoc'), file = document.getElementById('rgFile'), nm = document.getElementById('rgName');
+  function syncType(){ doc.hidden = type.value !== 'b2b'; }
+  type.addEventListener('change', syncType); syncType();
+  file.addEventListener('change', function(){ nm.textContent = file.files[0] ? file.files[0].name : 'Keine Datei ausgewählt'; });
+  rg.addEventListener('submit', function(e){
+    e.preventDefault(); var bad = [], out = document.getElementById('rgOut'), msg = 'Bitte alle Pflichtfelder ausfüllen.';
+    if (!MAIL.test(rg.mail.value.trim())) bad.push(rg.mail);
+    if (type.value === 'b2b'){
+      var f = file.files[0];
+      if (!f){ bad.push(document.querySelector('.af__filebtn')); }
+      else if (!/\.(jpe?g|png|pdf)$/i.test(f.name)){ bad.push(document.querySelector('.af__filebtn')); msg = 'Bitte eine JPG-, PNG- oder PDF-Datei hochladen.'; }
+      else if (f.size > 2500 * 1024){ bad.push(document.querySelector('.af__filebtn')); msg = 'Die Datei ist größer als 2500 kB.'; }
+    }
+    if (!rg.ds.checked) bad.push(rg.ds);
+    bad.forEach(function(x){ x.classList.add('bad'); });
+    if (bad.length) return say(out, msg);
+    say(out, 'Die Registrierung ist in dieser Vorschau noch nicht angeschlossen – Ihre Angaben wurden nicht übertragen.', true);
+  });
+})();
+</script>
+<script src="swipe-back.js"></script>
+<script src="transition.js"></script>
+<script src="totop.js"></script>
+<script src="theme.js"></script>
+</body>
+</html>

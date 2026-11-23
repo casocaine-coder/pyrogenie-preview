@@ -1,0 +1,92 @@
+/* =====================================================================
+   Handy-Anpassung – greift automatisch, sobald die Seite auf einem Handy
+   (Touch + schmaler Bildschirm) geöffnet wird: <html class="mobile">.
+   ===================================================================== */
+
+/* ---------- Notch / Home-Leiste (iPhone) ---------- */
+html.mobile .nav{top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right))}
+html.mobile .back{top:max(14px,env(safe-area-inset-top));left:max(10px,env(safe-area-inset-left))}
+html.mobile .hdr-btns{top:max(18px,calc(env(safe-area-inset-top) + 4px))}
+html.mobile .totop{top:auto;bottom:max(18px,calc(env(safe-area-inset-bottom) + 10px));right:16px;width:44px;height:44px;border-radius:50%;
+  background:rgba(0,0,0,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+html.mobile .totop svg{width:22px;height:12px}
+html.mobile.light .totop{background:rgba(255,255,255,.7)}
+html.mobile .footer{padding-bottom:max(28px,calc(env(safe-area-inset-bottom) + 16px))}
+
+/* ---------- größere Tippflächen ---------- */
+html.mobile .back{width:44px;height:52px}
+html.mobile .hdr-btn{width:38px;height:38px}
+html.mobile .menu-btn{width:34px;padding:10px 0}
+html.mobile .menu a{padding:11px 0;font-size:15px}
+/* Offenes Menü: ganze Seite abdunkeln, damit nichts mit dem Menütext kollidiert; Tippen daneben schließt */
+html.mobile .nav::before{content:"";position:fixed;inset:0;z-index:-1;background:rgba(0,0,0,.78);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .3s}
+html.mobile .nav.open::before{opacity:1;pointer-events:auto}
+html.mobile.light .nav.open{background:linear-gradient(225deg,rgba(0,0,0,.55),rgba(0,0,0,0) 70%)}
+
+/* ---------- kein „hängender“ Hover auf Touch ---------- */
+@media (hover:none){
+  .card:hover,.moment:hover .moment__img,.person:hover .person__img,.p:hover .p__img img,.cat:hover .cat__img img,
+  .reel__poster:hover img,.player__btn:hover img,.btn:hover,.help-btn:hover{transform:none}
+  .card:active{transform:scale(.98)}
+  .moment:active .moment__img,.person:active .person__img,.cat:active .cat__img img,.p:active .p__img{transform:scale(.98);transition:transform .15s}
+  .p:hover .p__img img.alt{opacity:0}.p:hover .p__img img.has-alt:not(.alt){opacity:1}
+}
+
+/* ---------- Typografie / Abstände ---------- */
+html.mobile body{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html.mobile .h2{font-size:24px}
+html.mobile .hero__name{font-size:40px}
+html.mobile .about__text,html.mobile .intro__text,html.mobile .who p,html.mobile .magic p{font-size:15px;line-height:1.6}
+html.mobile .approach p{font-size:15px;width:calc(100% - 40px)}
+html.mobile .footer__top{grid-template-columns:1fr 1fr;gap:26px 18px}
+html.mobile .footer__brand{grid-column:1/-1}
+html.mobile .footer__bottom{grid-template-columns:1fr;gap:8px}
+
+/* ---------- Startseite ---------- */
+html.mobile .about__intro{gap:18px}
+html.mobile .cards__grid{--cols:2;--gap:12px}
+html.mobile .card__label{font-size:14px}
+html.mobile .reel__frame{width:calc(100% - 32px);padding:10px}
+html.mobile .reel__play{width:64px}
+
+/* ---------- Show-Seite ---------- */
+html.mobile .moment__title{font-size:19px}
+html.mobile .moment__sub{font-size:12px}
+html.mobile .level{width:70vw;height:36px}
+html.mobile .support{min-height:380px}
+html.mobile .help-btn{font-size:12px}
+
+/* ---------- Show-Detailseite ---------- */
+html.mobile .hero__cap{left:20px;right:20px;bottom:26px}
+html.mobile .hero__title{font-size:22px}
+html.mobile .wave{top:max(18px,env(safe-area-inset-top));max-width:calc(100% - 150px)}
+html.mobile .wave__item{width:12px;height:44px}
+html.mobile .arrow{width:34px;height:60px}
+
+/* ---------- Shop ---------- */
+html.mobile .search{font-size:16px;letter-spacing:.04em;max-width:none}          /* verhindert das automatische Hineinzoomen auf dem iPhone */
+html.mobile .bar{padding:12px 0 10px}
+html.mobile .tabs,html.mobile .chips,html.mobile .bar__row{padding:0 2px}
+html.mobile .tab{font-size:12px;padding:8px 0}
+html.mobile .chip{font-size:11px;padding:7px 12px}
+html.mobile .grid{gap:26px 10px}
+html.mobile .p__code{font-size:11px}
+html.mobile .loadmore{width:100%;padding:16px}
+
+/* ---------- Produktseite ---------- */
+html.mobile .pp{padding-top:84px;width:calc(100% - 32px)}
+html.mobile .info__code{font-size:26px}
+html.mobile .info__btn{display:block;text-align:center;padding:16px}
+html.mobile .pp__nav a{padding:12px 0}
+
+/* ---------- Bewegung: auf dem Handy etwas ruhiger ---------- */
+html.mobile .hero__down{animation-duration:3s}
+@media (prefers-reduced-motion:reduce){ html.mobile *{animation:none!important} }
+
+/* ---------- nur-Desktop-Funktionen auf dem Handy ausblenden ---------- */
+html.mobile .wave{display:none}                 /* Mini-Kacheln „Alle Momente“ (Hover-Welle) auf den Show-Detailseiten */
+html.mobile .marquee:hover .marquee__track{animation-play-state:running}
+html.mobile .p__img img.alt{display:none}       /* zweites Produktbild beim Drüberfahren */
+html.mobile .moments__track{cursor:auto}
+/* Videos: Vorschaubild bleibt sichtbar, bis das Video wirklich läuft */
+html.mobile video{background:#000}

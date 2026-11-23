@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<script>(function(){var d=document.documentElement,fr=false;try{fr=window.self!==window.top}catch(e){fr=true}if(fr)return;var ok=false;try{ok=sessionStorage.getItem("pg-gate")==="aa193c8cace945a96af4523e34132bc73b953ec564201c5fc4ace0db6e1f0a6f"}catch(e){}if(!ok)d.classList.add("pg-locked")})()</script><style>html.pg-locked body>*:not(.pg-gate){visibility:hidden!important}html.pg-locked,html.pg-locked body{overflow:hidden!important;background:#000}</style>
+<script>try{if(!sessionStorage.getItem("pg-intro"))document.documentElement.classList.add("loading")}catch(e){}</script>
+<script>(function(){var d=document.documentElement;function m(){var t=("ontouchstart" in window)||navigator.maxTouchPoints>0,s=Math.min(screen.width,screen.height)<=820||window.innerWidth<=820,u=/iPhone|iPod|Android.+Mobile|Mobile Safari/i.test(navigator.userAgent);d.classList.toggle("mobile",(t&&s)||u)}m();addEventListener("resize",m);addEventListener("orientationchange",m)})()</script>
+<script>try{localStorage.removeItem("pg-theme")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Show – Pyrogenie Feuerwerk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#c8953a; --gold2:#e2b867; --purple:#a66bf5;
+    --head:"Fira Sans","Komet",system-ui,sans-serif;
+    --body:"Fira Sans","Komet",system-ui,sans-serif;
+    --ease:cubic-bezier(.2,.7,.1,1);
+    --col:min(1470px,76.5vw);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#000;color:#fff;font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .col{width:var(--col);margin-inline:auto}
+
+  /* ---------- 1 · HERO: Bild der Kachel, Titel unten links ---------- */
+  .hero{position:relative;width:100%;aspect-ratio:1920/1040;max-height:100vh;max-height:100svh;min-height:340px;overflow:hidden;background:#000}
+  .hero__img{width:100%;height:100%;object-fit:cover;transform-origin:50% 45%;will-change:transform}
+  .hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(180deg,rgba(0,0,0,.25) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 62%,rgba(0,0,0,.55) 86%,#000 100%)}
+  .hero__cap{position:absolute;z-index:2;left:4.5vw;bottom:clamp(36px,5.5vw,100px);text-shadow:0 2px 14px rgba(0,0,0,.6)}
+  .hero__sub{display:block;font-size:clamp(13px,1.15vw,22px)}
+  .hero__title{display:block;font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:clamp(20px,2.4vw,46px);line-height:1.05}
+
+  /* ---------- Menü (rechts): öffnet bei Maus-Hover, ohne Hintergrund ---------- */
+  .nav{position:absolute;z-index:5;right:clamp(18px,3vw,48px);top:clamp(18px,3vw,40px);padding:0 0 40px 40px;text-align:right}
+  .menu-btn{position:relative;display:inline-flex;flex-direction:column;align-items:flex-end;gap:5px;width:30px;padding:6px 0;background:none;border:0;cursor:pointer}
+  .menu-btn span{display:block;width:100%;height:4px;border-radius:99px;background:#fff;transform-origin:right;transition:transform .45s var(--ease),background .3s;box-shadow:0 0 8px rgba(0,0,0,.5)}
+  .nav.open .menu-btn span{background:var(--gold)}
+  .nav.open .menu-btn span:nth-child(1){transform:scaleX(.55)}
+  .nav.open .menu-btn span:nth-child(3){transform:scaleX(.3)}
+  .menu{position:relative;margin:22px 2px 0 0;padding-right:22px;list-style:none;pointer-events:none}
+  .menu::before{content:"";position:absolute;right:0;top:0;bottom:0;width:1px;
+    background:linear-gradient(var(--gold),rgba(200,149,58,0));transform:scaleY(0);transform-origin:top;transition:transform .5s var(--ease) .1s}
+  .nav.open .menu{pointer-events:auto}
+  .nav.open .menu::before{transform:scaleY(1);transition-delay:0s}
+  .menu li{overflow:hidden}
+  .menu a{position:relative;display:inline-block;padding:7px 0;font-family:var(--head);font-weight:500;text-transform:uppercase;
+    font-size:clamp(14px,1.15vw,17px);letter-spacing:.22em;color:#fff;
+    text-shadow:0 1px 2px rgba(0,0,0,.85),0 0 22px rgba(0,0,0,.75);
+    transform:translateY(110%);transition:transform .55s var(--ease),color .3s,letter-spacing .4s}
+  .menu a::after{content:"";position:absolute;right:-22px;top:50%;width:14px;height:1px;background:var(--gold);
+    transform:scaleX(0);transform-origin:right;transition:transform .35s var(--ease)}
+  .nav.open .menu a{transform:none}
+  .nav.open .menu li:nth-child(1) a{transition-delay:.06s,0s,0s}.nav.open .menu li:nth-child(2) a{transition-delay:.12s,0s,0s}
+  .nav.open .menu li:nth-child(3) a{transition-delay:.18s,0s,0s}.nav.open .menu li:nth-child(4) a{transition-delay:.24s,0s,0s}
+  .nav.open .menu li:nth-child(5) a{transition-delay:.30s,0s,0s}.nav.open .menu li:nth-child(6) a{transition-delay:.36s,0s,0s}
+  .menu a:hover,.menu a:focus-visible{color:var(--gold2);letter-spacing:.3em;outline:none}
+  .menu a:hover::after,.menu a:focus-visible::after{transform:scaleX(1)}
+
+  /* ---------- 2 · VIDEO im Goldrahmen ---------- */
+  .video{margin-top:clamp(60px,9vw,190px)}
+  .frame{border:1px solid rgba(200,149,58,.75);padding:clamp(14px,2.7vw,52px)}
+  .player{position:relative;aspect-ratio:16/9;background:#0b0b0b;overflow:hidden}
+  .player img,.player iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
+  .player video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+  .ytlink[hidden],#playLink[hidden]{display:none}
+  .video[hidden]{display:none}
+  .video[hidden]+.gallery{margin-top:clamp(60px,9vw,190px)}
+  .ytlink{display:inline-block;margin-top:14px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6);transition:color .2s}
+  .ytlink:hover{color:var(--gold)}
+  .player__btn{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;background:none;cursor:pointer;transition:opacity .4s}
+  .player__btn img{transition:transform .6s var(--ease)}
+  .player__btn::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.15);transition:background .3s}
+  .play{position:absolute;z-index:1;left:50%;top:50%;width:clamp(64px,7vw,110px);aspect-ratio:1;transform:translate(-50%,-50%);
+    border-radius:50%;border:2px solid #fff;background:rgba(0,0,0,.25);display:grid;place-items:center;transition:background .25s,border-color .25s,transform .25s}
+  .play svg{width:34%;margin-left:8%;fill:#fff}
+  .player__btn:hover img{transform:scale(1.03)}
+  .player__btn:hover .play{background:var(--gold);border-color:var(--gold);transform:translate(-50%,-50%) scale(1.06)}
+  .player.playing .player__btn{opacity:0;pointer-events:none}
+  .soon{position:absolute;z-index:1;left:50%;top:calc(50% + clamp(48px,5vw,76px));transform:translateX(-50%);
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+
+  /* ---------- 3 · GALERIE: Feuerwerk / Aufbau ---------- */
+  .gallery{position:relative;margin-top:clamp(30px,3.2vw,60px)}
+  .slides{position:relative;aspect-ratio:1470/815;overflow:hidden;background:#0b0b0b}
+  .slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);transition:opacity .7s var(--ease),transform 1.2s var(--ease)}
+  .slide.on{opacity:1;transform:none}
+  .slide--sheet{background-repeat:no-repeat}
+  .slide--video{object-fit:contain;background:#000}
+  .slide--yt img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.7)}
+  .slide__play{position:absolute;inset:0;display:block}
+  .slide__play:hover .play{background:var(--gold);border-color:var(--gold);transform:translate(-50%,-50%) scale(1.06)}
+  .slide__frame{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .slide:not(.on){pointer-events:none}
+  .slides__empty{position:absolute;inset:0;display:grid;place-items:center;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+  .arrow{position:absolute;top:50%;width:clamp(28px,2.6vw,48px);height:clamp(56px,5vw,90px);transform:translateY(-50%);
+    background:none;border:0;cursor:pointer;display:grid;place-items:center;transition:transform .25s}
+  .arrow svg{width:60%;height:100%;stroke:var(--gold);stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+  .arrow--next{right:calc(-1 * clamp(44px,4.6vw,90px))}
+  .arrow--prev{left:calc(-1 * clamp(44px,4.6vw,90px))}
+  .arrow--next:hover{transform:translate(5px,-50%)} .arrow--prev:hover{transform:translate(-5px,-50%)}
+  .arrow:hover svg{stroke:var(--gold2)}
+  .arrow[hidden]{display:none}
+  .dots{display:flex;justify-content:center;gap:10px;margin-top:16px}
+  .dots button{width:8px;height:8px;border-radius:50%;border:0;background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s,transform .2s}
+  .dots button[aria-current="true"]{background:var(--gold);transform:scale(1.25)}
+
+  /* ---------- 4 · INFO-TEXT ---------- */
+  .info{margin:clamp(60px,8vw,160px) auto clamp(80px,10vw,180px)}
+  .info h2{font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:clamp(22px,2.1vw,32px);line-height:1.15}
+  .info h2 .purple{color:var(--purple)}
+  .info p{margin-top:.6em;max-width:640px;font-size:clamp(15px,1.15vw,18px);line-height:1.5}
+  .info p+p{margin-top:1.4em}
+
+  .notfound{min-height:60vh;display:grid;place-items:center;text-align:center;padding:40px}
+  .notfound a{color:var(--gold)}
+
+  @media (max-width:700px){
+    :root{--col:calc(100vw - 72px)}
+    .hero{aspect-ratio:4/3}
+    .arrow--next{right:-34px}.arrow--prev{left:-34px}
+  }
+
+  /* ---------- Zurück-Pfeil (fest oben links) ---------- */
+  .back{position:fixed;z-index:20;left:clamp(14px,2.6vw,44px);top:clamp(16px,2.8vw,40px);width:34px;height:46px;display:grid;place-items:center;
+    filter:drop-shadow(0 1px 6px rgba(0,0,0,.7));transition:transform .25s}
+  .back svg{width:16px;height:40px;stroke:var(--gold);stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+  .back:hover{transform:translateX(-5px)} .back:hover svg{stroke:var(--gold2)}
+  .back:focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:6px}
+
+  /* ---------- Fester Hintergrund: Header-Bild bleibt beim Scrollen hinten ---------- */
+  .bgfix{position:fixed;inset:0;z-index:-1;overflow:hidden;background:#000}
+  .bgzoom{position:absolute;inset:0;transform-origin:50% 45%;will-change:transform}
+  .bglayer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  /* schneller, leicht federnder Bildwechsel */
+  .bglayer.in{animation:bgIn .55s cubic-bezier(.34,1.56,.64,1) both}
+  .bglayer.out{animation:bgOut .38s cubic-bezier(.4,0,.6,1) both}
+  @keyframes bgIn{0%{opacity:0;transform:scale(1.14)}55%{opacity:1}100%{opacity:1;transform:scale(1)}}
+  @keyframes bgOut{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.9)}}
+  .hero__cap.swap{animation:capIn .5s cubic-bezier(.34,1.56,.64,1) both}
+  @keyframes capIn{0%{opacity:0;transform:translateY(14px) scale(.96)}100%{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.bglayer.in,.bglayer.out,.hero__cap.swap{animation:none}}
+  .bgfix__shade{position:absolute;inset:0;background:#000;opacity:0;will-change:opacity}
+  .bgfix::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 62%,rgba(0,0,0,.45) 100%)}
+  body{background:#000}
+  .hero{background:transparent}
+  .hero::after{display:none}
+  [data-fade]{will-change:opacity}
+  .zoom,.hero__img,.bgzoom,.bglayer{backface-visibility:hidden}
+  /* Seitenwechsel-Blende */
+  .pt{position:fixed;inset:0;z-index:9999;background:#000;pointer-events:none;opacity:1;transition:opacity .18s ease}
+  .pt.off{opacity:0}
+  @media (prefers-reduced-motion:reduce){.pt{transition:none}}
+
+  /* ---------- Wellen-Leiste: alle Shows als schmale Streifen ---------- */
+  .wave{position:absolute;z-index:4;left:50%;top:clamp(18px,2.6vw,38px);transform:translateX(-50%);max-width:calc(100% - 200px);
+    display:flex;flex-direction:column;align-items:center}
+  .wave__bar{display:flex;align-items:flex-start;gap:5px;height:96px;padding:0 6px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;max-width:100%}
+  .wave__bar::-webkit-scrollbar{display:none}
+  .wave__gap{flex:0 0 10px}
+  .wave__item{flex:0 0 auto;display:block;width:16px;height:58px;border-radius:5px;overflow:hidden;position:relative;
+    box-shadow:0 2px 10px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.18);opacity:.75;
+    transition:opacity .25s,box-shadow .25s}
+  .wave.smooth .wave__item{transition:width .35s cubic-bezier(.2,.7,.1,1),height .35s cubic-bezier(.2,.7,.1,1),opacity .25s,box-shadow .25s}
+  .wave__item img{width:100%;height:100%;object-fit:cover;display:block}
+  .wave__item:hover,.wave__item:focus-visible{opacity:1;box-shadow:0 4px 18px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.7);outline:none}
+  .wave__item.current{opacity:1;box-shadow:0 2px 10px rgba(0,0,0,.6),0 0 0 2px var(--gold)}
+  .wave__label{margin-top:2px;min-height:16px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#fff;
+    text-shadow:0 1px 6px rgba(0,0,0,.9);opacity:0;transition:opacity .2s;white-space:nowrap}
+  .wave__label.on{opacity:1}
+  @media (max-width:700px){ .wave{max-width:calc(100% - 110px);top:16px} .wave__bar{height:70px;gap:4px} .wave__item{width:12px;height:44px} }
+  /* Leiste erscheint erst beim Drüberfahren / Tippen auf „Alle Momente“ */
+  .wave__toggle{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;cursor:pointer;color:#fff;padding:4px 10px 6px;
+    font-family:var(--head);font-weight:600;font-size:11px;letter-spacing:.24em;text-transform:uppercase;text-shadow:0 1px 6px rgba(0,0,0,.9);transition:color .2s}
+  .wave__toggle svg{width:16px;height:10px;stroke:var(--gold);stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s cubic-bezier(.2,.7,.1,1)}
+  .wave__toggle:hover,.wave.open .wave__toggle{color:var(--gold2)}
+  .wave.open .wave__toggle svg{transform:rotate(180deg)}
+  .wave__toggle:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+  .wave__panel{display:flex;flex-direction:column;align-items:center;max-width:100%;margin-top:6px;opacity:0;transform:translateY(-10px);pointer-events:none;
+    visibility:hidden;transition:opacity .3s,transform .4s cubic-bezier(.2,.7,.1,1),visibility 0s .4s}
+  .wave.open .wave__panel{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition:opacity .3s,transform .4s cubic-bezier(.2,.7,.1,1)}
+</style>
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+<div class="loader" id="loader" aria-hidden="true"><div class="loader__badge"><img class="loader__ring" src="img/loader-ring.png" alt=""><img class="loader__lamp" src="img/loader-lamp.png" alt=""></div></div>
+<div class="pt" id="pt" aria-hidden="true"></div>
+<a class="back" id="back" href="shows.html" aria-label="Zurück"><svg viewBox="0 0 20 60"><path d="M16 4 L4 30 L16 56"/></svg></a>
+
+<div class="bgfix" aria-hidden="true"><div class="bgzoom" id="heroImg"><img class="bglayer" alt=""></div><div class="bgfix__shade" id="shade"></div></div>
+<header class="hero" id="hero">
+  <nav class="wave" id="wave" aria-label="Alle Shows"><button class="wave__toggle" id="waveToggle" type="button" aria-expanded="false" aria-controls="waveBar">Alle Momente<svg viewBox="0 0 34 20" aria-hidden="true"><path d="M3 4 L17 16 L31 4"/></svg></button><div class="wave__panel" id="wavePanel"><div class="wave__bar" id="waveBar"></div><div class="wave__label" id="waveLabel"></div></div></nav>
+  <div class="hero__cap" data-fade="cap"><span class="hero__sub" id="sub"></span><h1 class="hero__title" id="title"></h1></div>
+  <nav class="nav" id="nav" aria-label="Hauptmenü">
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Menü" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+    <ul class="menu" id="menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shows.html">Shows</a></li>
+      <li><a href="effekte.html">Special Effects</a></li>
+      <li><a href="rental.html">Vermietung</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="ueber-uns.html">Über uns</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+      <li><a href="#anmelden" class="menu__login">Anmelden</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+  <!-- 2 · Video -->
+  <section class="video col">
+    <div class="frame">
+      <div class="player" id="player">
+        <button class="player__btn" id="playBtn" type="button" aria-label="Video abspielen">
+          <img id="poster" alt="">
+          <span class="play"><svg viewBox="0 0 24 24"><path d="M5 3l16 9-16 9z"/></svg></span>
+        </button>
+      </div>
+      <a class="ytlink" id="ytLink" href="#" target="_blank" rel="noopener">Auf YouTube ansehen</a>
+    </div>
+  </section>
+
+  <!-- 3 · Galerie -->
+  <section class="gallery col" aria-label="Bilder vom Feuerwerk und Aufbau">
+    <div class="slides" id="slides"></div>
+    <button class="arrow arrow--prev" id="prev" type="button" aria-label="Vorheriges Bild"><svg viewBox="0 0 20 60"><path d="M16 4 L4 30 L16 56"/></svg></button>
+    <button class="arrow arrow--next" id="next" type="button" aria-label="Nächstes Bild"><svg viewBox="0 0 20 60"><path d="M4 4 L16 30 L4 56"/></svg></button>
+    <div class="dots" id="dots"></div>
+  </section>
+
+  <!-- 4 · Info-Text -->
+  <section class="info col">
+    <h2 data-fade><span class="purple">Info Text zu</span> dem Feuerwerk.</h2>
+    <div id="text"></div>
+  </section>
+</main>
+
+<script src="moments.js"></script>
+<script>
+/* ---------- Show aus der Adresse laden (moment.html#slug) ---------- */
+var PLACEHOLDER_TEXT = [
+  'Wir machen keine bunten Bilder am Himmel – wir machen Shows, die sitzen. Pyrogenie Feuerwerk steht für modernes Feuerwerksdesign: konzeptstark, präzise geplant und technisch sauber umgesetzt. Unsere Spezialität sind Feuerwerke, die sich nahtlos in Events, Produktionen und Inszenierungen einfügen – als Highlight, als Finale oder als visuelles Element im Gesamtbild.',
+  'Ob Stadtfest, Corporate Event, Festival oder Arenashow – wir gestalten Feuerwerk nicht für den Katalog, sondern für den Moment. Dabei denken wir aus der Veranstaltung heraus – nicht aus dem Lagerbestand.'
+];
+var firstHero = true;
+function swapHero(src){
+  var box = document.getElementById('heroImg'), layers = box.querySelectorAll('.bglayer'), top = layers[layers.length-1];
+  if (top.getAttribute('src') === src) return;
+  if (firstHero){ firstHero = false; top.src = src; return; }
+  var cap = document.querySelector('.hero__cap'); cap.classList.remove('swap'); void cap.offsetWidth; cap.classList.add('swap');
+  var nu = new Image(); nu.className = 'bglayer'; nu.alt = '';
+  nu.onload = nu.onerror = function(){
+    [].forEach.call(box.querySelectorAll('.bglayer'), function(l){ if (l !== nu){ l.classList.remove('in'); l.classList.add('out'); setTimeout(function(){ if (l.parentNode) l.remove(); }, 400); } });
+    box.appendChild(nu); nu.classList.add('in');
+  };
+  nu.src = src;
+}
+function findShow(slug){
+  for (var p = 0; p < MOMENTS.length; p++) for (var i = 0; i < MOMENTS[p].length; i++) if (MOMENTS[p][i].slug === slug) return MOMENTS[p][i];
+  return null;
+}
+var slideIdx = 0, slideCount = 0;
+function render(){
+  var m = findShow(location.hash.slice(1)) || MOMENTS[0][0];
+  document.title = (m.title || 'Show') + ' – Pyrogenie Feuerwerk';
+  swapHero(m.hero || m.img);
+  document.getElementById('sub').textContent = m.sub || '';
+  document.getElementById('title').textContent = m.title || '';
+
+  // Video: YouTube / Vimeo (echte Website: eingebettet, Vorschau: Link) oder eigene Videodatei
+  var vsec = document.querySelector('section.video'), player = document.getElementById('player'), poster = document.getElementById('poster');
+  [].forEach.call(player.querySelectorAll('iframe,video'), function(x){ x.remove(); });
+  player.classList.remove('playing');
+  var url = m.yt ? 'https://www.youtube.com/watch?v=' + m.yt : m.vimeo ? 'https://vimeo.com/' + m.vimeo : '';
+  var embed = m.yt ? 'https://www.youtube.com/embed/' + m.yt + '?autoplay=1&rel=0&origin=' + encodeURIComponent(location.origin)
+            : m.vimeo ? 'https://player.vimeo.com/video/' + m.vimeo + '?autoplay=1&title=0&byline=0&portrait=0' : '';
+  vsec.hidden = !(url || m.file);
+  var ln = document.getElementById('ytLink'); ln.hidden = !url;
+  if (url){ ln.href = url; ln.textContent = m.yt ? 'Auf YouTube ansehen' : 'Auf Vimeo ansehen'; }
+  poster.src = m.video || m.hero || m.img; poster.alt = 'Video: ' + (m.title || 'Show');
+  var framed = false; try { framed = window.self !== window.top; } catch (e) { framed = true; }
+  if (!/^https?:$/.test(location.protocol)) framed = true;   // als Datei geöffnet: YouTube/Vimeo verweigern dort den Player (Fehler 153) → Link
+  var pl = document.getElementById('playLink');
+  if (url && framed){   // Vorschau: echter Link über dem Player (fremde Player und Skript-Popups werden dort blockiert)
+    if (!pl){ pl = document.createElement('a'); pl.id = 'playLink'; pl.target = '_blank'; pl.rel = 'noopener';
+      pl.style.cssText = 'position:absolute;inset:0;z-index:2'; player.appendChild(pl); }
+    pl.href = url; pl.hidden = false; pl.setAttribute('aria-label', ln.textContent);
+  } else if (pl) pl.hidden = true;
+  // Player sofort zeigen (kein Wechsel vom Vorschaubild zum Player): YouTube/Vimeo direkt eingebettet, eigene Videos mit Steuerleiste
+  document.getElementById('playBtn').onclick = null;
+  if (m.file || (url && !framed)){
+    var el;
+    if (m.file){ el = document.createElement('video'); el.src = m.file; el.controls = true; el.playsInline = true; el.preload = 'metadata'; el.poster = poster.src; }
+    else { el = document.createElement('iframe'); el.src = embed.replace('autoplay=1&', ''); el.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'; el.referrerPolicy = 'strict-origin-when-cross-origin'; el.allowFullscreen = true; el.loading = 'lazy'; }
+    el.title = 'Video: ' + (m.title || 'Show');
+    player.appendChild(el); player.classList.add('playing');
+  }
+
+  // Galerie
+  var g = m.gallery || [], box = document.getElementById('slides'), dots = document.getElementById('dots');
+  slideCount = g.length; slideIdx = 0;
+  box.innerHTML = g.length ? g.map(function(src,i){
+      var alt = 'Bild '+(i+1)+' – '+(m.title||'Show');
+      if (typeof src === 'object' && src.yt){  // YouTube-Video in der Galerie: Vorschaubild + Play (Vorschau: Link, Website: eingebettet)
+        var yurl = 'https://www.youtube.com/watch?v=' + src.yt;
+        return '<div class="slide slide--yt'+(i?'':' on')+'" data-yt="'+src.yt+'"><img src="'+(m.hero||m.img)+'" alt="'+alt+'">'+
+               '<a class="slide__play" href="'+yurl+'" target="_blank" rel="noopener" aria-label="Video auf YouTube ansehen"><span class="play"><svg viewBox="0 0 24 24"><path d="M5 3l16 9-16 9z"/></svg></span></a></div>';
+      }
+      if (typeof src === 'object' && src.v)   // Video in der Galerie
+        return '<video class="slide slide--video'+(i?'':' on')+'" src="'+src.v+'" preload="metadata" controls playsinline aria-label="'+alt+'"></video>';
+      if (typeof src === 'object')   // Foto aus einem Galerie-Sammelbild
+        return '<div class="slide slide--sheet'+(i?'':' on')+'" role="img" aria-label="'+alt+'" style="background-image:url(\''+src.s+'\');background-size:100% '+(src.n*100)+'%;background-position:0 '+(src.n>1 ? src.i/(src.n-1)*100 : 0)+'%"></div>';
+      return '<img class="slide'+(i?'':' on')+'" src="'+src+'" alt="'+alt+'"'+(i?' loading="lazy"':'')+'>'; }).join('')
+                           : '<div class="slides__empty">Bilder folgen</div>';
+  // YouTube in der Galerie: auf der echten Website direkt einbetten
+  [].forEach.call(box.querySelectorAll('.slide--yt'), function(sl){
+    var fr = false; try { fr = window.self !== window.top; } catch (e) { fr = true; }
+    if (!/^https?:$/.test(location.protocol)) fr = true;
+    if (fr) return;
+    // echte Website: YouTube-Player gleich anzeigen statt Vorschaubild + Play
+    var f = document.createElement('iframe'); f.src = 'https://www.youtube.com/embed/' + sl.dataset.yt + '?rel=0&origin=' + encodeURIComponent(location.origin);
+    f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'; f.referrerPolicy = 'strict-origin-when-cross-origin'; f.allowFullscreen = true; f.className = 'slide__frame'; f.loading = 'lazy'; f.title = 'Video';
+    sl.appendChild(f); sl.querySelector('.slide__play').remove();
+  });
+  // Galerie-Videos: vor dem Start ein Bild aus der 6. Sekunde zeigen, beim Abspielen von vorn beginnen
+  [].forEach.call(box.querySelectorAll('.slide--video'), function(v){
+    var started = false;
+    v.addEventListener('loadedmetadata', function(){ if (!started) v.currentTime = Math.min(6, v.duration / 4); }, {once:true});
+    v.addEventListener('play', function(){ if (!started){ started = true; v.currentTime = 0; } });
+  });
+  dots.innerHTML = g.length > 1 ? g.map(function(_,i){ return '<button type="button" aria-label="Bild '+(i+1)+'"'+(i?'':' aria-current="true"')+'></button>'; }).join('') : '';
+  [].forEach.call(dots.children, function(b,i){ b.onclick = function(){ go(i); }; });
+  updateArrows();
+
+  // Text
+  var t = (m.text && m.text.length) ? m.text : PLACEHOLDER_TEXT;
+  document.getElementById('text').innerHTML = t.map(function(x){ return '<p data-fade>'+x+'</p>'; }).join('');
+  if (window.scrollY > 0 && !document.getElementById('wave').classList.contains('open')) window.scrollTo(0,0);
+}
+function go(i){
+  if (!slideCount) return;
+  slideIdx = (i + slideCount) % slideCount;
+  [].forEach.call(document.querySelectorAll('.slide'), function(s,k){ s.classList.toggle('on', k === slideIdx); if (k !== slideIdx && s.pause) s.pause(); });
+  [].forEach.call(document.getElementById('dots').children, function(b,k){ b.setAttribute('aria-current', k === slideIdx); });
+}
+function updateArrows(){ document.getElementById('prev').hidden = slideCount < 2; document.getElementById('next').hidden = slideCount < 2; }
+document.getElementById('next').onclick = function(){ go(slideIdx + 1); };
+document.getElementById('prev').onclick = function(){ go(slideIdx - 1); };
+document.addEventListener('keydown', function(e){ if (e.key === 'ArrowRight') go(slideIdx + 1); if (e.key === 'ArrowLeft') go(slideIdx - 1); });
+window.addEventListener('hashchange', render);
+render();
+
+
+/* ---------- Wellen-Leiste: alle Shows in Seiten-Reihenfolge, wachsen unter der Maus wie eine Welle ---------- */
+(function(){
+  var wave = document.getElementById('wave'), bar = document.getElementById('waveBar'), label = document.getElementById('waveLabel');
+  var html = [];
+  MOMENTS.forEach(function(page, pi){
+    if (pi) html.push('<span class="wave__gap" aria-hidden="true"></span>');
+    page.forEach(function(m){
+      var name = m.title || m.sub || 'Show';
+      html.push('<a class="wave__item" href="moment.html#'+m.slug+'" data-slug="'+m.slug+'" data-name="'+name.replace(/"/g,'&quot;')+'" aria-label="'+name.replace(/"/g,'&quot;')+'"><img src="'+m.img+'" alt="" loading="lazy" draggable="false"></a>');
+    });
+  });
+  bar.innerHTML = html.join('');
+  var items = [].slice.call(bar.querySelectorAll('.wave__item'));
+  var small = matchMedia('(max-width:700px)');
+  function base(){ return small.matches ? {w:12,h:44,W:54,H:66} : {w:16,h:58,W:96,H:90}; }
+  function markCurrent(){
+    var slug = location.hash.slice(1) || MOMENTS[0][0].slug;
+    items.forEach(function(a){ a.classList.toggle('current', a.dataset.slug === slug); });
+  }
+  markCurrent(); window.addEventListener('hashchange', markCurrent);
+
+  var mx = null, raf = 0, SIGMA = 62;
+  function layout(){
+    raf = 0; var b = base();
+    items.forEach(function(a){
+      var f = 0;
+      if (mx !== null){ var r = a.getBoundingClientRect(), c = r.left + r.width/2, d = (mx - c) / SIGMA; f = Math.exp(-d*d); }
+      a.style.width = (b.w + (b.W - b.w) * f).toFixed(1) + 'px';
+      a.style.height = (b.h + (b.H - b.h) * f).toFixed(1) + 'px';
+    });
+  }
+  function req(){ if (!raf) raf = requestAnimationFrame(layout); }
+  bar.addEventListener('mouseenter', function(){ wave.classList.add('smooth'); setTimeout(function(){ wave.classList.remove('smooth'); }, 260); });
+  bar.addEventListener('mousemove', function(e){ mx = e.clientX; req(); });
+  bar.addEventListener('mouseleave', function(){ mx = null; wave.classList.add('smooth'); req(); label.classList.remove('on'); });
+  items.forEach(function(a){
+    a.addEventListener('mouseenter', function(){ label.textContent = a.dataset.name; label.classList.add('on'); });
+    a.addEventListener('focus', function(){ label.textContent = a.dataset.name; label.classList.add('on'); });
+  });
+  // Öffnen beim Drüberfahren oder Tippen auf „Alle Momente“, Schließen beim Verlassen
+  var toggle = document.getElementById('waveToggle'), closeT, hoverAt = 0;
+  function setOpen(o){ clearTimeout(closeT); wave.classList.toggle('open', o); toggle.setAttribute('aria-expanded', o);
+    if (o){ var c = bar.querySelector('.current'); if (c) bar.scrollLeft = c.offsetLeft - bar.clientWidth/2; } }
+  toggle.addEventListener('mouseenter', function(){ hoverAt = Date.now(); setOpen(true); });
+  toggle.addEventListener('click', function(){ if (Date.now() - hoverAt < 600) return setOpen(true); setOpen(!wave.classList.contains('open')); });
+  wave.addEventListener('mouseenter', function(){ clearTimeout(closeT); });
+  wave.addEventListener('mouseleave', function(){ closeT = setTimeout(function(){ setOpen(false); }, 450); });
+  wave.addEventListener('focusin', function(){ setOpen(true); });
+  wave.addEventListener('focusout', function(e){ if (!wave.contains(e.relatedTarget)) setOpen(false); });
+  document.addEventListener('click', function(e){ if (!wave.contains(e.target)) setOpen(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setOpen(false); });
+
+  // Wechsel zur anderen Show schon beim Drüberfahren (kurze Verweilzeit, damit nicht jede gestreifte Kachel lädt);
+  // ohne neuen Verlaufseintrag – Zurück führt weiter zur Übersicht
+  var hoverT;
+  function switchTo(a){ if (!a.classList.contains('current')) location.replace('#' + a.dataset.slug); }
+  items.forEach(function(a){
+    a.addEventListener('mouseenter', function(){ clearTimeout(hoverT); hoverT = setTimeout(function(){ switchTo(a); }, 140); });
+    a.addEventListener('mouseleave', function(){ clearTimeout(hoverT); });
+    a.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); clearTimeout(hoverT); switchTo(a); });
+  });
+  // aktuelle Show in der Leiste sichtbar halten (falls sie scrollt)
+  var cur = bar.querySelector('.current'); if (cur) bar.scrollLeft = cur.offsetLeft - bar.clientWidth/2;
+  layout();
+})();
+
+/* ---------- Menü: öffnet beim Drüberfahren, auf Touch per Tippen ---------- */
+(function(){
+  var nav = document.getElementById('nav'), btn = document.getElementById('menuBtn'), t, hoverAt = 0;
+  function set(o){ clearTimeout(t); nav.classList.toggle('open', o); btn.setAttribute('aria-expanded', o); }
+  btn.addEventListener('mouseenter', function(){ hoverAt = Date.now(); set(true); });
+  nav.addEventListener('mouseenter', function(){ clearTimeout(t); });
+  nav.addEventListener('mouseleave', function(){ t = setTimeout(function(){ set(false); }, 350); });
+  btn.addEventListener('click', function(){ if (Date.now() - hoverAt < 600) return set(true); set(!nav.classList.contains('open')); });
+  nav.addEventListener('focusin', function(){ set(true); });
+  nav.addEventListener('focusout', function(e){ if (!nav.contains(e.relatedTarget)) set(false); });
+  document.addEventListener('click', function(e){ if (!nav.contains(e.target)) set(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') set(false); });
+})();
+
+/* ---------- Scroll: Hintergrund bleibt, zoomt leicht raus und dunkelt ab; Text blendet aus, wenn er oben rausläuft ---------- */
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var img = document.getElementById('heroImg'), shade = document.getElementById('shade'), hero = document.getElementById('hero');
+  var ticking = false;
+  function clamp(v){ return Math.max(0, Math.min(1, v)); }
+  function update(){
+    ticking = false;
+    var vh = window.innerHeight, p = clamp(window.scrollY / hero.offsetHeight);
+    if (!reduce) img.style.transform = 'scale(' + (1.08 - 0.08 * p).toFixed(4) + ')';
+    shade.style.opacity = ((parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--shade-max')) || .62) * p).toFixed(3);               // Bild wird dunkler, Inhalt bleibt lesbar
+    var zone = Math.max(90, vh * 0.22);                          // Ausblend-Zone am oberen Rand
+    document.querySelectorAll('[data-fade]').forEach(function(el){
+      var r = el.getBoundingClientRect();
+      var o = el.dataset.fade === 'cap' ? 1 - clamp(window.scrollY / (vh * 0.45))   // Titel blendet beim ersten Scrollen aus
+                                        : clamp((r.bottom - 10) / zone);           // übriger Text: sobald er oben rausläuft
+      el.style.opacity = o.toFixed(3);
+    });
+  }
+  function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, {passive:true}); window.addEventListener('resize', onScroll);
+  window.addEventListener('hashchange', function(){ setTimeout(update, 0); });
+  window.addEventListener('themechange', onScroll);
+  update();
+})();
+</script>
+<script src="swipe-back.js"></script>
+<script src="transition.js"></script>
+<script src="totop.js"></script>
+<script src="theme.js"></script>
+</body>
+</html>
