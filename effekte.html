@@ -170,9 +170,19 @@
   .refs__igcol{display:flex;flex-direction:column;gap:clamp(14px,1.6vw,24px);min-width:0}
   .refs__igcol .ref{aspect-ratio:4/5}
   .refs__igcol .ref.ig-post{aspect-ratio:auto;overflow:visible;background:none;cursor:auto;opacity:1;transform:none}
-  .ref.ig-post iframe{position:static;inset:auto;display:block;margin:0 auto!important;border-radius:8px!important}
-  .ref.ig-post .instagram-media{width:100%!important;max-width:540px!important;min-width:0!important;margin:0 auto!important;background:#fff;border:0!important;border-radius:8px;padding:16px;color:#000;font-size:14px}
-  .ref.ig-post .instagram-media a{color:#3b5bdb}
+  .igc{background:#000;border:1px solid #262626;border-radius:8px;overflow:hidden;color:#f5f5f5}
+  .igc__head{display:flex;align-items:center;gap:10px;padding:10px 12px;font-size:14px}
+  .igc__av{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;color:#fff;background:linear-gradient(45deg,#f9a33a,#e1306c 55%,#833ab4);box-shadow:0 0 0 2px #000,0 0 0 3px #555}
+  .igc__name{flex:1;min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .igc__open{flex:none;font-size:12px;font-weight:600;color:#fff;background:#262626;padding:7px 12px;border-radius:8px;text-decoration:none}
+  .igc__open:hover{background:#363636}
+  .igc__media{position:relative;display:block;overflow:hidden;background:#000}
+  .igc__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .igc__media iframe{position:absolute;left:0;top:-54px;width:100%;border:0;display:block}
+  .igc__media.live{cursor:auto}
+  .igc__foot{display:flex;flex-direction:column;gap:4px;padding:10px 12px 12px;font-size:13px}
+  .igc__title{font-weight:600}
+  .igc__foot a{color:#a8a8a8;text-decoration:none}.igc__foot a:hover{color:var(--gold)}
   html.mobile .refs__grid{grid-template-columns:minmax(0,1fr)}
   @media (max-width:700px){ .refs__grid{grid-template-columns:minmax(0,1fr)} }
   .ref--noimg{background:radial-gradient(120% 90% at 50% 40%,#1d1a15 0%,#0b0b0b 70%)}
@@ -288,9 +298,21 @@
       <a class="ref rv ref--noimg" href="https://www.youtube.com/watch?v=V-D0Crw5Cwo" target="_blank" rel="noopener" data-yt="V-D0Crw5Cwo" aria-label="Referenzvideo auf YouTube"><span class="ref__play"></span><span class="ref__ig">YouTube</span></a>
     </div>
     <div class="refs__igcol">
-      <a class="ref rv" href="https://www.instagram.com/reel/DOsxGTrDe-s/" target="_blank" rel="noopener" data-ig="reel/DOsxGTrDe-s" aria-label="Referenzvideo auf Instagram: Fußball im Regen"><img src="sfx/ref/ref4.jpg" width="1600" height="1106" loading="lazy" alt="Fußballer grätscht im Regen nach dem Ball" style="object-position:50% 60%"><span class="ref__play"></span><span class="ref__ig">Instagram</span></a>
-      <a class="ref rv" href="https://www.instagram.com/p/DNd4zAcijZA/?img_index=5" target="_blank" rel="noopener" data-ig="p/DNd4zAcijZA" data-ig-index="5" aria-label="Referenzvideo auf Instagram: Sneaker mit Lichteffekt"><img src="sfx/ref/ref5.jpg" width="1600" height="901" loading="lazy" alt="Rote Sneaker-Sohle mit leuchtenden Kammern"><span class="ref__play"></span><span class="ref__ig">Instagram</span></a>
-      <a class="ref rv ref--noimg" href="https://www.instagram.com/reel/DWOy6TciLrS/" target="_blank" rel="noopener" data-ig="reel/DWOy6TciLrS" aria-label="Referenzvideo auf Instagram"><span class="ref__play"></span><span class="ref__ig">Instagram</span></a>
+      <article class="igc rv" data-ig="reel/DOsxGTrDe-s" data-r="0.5643">
+        <header class="igc__head"><span class="igc__av" aria-hidden="true">J</span><span class="igc__name">jen.krause</span><a class="igc__open" href="https://www.instagram.com/reel/DOsxGTrDe-s/" target="_blank" rel="noopener">Auf Instagram</a></header>
+        <a class="igc__media" href="https://www.instagram.com/reel/DOsxGTrDe-s/" target="_blank" rel="noopener" aria-label="Referenzvideo auf Instagram: Fußball im Regen" style="aspect-ratio:1/0.5643"><img src="sfx/ref/ref4.jpg" alt="Fußballer grätscht im Regen nach dem Ball" loading="lazy"><span class="ref__play"></span></a>
+        <footer class="igc__foot"><span class="igc__title">Fußball im Regen</span><a href="https://www.instagram.com/reel/DOsxGTrDe-s/" target="_blank" rel="noopener">Mehr auf Instagram ansehen</a></footer>
+      </article>
+      <article class="igc rv" data-ig="p/DNd4zAcijZA" data-r="0.5622">
+        <header class="igc__head"><span class="igc__av" aria-hidden="true">A</span><span class="igc__name">annasmoronova und felixbrady</span><a class="igc__open" href="https://www.instagram.com/p/DNd4zAcijZA/" target="_blank" rel="noopener">Auf Instagram</a></header>
+        <a class="igc__media" href="https://www.instagram.com/p/DNd4zAcijZA/" target="_blank" rel="noopener" aria-label="Referenzvideo auf Instagram: Zalando x Nike – Sneaker" style="aspect-ratio:1/0.5622"><img src="sfx/ref/ref5.jpg" alt="Rote Sneaker-Sohle mit leuchtenden Kammern" loading="lazy"><span class="ref__play"></span></a>
+        <footer class="igc__foot"><span class="igc__title">Zalando x Nike – Sneaker</span><a href="https://www.instagram.com/p/DNd4zAcijZA/" target="_blank" rel="noopener">Mehr auf Instagram ansehen</a></footer>
+      </article>
+      <article class="igc rv" data-ig="reel/DWOy6TciLrS" data-r="0.75">
+        <header class="igc__head"><span class="igc__av" aria-hidden="true">K</span><span class="igc__name">knabe_drinks</span><a class="igc__open" href="https://www.instagram.com/reel/DWOy6TciLrS/" target="_blank" rel="noopener">Auf Instagram</a></header>
+        <a class="igc__media" href="https://www.instagram.com/reel/DWOy6TciLrS/" target="_blank" rel="noopener" aria-label="Referenzvideo auf Instagram: Knabe Kola" style="aspect-ratio:1/0.75"><span class="ref__play"></span></a>
+        <footer class="igc__foot"><span class="igc__title">Knabe Kola</span><a href="https://www.instagram.com/reel/DWOy6TciLrS/" target="_blank" rel="noopener">Mehr auf Instagram ansehen</a></footer>
+      </article>
     </div>
   </div>
 </section>
@@ -416,23 +438,22 @@
     swap(a, f);
   });
 
-  /* Instagram: offizielles Einbettungs-Skript (setzt die Höhe selbst), ohne Bildunterschrift, untereinander wie im Feed */
-  var igq = document.querySelectorAll('.ref[data-ig]');
-  if (igq.length){
-    [].forEach.call(igq, function(a){
-      var url = 'https://www.instagram.com/' + a.dataset.ig + '/';
-      var q = document.createElement('blockquote');
-      q.className = 'instagram-media';
-      q.setAttribute('data-instgrm-permalink', url);
-      q.setAttribute('data-instgrm-version', '14');
-      q.innerHTML = '<a href="' + url + '" target="_blank" rel="noopener">' + a.getAttribute('aria-label') + '</a>';
-      var d = swap(a, q); d.classList.add('ig-post');
-    });
-    var sc = document.createElement('script');
-    sc.async = true; sc.src = 'https://www.instagram.com/embed.js';
-    sc.onload = function(){ try { window.instgrm && window.instgrm.Embeds.process(); } catch (e) {} };
-    document.body.appendChild(sc);
-  }
+  /* Instagram: eigene dunkle Feed-Karte; aus Instagrams Einbettung wird nur der Medienbereich gezeigt
+     (Kopfzeile 54 px oben weggeschnitten, weiße Leisten unten abgeschnitten). */
+  var cards = [];
+  [].forEach.call(document.querySelectorAll('.igc[data-ig]'), function(c){
+    var m = c.querySelector('.igc__media'); if (!m) return;
+    var f = document.createElement('iframe');
+    f.src = 'https://www.instagram.com/' + c.dataset.ig + '/embed/';
+    f.title = m.getAttribute('aria-label'); f.setAttribute('scrolling', 'no'); f.allowFullscreen = true;
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; clipboard-write';
+    var box = document.createElement('div'); box.className = 'igc__media live'; box.style.cssText = m.getAttribute('style') || '';
+    box.setAttribute('aria-label', m.getAttribute('aria-label'));
+    box.appendChild(f); m.replaceWith(box);
+    cards.push({ box: box, f: f, r: parseFloat(c.dataset.r) || 1 });
+  });
+  function fitCards(){ cards.forEach(function(o){ var w = o.box.clientWidth; if (!w) return; o.box.style.aspectRatio = 'auto'; o.box.style.height = Math.floor(w * o.r - 1) + 'px'; o.f.style.height = Math.ceil(54 + w * o.r + 260) + 'px'; }); }
+  if (cards.length){ fitCards(); addEventListener('resize', fitCards); }
 })();
 
 /* ---------- Wind: Scroll-Position steuert das Video (vor & zurück), die Seite läuft dabei normal weiter ---------- */
