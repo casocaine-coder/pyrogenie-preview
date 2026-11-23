@@ -164,7 +164,12 @@
   /* Referenzen */
   .refs{width:min(1240px,100% - 48px);margin:clamp(60px,7vw,110px) auto clamp(90px,10vw,170px)}
   .refs__title{text-align:center;margin-bottom:clamp(30px,4vw,60px)}
-  .refs__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.4vw,22px)}
+  .refs__grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:clamp(10px,1.4vw,22px);align-items:stretch}
+  .refs__yt{display:grid;gap:clamp(8px,1vw,14px)}
+  .refs__igcol{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:clamp(8px,1vw,14px);min-height:0}
+  .refs__igcol .ref{aspect-ratio:auto;height:auto;min-height:0}
+  .refs__igcol .ref img{position:absolute;inset:0}
+  .ref--noimg{background:radial-gradient(120% 90% at 50% 40%,#1d1a15 0%,#0b0b0b 70%)}
   .ref{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;background:#0b0b0b;cursor:pointer}
   .ref--wide{grid-column:1/-1;aspect-ratio:16/7}
   .ref img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.1,1),filter .4s}
@@ -183,6 +188,7 @@
   .ig__big{position:absolute;right:12px;top:12px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.55);background:rgba(0,0,0,.45);cursor:pointer;display:grid;place-items:center}
   .ig__big span{width:14px;height:14px;border:2px solid #fff;border-width:2px 2px 0 0;position:relative}
   .ig__big span::after{content:"";position:absolute;left:-6px;bottom:-6px;width:14px;height:14px;border:2px solid #fff;border-width:0 0 2px 2px}
+  html.mobile .ig__big{width:28px;height:28px;right:6px;top:6px}html.mobile .ig__big span{width:10px;height:10px}html.mobile .ig__big span::after{width:10px;height:10px;left:-4px;bottom:-4px}
   .ig__big:hover{border-color:var(--gold);background:rgba(0,0,0,.7)}
   .igm{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.86);display:flex;align-items:center;justify-content:center;padding:56px 16px 16px;opacity:0;transition:opacity .25s}
   .igm.on{opacity:1}
@@ -268,12 +274,18 @@
 <section class="refs" id="referenzen">
   <h2 class="h2 refs__title rv">Refe<span class="gold">renzen</span></h2>
   <div class="refs__grid">
-    <a class="ref rv" href="https://www.youtube.com/watch?v=xkKrWq0esHE" target="_blank" rel="noopener" data-yt="xkKrWq0esHE" aria-label="Referenzvideo: Explosion"><img src="sfx/ref/ref1.jpg" width="1600" height="1038" loading="lazy" alt="Explosion mit Funkenregen bei einem Dreh"><span class="ref__play"></span></a>
-    <a class="ref rv" href="https://www.youtube.com/watch?v=rv9arEpXBLE" target="_blank" rel="noopener" data-yt="rv9arEpXBLE" aria-label="Referenzvideo: Gitarrist vor Flammen"><img src="sfx/ref/ref2.jpg" width="1600" height="678" loading="lazy" alt="Gitarrist vor einer Flammenreihe auf der Bühne"><span class="ref__play"></span></a>
-    <a class="ref rv" href="https://www.youtube.com/watch?v=eRG3SyOC4po" target="_blank" rel="noopener" data-yt="eRG3SyOC4po" aria-label="Referenzvideo: Band im Nebel"><img src="sfx/ref/ref3.jpg" width="1600" height="820" loading="lazy" alt="Band im Nebel mit Gegenlicht"><span class="ref__play"></span></a>
-    <a class="ref rv" href="https://www.instagram.com/reel/DOsxGTrDe-s/" target="_blank" rel="noopener" data-ig="reel/DOsxGTrDe-s" aria-label="Referenzvideo auf Instagram: Fußball im Regen"><img src="sfx/ref/ref4.jpg" width="1600" height="1106" loading="lazy" alt="Fußballer grätscht im Regen nach dem Ball" style="object-position:50% 60%"><span class="ref__play"></span><span class="ref__ig">Instagram</span></a>
-    <a class="ref rv" href="https://www.instagram.com/p/DNd4zAcijZA/?img_index=5" target="_blank" rel="noopener" data-ig="p/DNd4zAcijZA" data-ig-index="5" aria-label="Referenzvideo auf Instagram: Sneaker mit Lichteffekt"><img src="sfx/ref/ref5.jpg" width="1600" height="901" loading="lazy" alt="Rote Sneaker-Sohle mit leuchtenden Kammern"><span class="ref__play"></span><span class="ref__ig">Instagram</span></a>
-    <a class="ref rv" href="https://www.youtube.com/watch?v=WIBZpGPAkVk" target="_blank" rel="noopener" data-yt="WIBZpGPAkVk" aria-label="Referenzvideo: Konzert mit Effektfontänen"><img src="sfx/ref/ref6.jpg" width="1600" height="1190" loading="lazy" alt="Weiße Effektfontänen über dem Publikum in einer Konzerthalle" style="object-position:50% 40%"><span class="ref__play"></span></a>
+    <div class="refs__yt">
+      <a class="ref rv" href="https://www.youtube.com/watch?v=xkKrWq0esHE" target="_blank" rel="noopener" data-yt="xkKrWq0esHE" aria-label="Referenzvideo: Explosion"><img src="sfx/ref/ref1.jpg" width="1600" height="1038" loading="lazy" alt="Explosion mit Funkenregen bei einem Dreh"><span class="ref__play"></span></a>
+      <a class="ref rv" href="https://www.youtube.com/watch?v=rv9arEpXBLE" target="_blank" rel="noopener" data-yt="rv9arEpXBLE" aria-label="Referenzvideo: Gitarrist vor Flammen"><img src="sfx/ref/ref2.jpg" width="1600" height="678" loading="lazy" alt="Gitarrist vor einer Flammenreihe auf der Bühne"><span class="ref__play"></span></a>
+      <a class="ref rv" href="https://www.youtube.com/watch?v=eRG3SyOC4po" target="_blank" rel="noopener" data-yt="eRG3SyOC4po" aria-label="Referenzvideo: Band im Nebel"><img src="sfx/ref/ref3.jpg" width="1600" height="820" loading="lazy" alt="Band im Nebel mit Gegenlicht"><span class="ref__play"></span></a>
+      <a class="ref rv" href="https://www.youtube.com/watch?v=WIBZpGPAkVk" target="_blank" rel="noopener" data-yt="WIBZpGPAkVk" aria-label="Referenzvideo: Konzert mit Effektfontänen"><img src="sfx/ref/ref6.jpg" width="1600" height="1190" loading="lazy" alt="Weiße Effektfontänen über dem Publikum in einer Konzerthalle" style="object-position:50% 40%"><span class="ref__play"></span></a>
+      <a class="ref rv ref--noimg" href="https://www.youtube.com/watch?v=V-D0Crw5Cwo" target="_blank" rel="noopener" data-yt="V-D0Crw5Cwo" aria-label="Referenzvideo auf YouTube"><span class="ref__play"></span><span class="ref__ig">YouTube</span></a>
+    </div>
+    <div class="refs__igcol">
+      <a class="ref rv" href="https://www.instagram.com/reel/DOsxGTrDe-s/" target="_blank" rel="noopener" data-ig="reel/DOsxGTrDe-s" aria-label="Referenzvideo auf Instagram: Fußball im Regen"><img src="sfx/ref/ref4.jpg" width="1600" height="1106" loading="lazy" alt="Fußballer grätscht im Regen nach dem Ball" style="object-position:50% 60%"><span class="ref__play"></span><span class="ref__ig">Instagram</span></a>
+      <a class="ref rv ref--noimg" href="https://www.instagram.com/reel/DWOy6TciLrS/" target="_blank" rel="noopener" data-ig="reel/DWOy6TciLrS" aria-label="Referenzvideo auf Instagram"><span class="ref__play"></span><span class="ref__ig">Instagram</span></a>
+      <a class="ref rv" href="https://www.instagram.com/p/DNd4zAcijZA/?img_index=5" target="_blank" rel="noopener" data-ig="p/DNd4zAcijZA" data-ig-index="5" aria-label="Referenzvideo auf Instagram: Sneaker mit Lichteffekt"><img src="sfx/ref/ref5.jpg" width="1600" height="901" loading="lazy" alt="Rote Sneaker-Sohle mit leuchtenden Kammern"><span class="ref__play"></span><span class="ref__ig">Instagram</span></a>
+    </div>
   </div>
 </section>
 
