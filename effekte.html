@@ -158,9 +158,12 @@
   .fx__media--soon{background:radial-gradient(120% 90% at 50% 30%,#1b1d22 0%,#0b0b0b 70%)}
   .fx__soon{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--head);text-transform:uppercase;letter-spacing:.3em;font-size:11px;color:rgba(255,255,255,.28)}
   /* und noch vieles mehr */
-  .more{width:min(1240px,100% - 48px);margin:clamp(80px,9vw,150px) auto 0;text-align:center}
+  .more{width:min(1240px,100% - 48px);margin:clamp(80px,9vw,150px) auto 0}
+  .more__col{max-width:760px;margin:0 auto}
   .more__title{font-family:var(--head);font-weight:800;text-transform:uppercase;font-size:clamp(30px,4.2vw,64px);line-height:1.05}
-  .more__text{max-width:760px;margin:clamp(28px,3vw,44px) auto 0;min-height:clamp(140px,14vw,220px)}
+  .more__text{margin-top:clamp(20px,2.2vw,32px)}
+  .more__text p{margin:0 0 1.1em;line-height:1.6}
+  .more__text p:last-child{margin-bottom:0}
   /* Referenzen */
   .refs{width:min(1240px,100% - 48px);margin:clamp(60px,7vw,110px) auto clamp(90px,10vw,170px)}
   .refs__title{text-align:center;margin-bottom:clamp(30px,4vw,60px)}
@@ -291,8 +294,13 @@
 </section>
 
 <section class="more" id="mehr">
-  <h2 class="more__title rv">Und noch <span class="gold">vieles mehr</span></h2>
-  <div class="more__text" id="mehrText"><!-- Text folgt --></div>
+  <div class="more__col">
+    <h2 class="h2 more__title rv"><span class="gold">Professionelle Technik</span><br>für beeindruckende Inszenierungen.</h2>
+    <div class="more__text rv" id="mehrText">
+      <p>Pyrogenie Feuerwerk stellt Ihnen hochwertige Effektgeräte zur Miete bereit – präzise, flexibel und zuverlässig. Ob für Filmproduktionen, Live-Shows, Bühnenbilder oder Markeninszenierungen:</p>
+      <p>Wir liefern die passende Technik für visuelle Effekte, die überzeugen. Dank der Integration des Gerätepools von Tropp Pyrotechnik bieten wir ein breites Spektrum an Spezialtechnik – kombiniert mit fundierter Beratung und professionellem Support. Die Geräte sind flexibel verfügbar, kurzfristig einsetzbar und können direkt an unserem Standort in Berlin abgeholt oder projektbezogen geliefert werden.</p>
+    </div>
+  </div>
 </section>
 
 <section class="refs" id="referenzen">
