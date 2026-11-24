@@ -266,3 +266,7 @@ html.light body :is(.loadmore,.fbtn,.fchip:not([aria-pressed="true"]),.chip:not(
 /* Goldene Knöpfe ohne Liquid Glass (auch Knöpfe, die beim Drüberfahren gold werden) */
 html body :is(.loadmore--rent,.info__btn):hover::before{opacity:0}
 html body :is(.btn-gold,.req__send,.kf__send,.af__go,.hero__book){background-image:none}
+
+/* Geschlossenes Menü fängt keine Klicks/Wischgesten mehr ab (vorher lag ein unsichtbarer Kasten oben rechts über der Seite) */
+html body .nav:not(.open){pointer-events:none}
+html body .nav:not(.open) .menu-btn{pointer-events:auto}

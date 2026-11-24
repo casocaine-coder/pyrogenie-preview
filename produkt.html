@@ -135,6 +135,23 @@
   .win img[style]{max-width:none;max-height:none}
   .win--main img{max-width:70%;max-height:82%;object-fit:contain;filter:drop-shadow(0 24px 34px rgba(0,0,0,.65));animation:popIn .6s cubic-bezier(.34,1.56,.64,1) both}
   @keyframes popIn{0%{opacity:0;transform:scale(1.08)}100%{opacity:1;transform:none}}
+  /* Alle Produktbilder in der großen Kachel: am Computer mit den Pfeilen weiterklicken, am Handy wischen */
+  .g__track{position:absolute;inset:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+  .g__track::-webkit-scrollbar{display:none}
+  .g__s{flex:0 0 100%;display:flex;align-items:center;justify-content:center;scroll-snap-align:center;scroll-snap-stop:always}
+  .g__arr{position:absolute;top:50%;z-index:2;width:52px;height:84px;margin-top:-42px;padding:0;background:none;border:0;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .25s,transform .25s}
+  .g__arr svg{width:15px;height:30px;stroke:var(--gold);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 6px rgba(0,0,0,.6));transition:stroke .2s}
+  .g__arr--prev{left:6px} .g__arr--next{right:6px}
+  .win--main:hover .g__arr,.g__arr:focus-visible{opacity:1}
+  .g__arr--prev:hover{transform:translateX(-3px)} .g__arr--next:hover{transform:translateX(3px)}
+  .g__arr:hover svg{stroke:var(--gold2)}
+  .g__arr:focus-visible{outline:2px solid var(--gold);outline-offset:-6px}
+  .win--main.is-first .g__arr--prev,.win--main.is-last .g__arr--next{opacity:0;pointer-events:none}
+  .g__dots{position:absolute;left:0;right:0;bottom:clamp(12px,1.6vw,20px);z-index:2;display:flex;justify-content:center;gap:8px;pointer-events:none}
+  .g__dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);transition:background .25s}
+  .g__dots i.on{background:var(--gold)}
+  html.light .g__dots i{background:rgba(0,0,0,.22)} html.light .g__dots i.on{background:var(--gold-ink)}
+  @media (hover:none){ .g__arr{display:none} }
   .info{position:sticky;top:clamp(90px,10vw,120px)}
   .info__cat{font-size:11px}
   .info__code{margin-top:10px;font-family:var(--head);font-weight:800;font-size:clamp(26px,2.6vw,40px);line-height:1.05;letter-spacing:.02em;word-break:break-word}
@@ -268,16 +285,12 @@
       <p class="info__note zara muted" id="note">Abgabe nur an Personen mit Fachkunde bzw. Erlaubnis nach SprengG.</p>
     </aside>
   </div>
-  <section id="pairSec">
-    <span class="lbl zara muted" style="margin-top:clamp(40px,5vw,80px)">02 · Weitere Ansichten</span>
-    <div class="pp__pair" id="pair"></div>
-  </section>
   <section class="pp__video">
-    <span class="lbl zara muted">03 · Produktvideo</span>
+    <span class="lbl zara muted">02 · Produktvideo</span>
     <div class="frame"><div class="win win--video" id="video"></div></div>
   </section>
   <section class="sim" id="simSec" hidden>
-    <div class="sim__head"><span class="lbl zara muted">04 · Ähnliche Produkte</span>
+    <div class="sim__head"><span class="lbl zara muted">03 · Ähnliche Produkte</span>
       <div class="sim__arrs"><button class="sim__arr" type="button" id="simPrev" aria-label="Zurück"><svg viewBox="0 0 10 16"><path d="M8 1L2 8l6 7"/></svg></button><button class="sim__arr" type="button" id="simNext" aria-label="Weiter"><svg viewBox="0 0 10 16"><path d="M2 1l6 7-6 7"/></svg></button></div></div>
     <div class="sim__track" id="simTrack"></div>
   </section>
@@ -448,7 +461,22 @@
     if (idx < 0) idx = 0;
     var p = SHOP_PRODUCTS[idx], c = catBy[p.cat];
     document.title = (p.name || p.code) + ' – Pyrogenie Shop';
-    document.getElementById('main').innerHTML = '<img src="'+IMG(p.img)+'"'+FIT(p.img,.8,.34,.78)+' alt="'+p.code+'">';
+    var pics = [p.img].concat(p.more || []).filter(function(h, i, a){ return h && a.indexOf(h) === i; }), mainEl = document.getElementById('main');
+    var gimg = function(h, i){ return '<img src="'+IMG(h)+'"'+FIT(h,.8,.34,.78)+' alt="'+(i ? 'Weitere Ansicht ' : '')+p.code+'" draggable="false">'; };
+    var gchev = function(d){ return '<svg viewBox="0 0 15 30"><path d="' + (d < 0 ? 'M12 3 L3 15 L12 27' : 'M3 3 L12 15 L3 27') + '"/></svg>'; };
+    mainEl.className = 'win win--main' + (pics.length > 1 ? ' is-gal is-first' : '');
+    mainEl.innerHTML = pics.length < 2 ? gimg(pics[0], 0) :
+      '<div class="g__track">' + pics.map(function(h, i){ return '<div class="g__s">' + gimg(h, i) + '</div>'; }).join('') + '</div>' +
+      '<button class="g__arr g__arr--prev" type="button" aria-label="Vorheriges Bild">' + gchev(-1) + '</button><button class="g__arr g__arr--next" type="button" aria-label="Nächstes Bild">' + gchev(1) + '</button>' +
+      '<span class="g__dots" aria-hidden="true">' + pics.map(function(h, i){ return '<i' + (i ? '' : ' class="on"') + '></i>'; }).join('') + '</span>';
+    if (!mainEl._gal){ mainEl._gal = 1;
+      mainEl.addEventListener('click', function(e){ var a = e.target.closest('.g__arr'); if (!a) return; var t = mainEl.querySelector('.g__track');
+        if (t) t.scrollBy({left: (a.classList.contains('g__arr--prev') ? -1 : 1) * t.clientWidth, behavior: 'smooth'}); });
+      mainEl.addEventListener('scroll', function(e){ var t = e.target; if (!t.classList || !t.classList.contains('g__track')) return;
+        var n = t.children.length, i = Math.max(0, Math.min(n - 1, Math.round(t.scrollLeft / Math.max(1, t.clientWidth))));
+        mainEl.classList.toggle('is-first', i === 0); mainEl.classList.toggle('is-last', i === n - 1);
+        [].forEach.call(mainEl.querySelectorAll('.g__dots i'), function(d, k){ d.classList.toggle('on', k === i); }); }, true);
+    }
     document.getElementById('cat').textContent = c.name;
     document.getElementById('code').textContent = p.name || p.code; CUR = p.code; QTY = 1; document.getElementById('q').textContent = 1;
     document.getElementById('specs').innerHTML = specs(p);
@@ -464,9 +492,6 @@
     document.getElementById('addCart').textContent = btnTxt();
     document.getElementById('note').textContent = RENT ? 'Mietgerät – Abholung und Rückgabe nach Absprache. Preis auf Anfrage.' : (p.pk > 1 ? 'Abgabe nur in ganzen Kartons à ' + p.pk + ' Stück. ' : '') + 'Abgabe nur an Personen mit Fachkunde bzw. Erlaubnis nach SprengG.';
     document.getElementById('code').style.wordBreak = (RENT || p.name) ? 'normal' : '';
-    var pair = p.more.slice(0,2);
-    document.getElementById('pairSec').hidden = !pair.length;
-    document.getElementById('pair').innerHTML = pair.map(function(h){ return '<div class="win win--pair"><img src="'+IMG(h)+'"'+FIT(h,.8,.34,.8)+' alt="Weitere Ansicht '+p.code+'" loading="lazy"></div>'; }).join('');
     // Produktvideo vom Vimeo-Kanal (p.vimeo): echte Website → Player direkt eingebettet; Vorschau/als Datei geöffnet → Link zu Vimeo
     var vbox = document.getElementById('video'), framed = false; try { framed = window.self !== window.top; } catch (e) { framed = true; }
     if (!/^https?:$/.test(location.protocol)) framed = true;
