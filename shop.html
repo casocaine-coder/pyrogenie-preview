@@ -167,7 +167,13 @@
   .search::placeholder{color:var(--gold);opacity:.85}
   .search:focus{border-color:var(--gold2);color:var(--gold2)}
   .count{font-size:11px}
-  .sort{margin-left:auto;background:none;border:1px solid rgba(255,255,255,.4);color:#fff;font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 30px 8px 12px;cursor:pointer;
+  .vat{display:inline-flex;border:1px solid rgba(255,255,255,.4);flex:none}
+  .vat button{background:none;border:0;color:rgba(255,255,255,.6);font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;cursor:pointer;min-height:36px}
+  .vat button[aria-pressed="true"]{background:var(--gold);color:#000}
+  .price .vat{margin-top:12px}
+  html.light .vat{border-color:rgba(0,0,0,.3)} html.light .vat button{color:rgba(0,0,0,.55)}
+  .bar__row .vat{margin-left:auto}
+  .sort{margin-left:0;background:none;border:1px solid rgba(255,255,255,.4);color:#fff;font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 30px 8px 12px;cursor:pointer;
     appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23c8953a' stroke-width='1.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;border-radius:0}
   .sort option{color:#000;text-transform:none;letter-spacing:0}
   .sort:focus{outline:1px solid var(--gold);outline-offset:2px}
@@ -203,7 +209,7 @@
   html.light .fchip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)} html.light .fchip[aria-pressed="true"] span{color:rgba(255,255,255,.6)}
   html.light .fbtn{color:var(--ink);border-color:rgba(0,0,0,.3)}
   @media (max-width:1000px){ .pbody{grid-template-columns:1fr} .pbody .grid{grid-template-columns:repeat(3,1fr)} .flt{position:static;max-height:none;overflow:visible} .fbtn{display:inline-block} .flt.closed{display:none} }
-  @media (max-width:700px){ .pbody .grid{grid-template-columns:repeat(2,1fr)} .bar__row{gap:10px;flex-wrap:wrap} .sort{order:3;margin-left:0;font-size:10px;padding:7px 28px 7px 10px;min-height:38px} .fbtn{min-height:38px} .count{order:4;margin-left:auto} .fbtn{padding:7px 10px;font-size:10px} .count{font-size:10px} }
+  @media (max-width:700px){ .pbody .grid{grid-template-columns:repeat(2,1fr)} .bar__row{gap:10px;flex-wrap:wrap} .bar__row .vat{order:3;margin-left:0} .vat button{font-size:10px;padding:7px 10px} .sort{order:3;margin-left:0;font-size:10px;padding:7px 28px 7px 10px;min-height:38px} .fbtn{min-height:38px} .count{order:4;margin-left:auto} .fbtn{padding:7px 10px;font-size:10px} .count{font-size:10px} }
   .p{display:block;cursor:pointer}
   .p__img{position:relative;aspect-ratio:3/4;background:#0f0f0f;display:flex;align-items:center;justify-content:center;overflow:hidden}
   .p__img img{width:auto;height:auto;max-width:72%;max-height:78%;object-fit:contain;filter:drop-shadow(0 14px 20px rgba(0,0,0,.6));transition:transform .6s cubic-bezier(.2,.7,.1,1),opacity .4s}
@@ -271,7 +277,7 @@
   <h2 class="h2 sec-title" id="prodTitle">Alle <span class="gold">Produkte</span></h2>
   <div class="bar">
     <div class="tabs zara" id="tabs" role="toolbar" aria-label="Kategorie"></div>
-    <div class="bar__row"><input class="search" id="search" type="search" placeholder="Artikelnummer oder Effekt suchen" aria-label="Artikelnummer oder Effekt suchen"><select class="sort zara" id="sort" aria-label="Sortierung"><option value="">Sortierung</option><option value="cal-asc">Kaliber aufsteigend</option><option value="cal-desc">Kaliber absteigend</option><option value="pi-asc">Preis aufsteigend</option><option value="pi-desc">Preis absteigend</option></select><button class="fbtn zara" id="fltBtn" type="button" aria-controls="flt" aria-expanded="false">Filter <b id="fltN"></b></button><span class="count zara muted" id="count"></span></div>
+    <div class="bar__row"><input class="search" id="search" type="search" placeholder="Artikelnummer oder Effekt suchen" aria-label="Artikelnummer oder Effekt suchen"><div class="vat zara" role="group" aria-label="Preisanzeige"></div><select class="sort zara" id="sort" aria-label="Sortierung"><option value="">Sortierung</option><option value="cal-asc">Kaliber aufsteigend</option><option value="cal-desc">Kaliber absteigend</option><option value="pi-asc">Preis aufsteigend</option><option value="pi-desc">Preis absteigend</option></select><button class="fbtn zara" id="fltBtn" type="button" aria-controls="flt" aria-expanded="false">Filter <b id="fltN"></b></button><span class="count zara muted" id="count"></span></div>
   </div>
   <div class="pbody">
     <aside class="flt closed" id="flt" aria-label="Filter"><div id="fltSecs"></div><button class="flt__reset zara" id="fltReset" type="button" hidden>Filter zurücksetzen</button></aside>
@@ -369,7 +375,19 @@
 (function(){
   var IMG = function(h){ return (window.SHOP_URI && SHOP_URI[h]) || 'shop/img/' + h + '.webp'; };
   var catBy = {}; SHOP_CATS.forEach(function(c){ catBy[c.slug] = c; });
-  var EUR = function(v){ return v.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; };
+  // Netto/Brutto: alle Listenpreise sind netto; Brutto = netto + 19 % MwSt. Auswahl wird im Browser gemerkt.
+  var VAT = 0.19, GROSS = false; try { GROSS = localStorage.getItem('pg-vat') === 'brutto'; } catch (e) {}
+  var EUR = function(v){ return (GROSS ? v * (1 + VAT) : v).toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; };
+  var VATTXT = function(){ return GROSS ? 'inkl. 19 % MwSt., zzgl. Versand' : 'netto, zzgl. 19 % MwSt. und Versand'; };
+  function vatSwitch(onChange){
+    [].forEach.call(document.querySelectorAll('.vat'), function(w){
+      w.innerHTML = '<button type="button" data-v="netto" aria-pressed="' + !GROSS + '">Netto</button><button type="button" data-v="brutto" aria-pressed="' + GROSS + '">Brutto</button>';
+      w.onclick = function(e){ var b = e.target.closest('button'); if (!b) return; GROSS = b.dataset.v === 'brutto';
+        try { localStorage.setItem('pg-vat', b.dataset.v); } catch (x) {}
+        [].forEach.call(document.querySelectorAll('.vat button'), function(x){ x.setAttribute('aria-pressed', String((x.dataset.v === 'brutto') === GROSS)); });
+        onChange(); };
+    });
+  }
 
   // Effekt-Stichworte aus Name/Beschreibung (abweichende Schreibweisen berücksichtigt) und Bauform aus der Artikelnummer
   var FXDEF = [
@@ -473,6 +491,7 @@
     if (i > -1) a.splice(i, 1); else a.push(v); openSec[k] = true; if (k === 'cat') setHash(); apply();
   });
   document.getElementById('fltReset').onclick = function(){ FILTERS.forEach(function(F){ state.f[F.k] = []; }); state.cats = []; setHash(); apply(); };
+  vatSwitch(function(){ apply(); });
   document.getElementById('sort').onchange = function(){ state.sort = this.value; apply(); };
   document.getElementById('fltBtn').onclick = function(){ var c = flt.classList.toggle('closed'); this.setAttribute('aria-expanded', String(!c)); };
   function tile(p){

@@ -155,6 +155,12 @@
   .price__main span{font-size:11px}
   .price__carton{margin-top:6px;font-size:12px}
   .price__vat{margin-top:6px;font-size:10px}
+  .vat{display:inline-flex;border:1px solid rgba(255,255,255,.4);flex:none}
+  .vat button{background:none;border:0;color:rgba(255,255,255,.6);font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;cursor:pointer;min-height:36px}
+  .vat button[aria-pressed="true"]{background:var(--gold);color:#000}
+  .price .vat{margin-top:12px}
+  html.light .vat{border-color:rgba(0,0,0,.3)} html.light .vat button{color:rgba(0,0,0,.55)}
+
   .specs div span:last-child{text-align:right}
   .dur{margin-top:clamp(22px,2.4vw,32px)} .dur[hidden]{display:none}
   .dur__l{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
@@ -353,7 +359,19 @@
 (function(){
   var IMG = function(h){ return (window.SHOP_URI && SHOP_URI[h]) || 'shop/img/' + h + '.webp'; };
   var catBy = {}; SHOP_CATS.forEach(function(c){ catBy[c.slug] = c; });
-  var EUR = function(v){ return v.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; };
+  // Netto/Brutto: alle Listenpreise sind netto; Brutto = netto + 19 % MwSt. Auswahl wird im Browser gemerkt.
+  var VAT = 0.19, GROSS = false; try { GROSS = localStorage.getItem('pg-vat') === 'brutto'; } catch (e) {}
+  var EUR = function(v){ return (GROSS ? v * (1 + VAT) : v).toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; };
+  var VATTXT = function(){ return GROSS ? 'inkl. 19 % MwSt., zzgl. Versand' : 'netto, zzgl. 19 % MwSt. und Versand'; };
+  function vatSwitch(onChange){
+    [].forEach.call(document.querySelectorAll('.vat'), function(w){
+      w.innerHTML = '<button type="button" data-v="netto" aria-pressed="' + !GROSS + '">Netto</button><button type="button" data-v="brutto" aria-pressed="' + GROSS + '">Brutto</button>';
+      w.onclick = function(e){ var b = e.target.closest('button'); if (!b) return; GROSS = b.dataset.v === 'brutto';
+        try { localStorage.setItem('pg-vat', b.dataset.v); } catch (x) {}
+        [].forEach.call(document.querySelectorAll('.vat button'), function(x){ x.setAttribute('aria-pressed', String((x.dataset.v === 'brutto') === GROSS)); });
+        onChange(); };
+    });
+  }
   var UN = {'1.3G':'UN 0335', '1.4G':'UN 0336', '1.4S':'UN 0337', '1.2G':'UN 0334', '1.1G':'UN 0333'};
   // Optisch gleich groß: jedes Produkt bekommt ungefähr dieselbe Fläche in seiner Box, mittig
   function FIT(h, box, area, cap){
@@ -382,8 +400,8 @@
     if (p.gk) rows.push(['Gefahrgutklasse', p.gk]);
     if (p.un || (p.gk && UN[p.gk])) rows.push(['UN-Nummer', p.un || UN[p.gk]]);
     if (p.pk) rows.push(['Verpackungseinheit', p.pk + (p.pk > 1 ? ' Stück pro Karton' : ' Stück')]);
-    if (p.pi) rows.push(['Preis pro Stück', EUR(p.pi)]);
-    if (p.pc) rows.push(['Preis pro Karton', EUR(p.pc)]);
+    if (p.pi) rows.push(['Preis pro Stück (' + (GROSS ? 'brutto' : 'netto') + ')', EUR(p.pi)]);
+    if (p.pc) rows.push(['Preis pro Karton (' + (GROSS ? 'brutto' : 'netto') + ')', EUR(p.pc)]);
     var parts = p.code.split('-');
     if (parts[0] === 'OS'){
       rows.push(['Typ', 'Oneshot']);
@@ -418,7 +436,8 @@
     pr.hidden = !p.pi;
     pr.innerHTML = p.pi ? '<div class="price__main"><b>' + EUR(p.pi) + '</b><span class="zara muted">pro Stück</span></div>' +
       (p.pc && p.pk > 1 ? '<div class="price__carton zara">' + EUR(p.pc) + ' pro Karton · ' + p.pk + ' Stück</div>' : '') +
-      '<div class="price__vat zara muted">Nettopreise zzgl. MwSt. und Versand</div>' : '';
+      '<div class="price__vat zara muted">' + VATTXT() + '</div><div class="vat zara" role="group" aria-label="Preisanzeige"></div>' : '';
+    vatSwitch(function(){ var y = scrollY; render(); scrollTo(0, y); });
     document.getElementById('cat').textContent = c.name + (p.fk ? ' · ' + p.fk : '');
     RENT = !!p.rent; DUR = '1 Tag'; [].forEach.call(durP.children, function(x, i){ x.setAttribute('aria-pressed', String(i === 0)); });
     document.getElementById('dur').hidden = !RENT;
