@@ -136,3 +136,16 @@ document.addEventListener('click', function(e){
   var s = document.querySelector('#search[placeholder="Artikelnummer oder Effekt suchen"]');
   if (s) s.placeholder = "Suchen";
 })();
+
+/* Glas-Glanz auf Kacheln folgt der Maus */
+(function(){
+  if (!window.matchMedia || !matchMedia('(hover:hover)').matches) return;
+  var HOST = '.card,.moment,.person,.p,.rc,.sim__p,.fx,.ref,.reel__poster,.player__btn,.win--pair,.tile,.cat';
+  var FRAME = '.card__img,.moment__img,.person__img,.p__img,.rc__img,.sim__img,.fx__media';
+  document.addEventListener('pointermove', function(e){
+    var h = e.target.closest && e.target.closest(HOST); if (!h) return;
+    var f = h.querySelector(FRAME) || h, r = f.getBoundingClientRect(); if (!r.width) return;
+    f.style.setProperty('--gx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+    f.style.setProperty('--gy', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+  }, {passive:true});
+})();
