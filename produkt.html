@@ -149,6 +149,13 @@
   .qty button:hover{color:var(--gold2)}
   .qty span{min-width:26px;text-align:center;font-size:14px}
   .info__note{margin-top:14px;font-size:10px;line-height:1.6}
+  .price{margin-top:clamp(16px,1.8vw,24px)}
+  .price__main{display:flex;align-items:baseline;gap:10px}
+  .price__main b{font-family:var(--head);font-weight:800;font-size:clamp(24px,2.2vw,32px);color:var(--gold);letter-spacing:.01em}
+  .price__main span{font-size:11px}
+  .price__carton{margin-top:6px;font-size:12px}
+  .price__vat{margin-top:6px;font-size:10px}
+  .specs div span:last-child{text-align:right}
   .dur{margin-top:clamp(22px,2.4vw,32px)} .dur[hidden]{display:none}
   .dur__l{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
   .dur__p{display:flex;flex-wrap:wrap;gap:8px}
@@ -212,6 +219,7 @@
     <aside class="info">
       <span class="info__cat zara muted" id="cat"></span>
       <h1 class="info__code" id="code"></h1>
+      <div class="price" id="price" hidden></div>
       <div class="specs zara" id="specs"></div>
       <div class="dur zara" id="dur" hidden><span class="dur__l muted">Mietdauer</span><div class="dur__p" id="durP"></div></div>
       <div class="buy">
@@ -319,6 +327,8 @@
 (function(){
   var IMG = function(h){ return (window.SHOP_URI && SHOP_URI[h]) || 'shop/img/' + h + '.webp'; };
   var catBy = {}; SHOP_CATS.forEach(function(c){ catBy[c.slug] = c; });
+  var EUR = function(v){ return v.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; };
+  var UN = {'1.3G':'UN 0335', '1.4G':'UN 0336', '1.4S':'UN 0337', '1.2G':'UN 0334', '1.1G':'UN 0333'};
   // Optisch gleich groß: jedes Produkt bekommt ungefähr dieselbe Fläche in seiner Box, mittig
   function FIT(h, box, area, cap){
     var d = (window.SHOP_DIM || {})[h]; if (!d) return '';
@@ -329,14 +339,28 @@
   var EFFECT = {M:'Mine', C:'Comet', MC:'Mine & Comet'};
   function specs(p){
     if (p.rent) return [['Kategorie', 'Zündsysteme'], ['Hersteller', p.brand], ['Modell', p.code], ['Angebot', 'Miete · Preis auf Anfrage']].map(function(r){ return '<div><span class="muted">'+r[0]+'</span><span>'+r[1]+'</span></div>'; }).join('');
-    var rows = [['Kategorie', catBy[p.cat].name]]; if (p.brand) rows.push(['Marke', p.brand]); if (p.name) rows.push(['Bezeichnung', p.name]); if (!p.name || p.name !== p.code) rows.push(['Artikelnummer', p.code]);
+    var rows = [];
+    if (!p.name || p.name !== p.code) rows.push(['Artikelnummer', p.code]);
+    rows.push(['Produktgruppe', catBy[p.cat].name]); if (p.brand) rows.push(['Marke', p.brand]);
+    if (p.fk) rows.push(['Kategorie (Klasse)', p.fk]);
     if (p.cal) rows.push(['Kaliber', p.cal + ' mm']);
+    if (p.dur) rows.push(['Effektdauer', /^[\d,–]+$/.test(p.dur) ? p.dur + ' s' : p.dur]);
+    if (p.h) rows.push(['Effekthöhe', /^[\d,–]+$/.test(p.h) ? p.h + ' m' : p.h]);
+    if (p.sr) rows.push(['Sicherheitsabstand radial', /^[\d,–]+$/.test(p.sr) ? p.sr + ' m' : p.sr]);
+    if (p.sd) rows.push(['Sicherheitsabstand in Effektrichtung', /^[\d,–]+$/.test(p.sd) ? p.sd + ' m' : p.sd]);
+    if (p.nec) rows.push(['NEM (Explosivstoffmasse)', p.nec + ' kg']);
+    if (p.ce) rows.push(['CE-Nummer', p.ce]);
+    if (p.gk) rows.push(['Gefahrgutklasse', p.gk]);
+    if (p.un || (p.gk && UN[p.gk])) rows.push(['UN-Nummer', p.un || UN[p.gk]]);
+    if (p.pk) rows.push(['Verpackungseinheit', p.pk + (p.pk > 1 ? ' Stück pro Karton' : ' Stück')]);
+    if (p.pi) rows.push(['Preis pro Stück', EUR(p.pi)]);
+    if (p.pc) rows.push(['Preis pro Karton', EUR(p.pc)]);
     var parts = p.code.split('-');
     if (parts[0] === 'OS'){
       rows.push(['Typ', 'Oneshot']);
       var eff = [];
       parts.slice(2).forEach(function(x){ var m = /^([A-Z]+)(\d*)$/.exec(x); if (m && EFFECT[m[1]]) eff.push(EFFECT[m[1]] + (m[2] ? ' (Farbe ' + m[2] + ')' : '')); });
-      if (eff.length) rows.push(['Effekt', eff.join(' + ')]);
+      if (eff.length) rows.push(['Effekttyp', eff.join(' + ')]);
     }
     return rows.map(function(r){ return '<div><span class="muted">'+r[0]+'</span><span>'+r[1]+'</span></div>'; }).join('');
   }
@@ -361,10 +385,16 @@
     document.getElementById('cat').textContent = c.name;
     document.getElementById('code').textContent = p.name || p.code; CUR = p.code; QTY = 1; document.getElementById('q').textContent = 1;
     document.getElementById('specs').innerHTML = specs(p);
+    var pr = document.getElementById('price');
+    pr.hidden = !p.pi;
+    pr.innerHTML = p.pi ? '<div class="price__main"><b>' + EUR(p.pi) + '</b><span class="zara muted">pro Stück</span></div>' +
+      (p.pc && p.pk > 1 ? '<div class="price__carton zara">' + EUR(p.pc) + ' pro Karton · ' + p.pk + ' Stück</div>' : '') +
+      '<div class="price__vat zara muted">Nettopreise zzgl. MwSt. und Versand</div>' : '';
+    document.getElementById('cat').textContent = c.name + (p.fk ? ' · ' + p.fk : '');
     RENT = !!p.rent; DUR = '1 Tag'; [].forEach.call(durP.children, function(x, i){ x.setAttribute('aria-pressed', String(i === 0)); });
     document.getElementById('dur').hidden = !RENT;
     document.getElementById('addCart').textContent = btnTxt();
-    document.getElementById('note').textContent = RENT ? 'Mietgerät – Abholung und Rückgabe nach Absprache. Preis auf Anfrage.' : 'Abgabe nur an Personen mit Fachkunde bzw. Erlaubnis nach SprengG.';
+    document.getElementById('note').textContent = RENT ? 'Mietgerät – Abholung und Rückgabe nach Absprache. Preis auf Anfrage.' : (p.pk > 1 ? 'Abgabe nur in ganzen Kartons à ' + p.pk + ' Stück. ' : '') + 'Abgabe nur an Personen mit Fachkunde bzw. Erlaubnis nach SprengG.';
     document.getElementById('code').style.wordBreak = (RENT || p.name) ? 'normal' : '';
     var pair = p.more.slice(0,2);
     document.getElementById('pairSec').hidden = !pair.length;

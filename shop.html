@@ -210,6 +210,8 @@
   .p:hover .p__img img.alt{opacity:1}.p:hover .p__img img.has-alt:not(.alt){opacity:0}
   .p__code{display:block;margin-top:12px;font-size:12px;transition:color .2s}
   .p__meta{display:block;margin-top:3px;font-size:10px}
+  .p__price{display:block;margin-top:5px;font-size:11px;color:var(--gold)}
+  .p__price .muted{color:inherit;opacity:.6}
   .p:hover .p__code{color:var(--gold2)}
   .loadmore[hidden]{display:none}
   .loadmore{display:block;margin:clamp(40px,5vw,70px) auto 0;background:none;border:1px solid rgba(255,255,255,.4);color:#fff;cursor:pointer;font-size:12px;padding:12px 30px;transition:all .2s}
@@ -264,7 +266,7 @@
   <h2 class="h2 sec-title" id="prodTitle">Alle <span class="gold">Produkte</span></h2>
   <div class="bar">
     <div class="tabs zara" id="tabs" role="toolbar" aria-label="Kategorie"></div>
-    <div class="bar__row"><input class="search" id="search" type="search" placeholder="Artikelnummer suchen" aria-label="Artikelnummer suchen"><button class="fbtn zara" id="fltBtn" type="button" aria-controls="flt" aria-expanded="false">Filter <b id="fltN"></b></button><span class="count zara muted" id="count"></span></div>
+    <div class="bar__row"><input class="search" id="search" type="search" placeholder="Artikelnummer oder Effekt suchen" aria-label="Artikelnummer oder Effekt suchen"><button class="fbtn zara" id="fltBtn" type="button" aria-controls="flt" aria-expanded="false">Filter <b id="fltN"></b></button><span class="count zara muted" id="count"></span></div>
   </div>
   <div class="pbody">
     <aside class="flt closed" id="flt" aria-label="Filter"><div id="fltSecs"></div><button class="flt__reset zara" id="fltReset" type="button" hidden>Filter zurücksetzen</button></aside>
@@ -362,6 +364,7 @@
 (function(){
   var IMG = function(h){ return (window.SHOP_URI && SHOP_URI[h]) || 'shop/img/' + h + '.webp'; };
   var catBy = {}; SHOP_CATS.forEach(function(c){ catBy[c.slug] = c; });
+  var EUR = function(v){ return v.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; };
   // Optisch gleich groß: jedes Produkt bekommt ungefähr dieselbe Fläche in seiner Box, mittig
   function FIT(h, box, area, cap){
     var d = (window.SHOP_DIM || {})[h]; if (!d) return '';
@@ -394,15 +397,18 @@
            '<span class="cat__name zara" lang="de">'+(c.tile||c.name)+'</span><span class="cat__n zara muted">'+c.n+'</span></a>';
   }).join('');
   // Filter-Zustand
-  var state = {cats:[], q:'', f:{cal:[], color:[], dur:[]}}, shown = 0, PAGE = 24, list = [];
+  var state = {cats:[], q:'', f:{fk:[], gk:[], cal:[], color:[], durB:[]}}, shown = 0, PAGE = 24, list = [];
   var grid = document.getElementById('grid'), tabs = document.getElementById('tabs');
   tabs.innerHTML = '<button class="tab" type="button" data-k="">Alle</button>' + TILES.map(function(c){ return '<button class="tab" type="button" data-k="'+c.slug+'">'+(c.tile||c.name)+'</button>'; }).join('');
   tabs.addEventListener('click', function(e){ var b = e.target.closest('.tab'); if (!b) return; setCat(b.dataset.k); setHash(); apply(); });
   // Erweiterte Filter: Kaliber (p.cal), Farbe (p.color), Laufzeit in Sekunden (p.dur) – mehrere Werte je Filter möglich
-  var FILTERS = [{k:'cal', label:'Kaliber', fmt:function(v){ return v + 'mm'; }},
+  var ORD = function(list){ return function(a, b){ return list.indexOf(a) - list.indexOf(b); }; };
+  var FILTERS = [{k:'fk', label:'Klasse', fmt:function(v){ return v; }, sort:ORD(['F1','F2','F3','F4','T1','T2','F0'])},
+                 {k:'gk', label:'Gefahrgutklasse', fmt:function(v){ return v; }, sort:ORD(['1.3G','1.4G','1.4S'])},
+                 {k:'cal', label:'Kaliber', fmt:function(v){ return v + ' mm'; }, sort:function(a, b){ return parseFloat(a) - parseFloat(b) || (a < b ? -1 : 1); }},
                  {k:'color', label:'Farbe', fmt:function(v){ return v; }},
-                 {k:'dur', label:'Laufzeit in Sekunden', fmt:function(v){ return v; }}];
-  var openSec = {cat:true, cal:true};
+                 {k:'durB', label:'Laufzeit', fmt:function(v){ return v; }, sort:ORD(['bis 5 s','5–15 s','15–30 s','30–60 s','über 60 s'])}];
+  var openSec = {cat:true, fk:true};
   function vals(p, k){ var v = p[k]; if (v == null || v === '') return []; return Array.isArray(v) ? v : [v]; }
   function passF(p, skip){
     for (var i = 0; i < FILTERS.length; i++){ var k = FILTERS[i].k, sel = state.f[k]; if (k === skip || !sel.length) continue;
@@ -422,7 +428,7 @@
     FILTERS.forEach(function(F){
       var cnt = {};
       base.forEach(function(p){ if (passF(p, F.k)) vals(p, F.k).forEach(function(v){ cnt[v] = (cnt[v] || 0) + 1; }); });
-      var ks = Object.keys(cnt).sort(function(a, b){ return cnt[b] - cnt[a] || (parseFloat(a) - parseFloat(b)) || (a < b ? -1 : 1); });
+      var ks = Object.keys(cnt).sort(F.sort || function(a, b){ return cnt[b] - cnt[a] || (a < b ? -1 : 1); });
       state.f[F.k] = state.f[F.k].filter(function(x){ return cnt[x]; }); active += state.f[F.k].length;
       if (!ks.length) return;
       html += '<div class="flt__sec' + (openSec[F.k] || state.f[F.k].length ? ' open' : '') + '" data-k="' + F.k + '"><button class="flt__head" type="button">' + F.label +
@@ -446,7 +452,8 @@
     var c = catBy[p.cat], alt = p.more[0];
     return '<a class="p" href="produkt.html#'+encodeURIComponent(p.code)+'"><div class="p__img"><img class="'+(alt?'has-alt':'')+'" src="'+IMG(p.img)+'"'+FIT(p.img,.75,.28,.8)+' alt="'+p.code+'" loading="lazy" decoding="async">'+
            (alt ? '<img class="alt" src="'+IMG(alt)+'"'+FIT(alt,.75,.28,.8)+' alt="" loading="lazy" decoding="async">' : '')+'</div>'+
-           '<span class="p__code zara">'+(p.name||p.code)+'</span><span class="p__meta zara muted">'+c.name+(p.name && p.name !== p.code ? ' · '+p.code : '')+(p.cal ? ' · '+p.cal+' mm' : '')+'</span></a>';
+           '<span class="p__code zara">'+(p.name||p.code)+'</span><span class="p__meta zara muted">'+(p.name && p.name !== p.code ? p.code : c.name)+(p.fk ? ' · '+p.fk : '')+(p.cal ? ' · '+p.cal+' mm' : '')+'</span>'+
+           (p.pi ? '<span class="p__price zara">'+EUR(p.pi)+' / Stk.'+(p.pk > 1 ? ' <span class="muted">· Karton '+p.pk+' Stk.</span>' : '')+'</span>' : '')+'</a>';
   }
   function apply(){
     var q = state.q.trim().toUpperCase();

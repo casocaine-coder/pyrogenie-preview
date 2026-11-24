@@ -133,6 +133,6 @@ document.addEventListener('click', function(e){
 /* Handy: kürzerer Platzhalter im Shop-Suchfeld, damit er nicht abgeschnitten wird */
 (function(){
   if (!document.documentElement.classList.contains('mobile')) return;
-  var s = document.querySelector('#search[placeholder="Artikelnummer suchen"]');
-  if (s) s.placeholder = 'Art.-Nr. suchen';
+  var s = document.querySelector('#search[placeholder="Artikelnummer oder Effekt suchen"]');
+  if (s) s.placeholder = "Suchen";
 })();
