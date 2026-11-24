@@ -151,8 +151,18 @@
   .cat__n{display:block;margin-top:5px;text-align:center;font-size:11px;color:var(--gold);opacity:.85;transform:translateY(calc(var(--w) * -5px))}
   .cat:hover .cat__name{color:var(--gold2)}
   html.light .cat__n{color:var(--gold-ink,#8a6a1f)}
+  .cats__grid.is-scrub{scroll-snap-type:none}
+  /* Schiebeleiste aus Strichen unter den Kategorien (nur wenn die Reihe nicht ganz auf den Bildschirm passt) */
+  .cscrub{position:relative;height:34px;margin:14px auto 0;overflow:hidden;touch-action:pan-y;cursor:grab;color:#fff;-webkit-user-select:none;user-select:none;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent)}
+  .cscrub[hidden]{display:none}
+  .cscrub.is-drag{cursor:grabbing}
+  .cscrub__t{position:absolute;left:0;bottom:4px;display:flex;gap:10px;will-change:transform}
+  .cscrub__t i{flex:none;width:2px;height:26px;border-radius:2px;background:currentColor;opacity:.26;transform-origin:50% 100%;transform:scaleY(.36)}
+  html.light .cscrub{color:var(--ink)}
   @media (max-width:1040px){ .cats__grid{margin:0 -24px;padding:30px 24px 4px;scroll-padding-inline:24px;grid-auto-columns:104px;
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent)} }
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent)}
+    .cscrub{margin:10px -24px 0} }
   .more-cats{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;margin-top:clamp(26px,3vw,40px);font-size:12px}
   .more-cats a{padding:4px 0;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
   .more-cats a:hover{color:var(--gold2);border-color:var(--gold)}
@@ -255,7 +265,7 @@
   .rv{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.2,.7,.1,1),transform .8s cubic-bezier(.2,.7,.1,1)}
   .rv.in{opacity:1;transform:none}
   @media (max-width:1000px){ .grid{grid-template-columns:repeat(3,1fr)} }
-    @media (max-width:700px){ .bar{position:static} .tabs{gap:2px 14px} .tab{font-size:10px;padding:4px 0} .cats__grid{grid-auto-columns:92px} .cat__name{font-size:9px;letter-spacing:.08em;-webkit-hyphens:auto;hyphens:auto} .grid{grid-template-columns:repeat(2,1fr)}
+    @media (max-width:700px){ .bar{position:static} .tabs{gap:2px 14px} .tab{font-size:10px;padding:4px 0} .cats__grid{grid-auto-columns:124px;padding-top:42px} .cat__img{max-width:116px} .cat__name{font-size:9px;letter-spacing:.08em;-webkit-hyphens:auto;hyphens:auto} .grid{grid-template-columns:repeat(2,1fr)}
     .tabs,.chips,.bar__row{padding:0 4px} }
   @media (prefers-reduced-motion:reduce){ .rv{opacity:1;transform:none;transition:none} }
 </style>
@@ -292,6 +302,7 @@
 <section class="cats" id="kategorien">
   <h2 class="h2 sec-title"><span class="gold">Kategorien</span></h2>
   <div class="cats__grid" id="catGrid"></div>
+  <div class="cscrub" id="catScrub" aria-hidden="true" hidden><div class="cscrub__t" id="catTicks"></div></div>
 </section>
 
 <!-- 3 · PRODUKTE -->
@@ -584,24 +595,67 @@
   document.querySelectorAll('.rv').forEach(function(el,i){ el.style.transitionDelay = ((i%3)*0.08)+'s'; if (io) io.observe(el); else el.classList.add('in'); });
   // Kategorien: erscheinen nacheinander von links nach rechts
   [].forEach.call(document.querySelectorAll('#catGrid .cat'), function(el, i){ el.style.transitionDelay = (i * 0.05) + 's'; });
-  // Welle über den Kategorien (wie das Dock am Mac): die Kachel unter dem Cursor hebt sich am stärksten, die Nachbarn schwingen weich mit
+  // Welle über den Kategorien (wie das Dock am Mac): die Kachel unter dem Cursor bzw. Finger hebt sich am stärksten, die Nachbarn schwingen weich mit.
+  // Am Handy gibt es darunter eine Schiebeleiste aus Strichen (wie das Zoom-Rad der iPhone-Kamera, aber ohne gelben Mittelstrich): ziehen = durch die Kategorien blättern.
   (function(){
-    var row = document.getElementById('catGrid'); if (!row) return;
-    if (!matchMedia('(hover:hover) and (pointer:fine)').matches || matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    var row = document.getElementById('catGrid'), sc = document.getElementById('catScrub'), tk = document.getElementById('catTicks'); if (!row || !row.children.length) return;
+    var calm = matchMedia('(prefers-reduced-motion:reduce)').matches, fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
     var its = [].slice.call(row.children), cur = its.map(function(){ return 0; }), mx = null, raf = 0;
+    var SP = 12, PAD = 24, ticks = [], tv = [], act = 0, drag = false, fx = null, goal = null, lastScroll = 0;
+    function maxS(){ return Math.max(0, row.scrollWidth - row.clientWidth); }
+    function build(){
+      if (!sc) return; sc.hidden = maxS() < 4; if (sc.hidden) return;
+      var n = Math.ceil(sc.clientWidth / SP) + 2; if (ticks.length === n) return;
+      tk.innerHTML = new Array(n + 1).join('<i></i>'); ticks = [].slice.call(tk.children); tv = ticks.map(function(){ return -1; });
+    }
     function frame(){
-      raf = 0; var go = false, a = its[0].getBoundingClientRect(), b = its[1] ? its[1].getBoundingClientRect() : a, s = Math.max(80, (b.left - a.left || a.width) * 1.25);
+      raf = 0; var go = false, now = Date.now();
+      // Schiebeleiste zieht die Reihe weich hinterher
+      if (goal !== null){ var d = goal - row.scrollLeft; if (Math.abs(d) > .5){ row.scrollLeft += d * .35; go = true; } else { row.scrollLeft = goal; if (!drag){ goal = null; row.classList.remove('is-scrub'); } } }
+      // Kategorien
+      var a = its[0].getBoundingClientRect(), b = its[1] ? its[1].getBoundingClientRect() : a, s = Math.max(80, (b.left - a.left || a.width) * 1.25);
       its.forEach(function(el, i){
-        var t = 0; if (mx !== null){ var r = el.getBoundingClientRect(), d = (r.left + r.width / 2 - mx) / s; t = Math.exp(-d * d); }
+        var t = 0; if (mx !== null && !calm){ var r = el.getBoundingClientRect(), dd = (r.left + r.width / 2 - mx) / s; t = Math.exp(-dd * dd); }
         var v = cur[i] + (t - cur[i]) * .14; if (Math.abs(t - v) < .002) v = t; else go = true;
         if (v !== cur[i]){ cur[i] = v; el.style.setProperty('--w', v.toFixed(3)); }
       });
+      // Striche: Welle am Finger (beim Ziehen) bzw. an der aktuellen Position; in Ruhe bleibt ein kleiner Hügel als Positionsanzeige
+      if (sc && !sc.hidden && ticks.length){
+        var R = sc.getBoundingClientRect(), m = maxS(), p = m ? row.scrollLeft / m : 0, cx = drag && fx !== null ? fx : R.left + PAD + p * (R.width - 2 * PAD);
+        var busy = drag || mx !== null || now - lastScroll < 220, aim = busy ? 1 : .35;
+        if (busy) go = true;
+        act += (aim - act) * .12; if (Math.abs(aim - act) < .002) act = aim; else go = true;
+        var off = -((row.scrollLeft * .6) % SP);
+        tk.style.transform = 'translateX(' + off.toFixed(1) + 'px)';
+        ticks.forEach(function(el, i){
+          var dd = (R.left + i * SP + off + 1 - cx) / 30, t = act * Math.exp(-dd * dd);
+          var v = calm || tv[i] < 0 ? t : tv[i] + (t - tv[i]) * .25; if (Math.abs(t - v) < .002) v = t; else go = true;
+          if (v !== tv[i]){ tv[i] = v; el.style.transform = 'scaleY(' + (.36 + .64 * v).toFixed(3) + ')'; el.style.opacity = (.26 + .74 * v).toFixed(3); }
+        });
+      }
       if (go) raf = requestAnimationFrame(frame);
     }
     function kick(){ if (!raf) raf = requestAnimationFrame(frame); }
-    row.addEventListener('pointermove', function(e){ mx = e.clientX; kick(); });
-    row.addEventListener('pointerleave', function(){ mx = null; kick(); });
-    row.addEventListener('scroll', kick, {passive:true});
+    if (fine){
+      row.addEventListener('pointermove', function(e){ if (e.pointerType === 'mouse'){ mx = e.clientX; kick(); } });
+      row.addEventListener('pointerleave', function(e){ if (e.pointerType === 'mouse'){ mx = null; kick(); } });
+    }
+    function tmove(e){ mx = e.touches[0].clientX; kick(); }
+    function tend(e){ if (!e.touches.length){ mx = null; kick(); } }
+    row.addEventListener('touchstart', tmove, {passive:true}); row.addEventListener('touchmove', tmove, {passive:true});
+    row.addEventListener('touchend', tend, {passive:true}); row.addEventListener('touchcancel', tend, {passive:true});
+    row.addEventListener('scroll', function(){ lastScroll = Date.now(); kick(); }, {passive:true});
+    if (sc){
+      var at = function(e){ var R = sc.getBoundingClientRect(); fx = Math.max(R.left + PAD, Math.min(R.right - PAD, e.clientX)); mx = fx;
+        goal = (fx - R.left - PAD) / Math.max(1, R.width - 2 * PAD) * maxS(); kick(); };
+      var up = function(){ if (!drag) return; drag = false; fx = null; mx = null; sc.classList.remove('is-drag'); kick(); };
+      sc.addEventListener('pointerdown', function(e){ drag = true; sc.classList.add('is-drag'); row.classList.add('is-scrub'); try { sc.setPointerCapture(e.pointerId); } catch(_){} at(e); });
+      sc.addEventListener('pointermove', function(e){ if (drag) at(e); });
+      sc.addEventListener('pointerup', up); sc.addEventListener('pointercancel', up); sc.addEventListener('lostpointercapture', up);
+      addEventListener('resize', function(){ build(); kick(); });
+      build();
+    }
+    kick();
   })();
 })();
 </script>
