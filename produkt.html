@@ -366,10 +366,13 @@
   function specs(p){
     if (p.rent) return [['Kategorie', 'Zündsysteme'], ['Hersteller', p.brand], ['Modell', p.code], ['Angebot', 'Miete · Preis auf Anfrage']].map(function(r){ return '<div><span class="muted">'+r[0]+'</span><span>'+r[1]+'</span></div>'; }).join('');
     var rows = [];
-    if (!p.name || p.name !== p.code) rows.push(['Artikelnummer', p.code]);
+    if (p.art || !p.name || p.name !== p.code) rows.push(['Artikelnummer', p.art || p.code]);
+    if (p.desc) rows.push(['Beschreibung', p.desc]);
     rows.push(['Produktgruppe', catBy[p.cat].name]); if (p.brand) rows.push(['Marke', p.brand]);
     if (p.fk) rows.push(['Kategorie (Klasse)', p.fk]);
     if (p.cal) rows.push(['Kaliber', p.cal + ' mm']);
+    if (p.shots) rows.push(['Schuss', String(p.shots)]);
+    if (p.way) rows.push(['Ausrichtung', p.way]);
     if (p.dur) rows.push(['Effektdauer', /^[\d,–]+$/.test(p.dur) ? p.dur + ' s' : p.dur]);
     if (p.h) rows.push(['Effekthöhe', /^[\d,–]+$/.test(p.h) ? p.h + ' m' : p.h]);
     if (p.sr) rows.push(['Sicherheitsabstand radial', /^[\d,–]+$/.test(p.sr) ? p.sr + ' m' : p.sr]);
@@ -428,7 +431,12 @@
     // Produktvideo vom Vimeo-Kanal (p.vimeo): echte Website → Player direkt eingebettet; Vorschau/als Datei geöffnet → Link zu Vimeo
     var vbox = document.getElementById('video'), framed = false; try { framed = window.self !== window.top; } catch (e) { framed = true; }
     if (!/^https?:$/.test(location.protocol)) framed = true;
-    vbox.classList.toggle('win--player', !!p.vimeo && !framed);
+    vbox.classList.toggle('win--player', !!(p.vimeo || p.yt) && !framed);
+    if (!p.vimeo && p.yt){
+      vbox.innerHTML = framed
+        ? '<a class="vlink" href="https://www.youtube.com/watch?v=' + p.yt + '" target="_blank" rel="noopener" aria-label="Produktvideo auf YouTube ansehen"><img src="'+IMG(p.img)+'" alt=""><span class="play"><svg viewBox="0 0 24 24"><path d="M5 3l16 9-16 9z"/></svg></span><span class="soon zara">Video auf YouTube ansehen</span></a>'
+        : '<iframe src="https://www.youtube.com/embed/' + p.yt + '?rel=0&origin=' + encodeURIComponent(location.origin) + '" title="Produktvideo ' + (p.name || p.code) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+    } else
     if (p.vimeo && !framed)
       vbox.innerHTML = '<iframe src="https://player.vimeo.com/video/' + p.vimeo + '?title=0&byline=0&portrait=0&dnt=1" title="Produktvideo ' + p.code + '" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>';
     else if (p.vimeo)
@@ -460,7 +468,7 @@
     track.innerHTML = cand.map(function(o){ var x = o.p;
       return '<a class="sim__p" href="#' + encodeURIComponent(x.code) + '"><div class="sim__img"><img src="' + IMG(x.img) + '"' + FIT(x.img,.75,.3,.82) + ' alt="' + x.code + '" loading="lazy" decoding="async"></div>' +
         '<span class="sim__name zara">' + (x.name || x.code) + '</span>' +
-        '<span class="sim__meta zara muted">' + x.code + (x.fk ? ' · ' + x.fk : '') + (x.cal ? ' · ' + x.cal + ' mm' : '') + '</span>' +
+        '<span class="sim__meta zara muted">' + (x.art || x.code) + (x.fk ? ' · ' + x.fk : '') + (x.cal ? ' · ' + x.cal + ' mm' : '') + '</span>' +
         (x.pi ? '<span class="sim__price zara">' + EUR(x.pi) + ' / Stk.</span>' : '') +
         (o.why.length ? '<span class="sim__why">Gemeinsam: ' + o.why.join(' · ') + '</span>' : '') + '</a>'; }).join('');
     track.scrollLeft = 0;

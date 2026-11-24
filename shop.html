@@ -452,13 +452,13 @@
     var c = catBy[p.cat], alt = p.more[0];
     return '<a class="p" href="produkt.html#'+encodeURIComponent(p.code)+'"><div class="p__img"><img class="'+(alt?'has-alt':'')+'" src="'+IMG(p.img)+'"'+FIT(p.img,.75,.28,.8)+' alt="'+p.code+'" loading="lazy" decoding="async">'+
            (alt ? '<img class="alt" src="'+IMG(alt)+'"'+FIT(alt,.75,.28,.8)+' alt="" loading="lazy" decoding="async">' : '')+'</div>'+
-           '<span class="p__code zara">'+(p.name||p.code)+'</span><span class="p__meta zara muted">'+(p.name && p.name !== p.code ? p.code : c.name)+(p.fk ? ' · '+p.fk : '')+(p.cal ? ' · '+p.cal+' mm' : '')+'</span>'+
+           '<span class="p__code zara">'+(p.name||p.code)+'</span><span class="p__meta zara muted">'+(p.art || (p.name && p.name !== p.code ? p.code : c.name))+(p.fk ? ' · '+p.fk : '')+(p.cal ? ' · '+p.cal+' mm' : '')+'</span>'+
            (p.pi ? '<span class="p__price zara">'+EUR(p.pi)+' / Stk.'+(p.pk > 1 ? ' <span class="muted">· Karton '+p.pk+' Stk.</span>' : '')+'</span>' : '')+'</a>';
   }
   function apply(){
     var q = state.q.trim().toUpperCase();
-    var pool = SHOP_PRODUCTS.filter(function(p){ return (!q || p.code.toUpperCase().indexOf(q) > -1 || (p.name || '').toUpperCase().indexOf(q) > -1); });
-    var base = SHOP_PRODUCTS.filter(function(p){ return inCat(p) && (!q || p.code.toUpperCase().indexOf(q) > -1 || (p.name || '').toUpperCase().indexOf(q) > -1); });
+    var pool = SHOP_PRODUCTS.filter(function(p){ return (!q || p.code.toUpperCase().indexOf(q) > -1 || (p.art || '').toUpperCase().indexOf(q) > -1 || (p.name || '').toUpperCase().indexOf(q) > -1); });
+    var base = SHOP_PRODUCTS.filter(function(p){ return inCat(p) && (!q || p.code.toUpperCase().indexOf(q) > -1 || (p.art || '').toUpperCase().indexOf(q) > -1 || (p.name || '').toUpperCase().indexOf(q) > -1); });
     renderFilters(base, pool);
     var tk = catKey(); [].forEach.call(tabs.children, function(b){ b.setAttribute('aria-pressed', String(b.dataset.k === tk)); });
     var key = catKey(), nm = !state.cats.length ? '' : GROUPS[key] ? GROUPS[key].name : catBy[key] ? catBy[key].name : state.cats.length + ' Kategorien';
