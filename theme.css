@@ -226,11 +226,11 @@ html.loading .loader.done{opacity:0;visibility:hidden}
   html body .rc__img::before, html body .sim__img::before, html body .fx__media::before, html body .ref:not(.has-player)::before,
   html body .reel__poster::before, html body .player__btn::before, html body .win--pair::before, html body .tile::before,
   html body .cat:not(:has(.cat__img))::before{
-    content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:inherit;opacity:0;padding:2px;
+    content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:inherit;opacity:0;padding:1px;
     /* Spiegelung am Rand: hellster Punkt dort, wo der Cursor ist (--gx/--gy aus theme.js), schwächerer Gegenschein gegenüber */
-    background:radial-gradient(circle 260px at var(--gx,25%) var(--gy,0%),rgba(255,255,255,.95),rgba(255,255,255,.35) 32%,rgba(255,255,255,0) 68%),
-               radial-gradient(circle 220px at calc(100% - var(--gx,25%)) calc(100% - var(--gy,0%)),rgba(255,255,255,.32),rgba(255,255,255,0) 65%),
-               linear-gradient(rgba(255,255,255,.09),rgba(255,255,255,.09));
+    background:radial-gradient(circle 220px at var(--gx,25%) var(--gy,0%),rgba(255,255,255,.55),rgba(255,255,255,.16) 32%,rgba(255,255,255,0) 66%),
+               radial-gradient(circle 180px at calc(100% - var(--gx,25%)) calc(100% - var(--gy,0%)),rgba(255,255,255,.14),rgba(255,255,255,0) 62%),
+               linear-gradient(rgba(255,255,255,.05),rgba(255,255,255,.05));
     -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
     mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
     transition:opacity .45s cubic-bezier(.2,.8,.2,1)}
@@ -249,11 +249,11 @@ html body :is(.btn,.btn-gold,.pill,.loadmore,.fbtn,.vat,.fchip,.chip,.sim__arr,.
 html body :is(.btn,.btn-gold,.pill,.loadmore,.fbtn,.vat,.fchip,.chip,.sim__arr,.more__arr,.marrow,.arrow,.igc__open,.info__btn,.req__send,.kf__send,.af__go,.hero__book,.cart__more,.flt__reset):not(.marrow):not(.arrow):not(.hero__book){position:relative}
 html body :is(.btn,.btn-gold,.pill,.loadmore,.fbtn,.vat,.fchip,.chip,.sim__arr,.more__arr,.marrow,.arrow,.igc__open,.info__btn,.req__send,.kf__send,.af__go,.hero__book,.cart__more,.flt__reset)::before{
   content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;padding:1px;
-  background:radial-gradient(circle 70px at var(--gx,18%) var(--gy,0%),rgba(255,255,255,.85),rgba(255,255,255,.25) 40%,rgba(255,255,255,0) 75%),
-             radial-gradient(circle 60px at calc(100% - var(--gx,18%)) calc(100% - var(--gy,0%)),rgba(255,255,255,.28),rgba(255,255,255,0) 70%),
-             linear-gradient(rgba(255,255,255,.08),rgba(255,255,255,.08));
+  background:radial-gradient(circle 60px at var(--gx,18%) var(--gy,0%),rgba(255,255,255,.5),rgba(255,255,255,.12) 40%,rgba(255,255,255,0) 72%),
+             radial-gradient(circle 50px at calc(100% - var(--gx,18%)) calc(100% - var(--gy,0%)),rgba(255,255,255,.12),rgba(255,255,255,0) 68%),
+             linear-gradient(rgba(255,255,255,.04),rgba(255,255,255,.04));
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
-  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:.8;transition:opacity .3s}
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:.75;transition:opacity .3s}
 html body :is(.btn,.btn-gold,.pill,.loadmore,.fbtn,.vat,.fchip,.chip,.sim__arr,.more__arr,.marrow,.arrow,.igc__open,.info__btn,.req__send,.kf__send,.af__go,.hero__book,.cart__more,.flt__reset):hover::before{opacity:1}
 html body .sort{box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 0 0 1px rgba(255,255,255,.04);
   -webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);background-color:rgba(255,255,255,.03)}
