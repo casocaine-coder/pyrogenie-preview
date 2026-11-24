@@ -215,12 +215,12 @@
   .navwrap{position:absolute;top:0;left:0;right:0;height:0}
   .pd{width:min(1320px,100% - 48px);margin:0 auto;padding-top:clamp(90px,10vw,130px)}
   .pd__top{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(20px,4vw,70px);align-items:start}
-  .stage{position:relative;aspect-ratio:1/1;border-radius:20px;background:#efece7;display:grid;place-items:center;overflow:hidden}
+  .stage{position:relative;aspect-ratio:1/1;border-radius:20px;background:#0f0f0f;display:grid;place-items:center;overflow:hidden}
   .stage img{grid-area:1/1;object-fit:contain;filter:drop-shadow(0 24px 26px rgba(0,0,0,.18));animation:popIn .55s cubic-bezier(.34,1.56,.64,1) both}
   .stage.d{background:#0d0d0d}.stage.d img{width:100%!important;height:100%!important;object-fit:cover;filter:none}
   @keyframes popIn{0%{opacity:0;transform:scale(1.06)}100%{opacity:1;transform:none}}
   .thumbs{display:flex;gap:10px;margin-top:12px}
-  .thumb{width:84px;height:84px;border-radius:12px;background:#efece7;border:0;padding:0;cursor:pointer;display:grid;place-items:center;overflow:hidden;
+  .thumb{width:84px;height:84px;border-radius:12px;background:#0f0f0f;border:0;padding:0;cursor:pointer;display:grid;place-items:center;overflow:hidden;
     outline:1.5px solid transparent;outline-offset:2px;transition:outline-color .2s}
   .thumb img{object-fit:contain}
   .thumb.d{background:#0d0d0d}.thumb.d img{width:100%!important;height:100%!important;object-fit:cover}
@@ -446,8 +446,9 @@
   document.getElementById('minus').onclick = function(){ q = Math.max(1, q - 1); document.getElementById('q').textContent = q; };
   document.getElementById('plus').onclick  = function(){ q = Math.min(99, q + 1); document.getElementById('q').textContent = q; };
   document.getElementById('add').onclick = function(){ RQ.add(cur.slug, q, dur); this.textContent = 'Hinzugefügt ✓'; var t = this; setTimeout(function(){ t.textContent = 'Zur Anfrage hinzufügen'; }, 1600); };
+  var PICS = [];   // nur freigestellte Bilder (Fotos mit Hintergrund nur, wenn es keine freigestellten gibt)
   function show(i){
-    var im = cur.img[i], st = document.getElementById('stage');
+    var im = PICS[i], st = document.getElementById('stage');
     st.className = 'stage' + (im.p ? ' d' : ''); st.innerHTML = '<img src="'+RQ.img(im.f)+'" style="'+RQ.fit(im,1,.5)+'" alt="'+cur.brand+' '+cur.name+'">';
     [].forEach.call(document.getElementById('thumbs').children, function(t, k){ t.setAttribute('aria-current', String(k === i)); });
   }
@@ -463,9 +464,10 @@
     document.getElementById('name').textContent = cur.name;
     document.getElementById('code').textContent = cur.code || '';
     var th = document.getElementById('thumbs');
-    th.innerHTML = cur.img.length > 1 ? cur.img.map(function(im, k){ return '<button class="thumb'+(im.p?' d':'')+'" type="button" data-i="'+k+'" aria-label="Ansicht '+(k+1)+'"><img src="'+RQ.img(im.f)+'" style="'+RQ.fit(im,1,.5)+'" alt=""></button>'; }).join('') : '';
+    PICS = cur.img.filter(function(x){ return !x.p; }); if (!PICS.length) PICS = cur.img.slice();
+    th.innerHTML = PICS.length > 1 ? PICS.map(function(im, k){ return '<button class="thumb'+(im.p?' d':'')+'" type="button" data-i="'+k+'" aria-label="Ansicht '+(k+1)+'"><img src="'+RQ.img(im.f)+'" style="'+RQ.fit(im,1,.5)+'" alt=""></button>'; }).join('') : '';
     th.onclick = function(e){ var b = e.target.closest('.thumb'); if (b) show(+b.dataset.i); };
-    show(cur.img.indexOf(RQ.light(cur)));
+    show(Math.max(0, PICS.indexOf(RQ.light(cur))));
     var rows = [['Hersteller', cur.brand], ['Modell', cur.name]]; if (cur.code) rows.push(['Artikelnummer', cur.code]); rows.push(['Kategorie', c.name]);
     // Herstellerangaben hinter dem Aufklapp-Pfeil (wie im Shop)
     var hs = (typeof RENT_SPECS !== 'undefined') && RENT_SPECS[cur.slug], sp = document.getElementById('specs');
