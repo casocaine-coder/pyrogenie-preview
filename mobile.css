@@ -67,7 +67,8 @@ html.mobile .arrow{width:34px;height:60px}
 html.mobile .search{font-size:16px;letter-spacing:.04em;max-width:none}          /* verhindert das automatische Hineinzoomen auf dem iPhone */
 html.mobile .bar{padding:12px 0 10px}
 html.mobile .tabs,html.mobile .chips,html.mobile .bar__row{padding:0 2px}
-html.mobile .tab{font-size:12px;padding:8px 0}
+html.mobile .tab{font-size:10.5px;letter-spacing:.1em;padding:7px 0}
+html.mobile .tabs{gap:0 13px}
 html.mobile .chip{font-size:11px;padding:7px 12px}
 html.mobile .grid{gap:26px 10px}
 html.mobile .p__code{font-size:11px}
