@@ -167,6 +167,11 @@
   .search::placeholder{color:var(--gold);opacity:.85}
   .search:focus{border-color:var(--gold2);color:var(--gold2)}
   .count{font-size:11px}
+  .sort{margin-left:auto;background:none;border:1px solid rgba(255,255,255,.4);color:#fff;font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 30px 8px 12px;cursor:pointer;
+    appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23c8953a' stroke-width='1.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;border-radius:0}
+  .sort option{color:#000;text-transform:none;letter-spacing:0}
+  .sort:focus{outline:1px solid var(--gold);outline-offset:2px}
+  html.light .sort{color:var(--ink);border-color:rgba(0,0,0,.3)}
   .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(26px,3vw,48px) clamp(8px,1vw,14px)}
   /* Erweiterte Filter (Akkordeon) */
   .pbody{display:grid;grid-template-columns:230px minmax(0,1fr);gap:clamp(24px,3vw,48px);align-items:start}
@@ -198,7 +203,7 @@
   html.light .fchip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)} html.light .fchip[aria-pressed="true"] span{color:rgba(255,255,255,.6)}
   html.light .fbtn{color:var(--ink);border-color:rgba(0,0,0,.3)}
   @media (max-width:1000px){ .pbody{grid-template-columns:1fr} .pbody .grid{grid-template-columns:repeat(3,1fr)} .flt{position:static;max-height:none;overflow:visible} .fbtn{display:inline-block} .flt.closed{display:none} }
-  @media (max-width:700px){ .pbody .grid{grid-template-columns:repeat(2,1fr)} .bar__row{gap:10px} .fbtn{padding:7px 10px;font-size:10px} .count{font-size:10px} }
+  @media (max-width:700px){ .pbody .grid{grid-template-columns:repeat(2,1fr)} .bar__row{gap:10px;flex-wrap:wrap} .sort{order:3;margin-left:0;font-size:10px;padding:7px 28px 7px 10px;min-height:38px} .fbtn{min-height:38px} .count{order:4;margin-left:auto} .fbtn{padding:7px 10px;font-size:10px} .count{font-size:10px} }
   .p{display:block;cursor:pointer}
   .p__img{position:relative;aspect-ratio:3/4;background:#0f0f0f;display:flex;align-items:center;justify-content:center;overflow:hidden}
   .p__img img{width:auto;height:auto;max-width:72%;max-height:78%;object-fit:contain;filter:drop-shadow(0 14px 20px rgba(0,0,0,.6));transition:transform .6s cubic-bezier(.2,.7,.1,1),opacity .4s}
@@ -266,7 +271,7 @@
   <h2 class="h2 sec-title" id="prodTitle">Alle <span class="gold">Produkte</span></h2>
   <div class="bar">
     <div class="tabs zara" id="tabs" role="toolbar" aria-label="Kategorie"></div>
-    <div class="bar__row"><input class="search" id="search" type="search" placeholder="Artikelnummer oder Effekt suchen" aria-label="Artikelnummer oder Effekt suchen"><button class="fbtn zara" id="fltBtn" type="button" aria-controls="flt" aria-expanded="false">Filter <b id="fltN"></b></button><span class="count zara muted" id="count"></span></div>
+    <div class="bar__row"><input class="search" id="search" type="search" placeholder="Artikelnummer oder Effekt suchen" aria-label="Artikelnummer oder Effekt suchen"><select class="sort zara" id="sort" aria-label="Sortierung"><option value="">Sortierung</option><option value="cal-asc">Kaliber aufsteigend</option><option value="cal-desc">Kaliber absteigend</option><option value="pi-asc">Preis aufsteigend</option><option value="pi-desc">Preis absteigend</option></select><button class="fbtn zara" id="fltBtn" type="button" aria-controls="flt" aria-expanded="false">Filter <b id="fltN"></b></button><span class="count zara muted" id="count"></span></div>
   </div>
   <div class="pbody">
     <aside class="flt closed" id="flt" aria-label="Filter"><div id="fltSecs"></div><button class="flt__reset zara" id="fltReset" type="button" hidden>Filter zurücksetzen</button></aside>
@@ -365,6 +370,26 @@
   var IMG = function(h){ return (window.SHOP_URI && SHOP_URI[h]) || 'shop/img/' + h + '.webp'; };
   var catBy = {}; SHOP_CATS.forEach(function(c){ catBy[c.slug] = c; });
   var EUR = function(v){ return v.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €'; };
+
+  // Effekt-Stichworte aus Name/Beschreibung (abweichende Schreibweisen berücksichtigt) und Bauform aus der Artikelnummer
+  var FXDEF = [
+    ['Wave', /\bwaves?\b/i], ['Chrysanthemum', /chr?ysanth/i], ['Willow', /willow/i],
+    ['Horsetail / Waterfall / Falling Leaves / Wind-bell', /horse ?tails?|water ?falls?|wasserfall|falling leaves|\bleaves\b|wind-? ?bells?|fallende/i],
+    ['Palmtree', /palm/i], ['Rainbow', /rainbow/i], ['Dahlia / Umbrella', /dahlia|umbrella/i], ['Peony', /peon(y|ies)/i],
+    ['Crown', {test:function(t){ return /crown/i.test(t.replace(/flower ?crown/ig, '')); }}], ['Glittering / Flower Crown / Corolla', /glitter|flower ?crown|corolla/i],
+    ['Octopus', /o[ck]topus/i], ['Popping Flowers', /popping/i], ['Crossette', /cros+ettes?/i], ['Pistil', /pistils?/i],
+    ['Brocade', /broca(de|rd)/i], ['Strobe', /strobes?/i], ['Timerain', /time ?rain/i], ['Silver Spinner', /spinn(er|ers|ing)/i],
+    ['Mine', /\bmines?\b|feuertopf/i], ['Comet', /\bcomets?\b/i], ['Bees', /\bbees?\b/i], ['Ghost', /ghost/i], ['Color Change', /colou?r change/i]
+  ];
+  function fxOf(p){
+    var t = (p.name || '') + ' ' + (p.desc || ''), out = [];
+    FXDEF.forEach(function(d){ if (d[1].test(t)) out.push(d[0]); });
+    if ((/\bmines?\b|feuertopf/i.test(t) && /\bcomets?\b/i.test(t)) || /^OS-\d+-MC-/.test(p.code)) out.push('Mine + Comet');
+    var m = /^(CB|SB)-\d+-\d+-([IZWVS])-/.exec(p.code), sh = m ? m[2] : (/\b([IZWVS])[- ]shape/i.exec(t) || [])[1];
+    if (sh) out.push(sh.toUpperCase() + '-Shape');
+    return out.length ? out : null;
+  }
+  SHOP_PRODUCTS.forEach(function(p){ if (p.fx === undefined) p.fx = fxOf(p); });
   // Optisch gleich groß: jedes Produkt bekommt ungefähr dieselbe Fläche in seiner Box, mittig
   function FIT(h, box, area, cap){
     var d = (window.SHOP_DIM || {})[h]; if (!d) return '';
@@ -397,18 +422,19 @@
            '<span class="cat__name zara" lang="de">'+(c.tile||c.name)+'</span><span class="cat__n zara muted">'+c.n+'</span></a>';
   }).join('');
   // Filter-Zustand
-  var state = {cats:[], q:'', f:{fk:[], gk:[], cal:[], color:[], durB:[]}}, shown = 0, PAGE = 24, list = [];
+  var state = {cats:[], q:'', sort:'', f:{fx:[], fk:[], gk:[], cal:[], color:[], durB:[]}}, shown = 0, PAGE = 24, list = [];
   var grid = document.getElementById('grid'), tabs = document.getElementById('tabs');
   tabs.innerHTML = '<button class="tab" type="button" data-k="">Alle</button>' + TILES.map(function(c){ return '<button class="tab" type="button" data-k="'+c.slug+'">'+(c.tile||c.name)+'</button>'; }).join('');
   tabs.addEventListener('click', function(e){ var b = e.target.closest('.tab'); if (!b) return; setCat(b.dataset.k); setHash(); apply(); });
   // Erweiterte Filter: Kaliber (p.cal), Farbe (p.color), Laufzeit in Sekunden (p.dur) – mehrere Werte je Filter möglich
   var ORD = function(list){ return function(a, b){ return list.indexOf(a) - list.indexOf(b); }; };
-  var FILTERS = [{k:'fk', label:'Klasse', fmt:function(v){ return v; }, sort:ORD(['F1','F2','F3','F4','T1','T2','F0'])},
+  var FILTERS = [{k:'fx', label:'Effekt', fmt:function(v){ return v; }},
+                 {k:'fk', label:'Klasse', fmt:function(v){ return v; }, sort:ORD(['F1','F2','F3','F4','T1','T2','F0'])},
                  {k:'gk', label:'Gefahrgutklasse', fmt:function(v){ return v; }, sort:ORD(['1.3G','1.4G','1.4S'])},
                  {k:'cal', label:'Kaliber', fmt:function(v){ return v + ' mm'; }, sort:function(a, b){ return parseFloat(a) - parseFloat(b) || (a < b ? -1 : 1); }},
                  {k:'color', label:'Farbe', fmt:function(v){ return v; }},
                  {k:'durB', label:'Laufzeit', fmt:function(v){ return v; }, sort:ORD(['bis 5 s','5–15 s','15–30 s','30–60 s','über 60 s'])}];
-  var openSec = {cat:true, fk:true};
+  var openSec = {cat:true, fx:true, fk:true};
   function vals(p, k){ var v = p[k]; if (v == null || v === '') return []; return Array.isArray(v) ? v : [v]; }
   function passF(p, skip){
     for (var i = 0; i < FILTERS.length; i++){ var k = FILTERS[i].k, sel = state.f[k]; if (k === skip || !sel.length) continue;
@@ -447,6 +473,7 @@
     if (i > -1) a.splice(i, 1); else a.push(v); openSec[k] = true; if (k === 'cat') setHash(); apply();
   });
   document.getElementById('fltReset').onclick = function(){ FILTERS.forEach(function(F){ state.f[F.k] = []; }); state.cats = []; setHash(); apply(); };
+  document.getElementById('sort').onchange = function(){ state.sort = this.value; apply(); };
   document.getElementById('fltBtn').onclick = function(){ var c = flt.classList.toggle('closed'); this.setAttribute('aria-expanded', String(!c)); };
   function tile(p){
     var c = catBy[p.cat], alt = p.more[0];
@@ -464,6 +491,13 @@
     var key = catKey(), nm = !state.cats.length ? '' : GROUPS[key] ? GROUPS[key].name : catBy[key] ? catBy[key].name : state.cats.length + ' Kategorien';
     document.getElementById('prodTitle').innerHTML = nm ? '<span class="gold">' + nm + '</span>' : 'Alle <span class="gold">Produkte</span>';
     list = base.filter(function(p){ return passF(p); });
+    if (state.sort){
+      var sk = state.sort.split('-'), key2 = sk[0], dir = sk[1] === 'desc' ? -1 : 1;
+      var val = function(p){ var v = key2 === 'cal' ? parseFloat(p.cal) : p.pi; return (v === undefined || v === null || isNaN(v)) ? null : v; };
+      list = list.map(function(p, i){ return {p:p, i:i, v:val(p)}; }).sort(function(a, b){
+        if (a.v === null && b.v === null) return a.i - b.i; if (a.v === null) return 1; if (b.v === null) return -1;
+        return (a.v - b.v) * dir || a.i - b.i; }).map(function(o){ return o.p; });
+    }
     shown = 0; grid.innerHTML = ''; more();
     document.getElementById('count').textContent = list.length + ' Produkte';
     document.getElementById('empty').hidden = list.length > 0;
