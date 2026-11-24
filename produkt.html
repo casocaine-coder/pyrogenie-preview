@@ -289,8 +289,12 @@
     <span class="lbl zara muted">02 · Produktvideo</span>
     <div class="frame"><div class="win win--video" id="video"></div></div>
   </section>
+  <section class="pp__video">
+    <span class="lbl zara muted">03 · Show-Beispiel</span>
+    <div class="frame"><div class="win win--video" id="showVid"></div></div>
+  </section>
   <section class="sim" id="simSec" hidden>
-    <div class="sim__head"><span class="lbl zara muted">03 · Ähnliche Produkte</span>
+    <div class="sim__head"><span class="lbl zara muted">04 · Ähnliche Produkte</span>
       <div class="sim__arrs"><button class="sim__arr" type="button" id="simPrev" aria-label="Zurück"><svg viewBox="0 0 10 16"><path d="M8 1L2 8l6 7"/></svg></button><button class="sim__arr" type="button" id="simNext" aria-label="Weiter"><svg viewBox="0 0 10 16"><path d="M2 1l6 7-6 7"/></svg></button></div></div>
     <div class="sim__track" id="simTrack"></div>
   </section>
@@ -507,6 +511,8 @@
       vbox.innerHTML = '<a class="vlink" href="https://vimeo.com/' + p.vimeo + '" target="_blank" rel="noopener" aria-label="Produktvideo auf Vimeo ansehen"><img src="'+IMG(p.img)+'" alt=""><span class="play"><svg viewBox="0 0 24 24"><path d="M5 3l16 9-16 9z"/></svg></span><span class="soon zara">Video auf Vimeo ansehen</span></a>';
     else
       vbox.innerHTML = '<img src="'+IMG(p.img)+'" alt=""><span class="play"><svg viewBox="0 0 24 24"><path d="M5 3l16 9-16 9z"/></svg></span><span class="soon zara muted">Video folgt</span>';
+    // Show-Beispiel: Video kommt noch – bis dahin Platzhalter bei allen Produkten
+    document.getElementById('showVid').innerHTML = '<img src="'+IMG(p.img)+'" alt=""><span class="play"><svg viewBox="0 0 24 24"><path d="M5 3l16 9-16 9z"/></svg></span><span class="soon zara muted">Show-Beispiel folgt</span>';
 
     // Ähnliche Produkte: Punkte für gleiche Produktgruppe, Klasse, Kaliber, Farben, Effektart und Laufzeit
     var STOP = {with:1,to:1,and:1,the:1,of:1,'in':1,a:1,mm:1,m:1,s:1,x:1,no:1,low:1,smoke:1,big:1,single:1,shot:1,shots:1,special:1,tube:1};
