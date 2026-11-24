@@ -156,7 +156,16 @@
   .info__cat{font-size:11px}
   .info__code{margin-top:10px;font-family:var(--head);font-weight:800;font-size:clamp(26px,2.6vw,40px);line-height:1.05;letter-spacing:.02em;word-break:break-word}
   .specs{margin-top:clamp(26px,3vw,40px);border-top:1px solid rgba(255,255,255,.12)}
-  .specs div{display:flex;justify-content:space-between;gap:20px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:12px}
+  .specs .sr{display:flex;justify-content:space-between;gap:20px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:11px}
+  /* Wichtigste Daten zuerst, der Rest klappt mit dem Pfeil auf */
+  .specs__more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.7,.1,1)}
+  .specs__more > div{overflow:hidden;min-height:0}
+  .specs.open .specs__more{grid-template-rows:1fr}
+  .specs__tog{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:4px;padding:12px 0 4px;background:none;border:0;cursor:pointer;color:var(--gold);font:inherit;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+  .specs__tog svg{width:22px;height:12px;stroke:currentColor;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:transform .4s cubic-bezier(.2,.7,.1,1)}
+  .specs.open .specs__tog svg{transform:rotate(180deg)}
+  .specs__tog:hover{color:var(--gold2)}
+  .specs__tog:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   .info__btn{display:inline-block;margin-top:clamp(26px,3vw,40px);background:#fff;color:#000;padding:14px 30px;font-size:12px;transition:background .2s,color .2s}
   .info__btn:hover{background:var(--gold);color:#000}
   .buy{display:flex;gap:12px;align-items:stretch;margin-top:clamp(26px,3vw,40px)}
@@ -190,7 +199,7 @@
   html.light .vat__k{background-color:var(--gold)}
   html.light .vat button{color:rgba(0,0,0,.45)} html.light .vat button[aria-pressed="true"]{color:#000}
 
-  .specs div span:last-child{text-align:right}
+  .specs .sr span:last-child{text-align:right}
   .dur{margin-top:clamp(22px,2.4vw,32px)} .dur[hidden]{display:none}
   .dur__l{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
   .dur__p{display:flex;flex-wrap:wrap;gap:8px}
@@ -428,7 +437,8 @@
   }
   var EFFECT = {M:'Mine', C:'Comet', MC:'Mine & Comet'};
   function specs(p){
-    if (p.rent) return [['Kategorie', 'Zündsysteme'], ['Hersteller', p.brand], ['Modell', p.code], ['Angebot', 'Miete · Preis auf Anfrage']].map(function(r){ return '<div><span class="muted">'+r[0]+'</span><span>'+r[1]+'</span></div>'; }).join('');
+    var row = function(r){ return '<div class="sr"><span class="muted">'+r[0]+'</span><span>'+r[1]+'</span></div>'; };
+    if (p.rent) return [['Kategorie', 'Zündsysteme'], ['Hersteller', p.brand], ['Modell', p.code], ['Angebot', 'Miete · Preis auf Anfrage']].map(row).join('');
     var rows = [];
     if (p.art || !p.name || p.name !== p.code) rows.push(['Artikelnummer', p.art || p.code]);
     if (p.desc) rows.push(['Beschreibung', p.desc]);
@@ -455,7 +465,12 @@
       parts.slice(2).forEach(function(x){ var m = /^([A-Z]+)(\d*)$/.exec(x); if (m && EFFECT[m[1]]) eff.push(EFFECT[m[1]] + (m[2] ? ' (Farbe ' + m[2] + ')' : '')); });
       if (eff.length) rows.push(['Effekttyp', eff.join(' + ')]);
     }
-    return rows.map(function(r){ return '<div><span class="muted">'+r[0]+'</span><span>'+r[1]+'</span></div>'; }).join('');
+    // Wichtigste Daten oben, der Rest hinter dem Pfeil
+    var KEY = {'Artikelnummer':1, 'Kategorie (Klasse)':1, 'Kaliber':1, 'Schuss':1, 'Effektdauer':1, 'Effekthöhe':1, 'Effekttyp':1};
+    var top = rows.filter(function(r){ return KEY[r[0]]; }), rest = rows.filter(function(r){ return !KEY[r[0]]; });
+    if (top.length < 3 || rest.length < 2) return rows.map(row).join('');
+    return top.map(row).join('') + '<div class="specs__more"><div>' + rest.map(row).join('') + '</div></div>' +
+      '<button class="specs__tog" type="button" aria-expanded="false" aria-label="Alle Produktdaten anzeigen"><svg viewBox="0 0 22 12" aria-hidden="true"><path d="M2 2 L11 10 L20 2"/></svg></button>';
   }
   var CUR, QTY = 1, RENT = false, DUR = '1 Tag';
   var durP = document.getElementById('durP');
@@ -492,7 +507,11 @@
     }
     document.getElementById('cat').textContent = c.name;
     document.getElementById('code').textContent = p.name || p.code; CUR = p.code; QTY = 1; document.getElementById('q').textContent = 1;
-    document.getElementById('specs').innerHTML = specs(p);
+    var sp = document.getElementById('specs'), keep = sp._code === p.code && sp.classList.contains('open');
+    sp.innerHTML = specs(p); sp._code = p.code; sp.classList.toggle('open', keep);
+    var tg = sp.querySelector('.specs__tog'); if (tg){ tg.setAttribute('aria-expanded', String(keep)); }
+    if (!sp._b){ sp._b = 1; sp.addEventListener('click', function(e){ var t = e.target.closest('.specs__tog'); if (!t) return;
+      var o = sp.classList.toggle('open'); t.setAttribute('aria-expanded', String(o)); }); }
     var pr = document.getElementById('price');
     pr.hidden = !p.pi;
     pr.innerHTML = p.pi ? '<div class="price__main"><b>' + EUR(p.pi) + '</b><span class="zara muted">pro Stück</span></div>' +
