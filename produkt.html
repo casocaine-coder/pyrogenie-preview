@@ -132,6 +132,10 @@
   .win{position:relative;background:#0f0f0f;overflow:hidden;display:flex;align-items:center;justify-content:center}
   .win img{width:auto;height:auto}
   .win--main{aspect-ratio:4/5}
+  /* Produktbild-Kachel: volle Spaltenbreite, aber nie höher als das Browserfenster – so ist nichts abgeschnitten */
+  .pp__top > div:first-child{container-type:inline-size}
+  @supports (height:1cqi){ .win--main{aspect-ratio:auto;height:min(125cqi,max(320px,calc(100vh - clamp(90px,10vw,130px) - 60px)));height:min(125cqi,max(320px,calc(100svh - clamp(90px,10vw,130px) - 60px)))} }
+  .win--main img{object-fit:contain}
   .win img[style]{max-width:none;max-height:none}
   .win--main img{max-width:70%;max-height:82%;object-fit:contain;filter:drop-shadow(0 24px 34px rgba(0,0,0,.65));animation:popIn .6s cubic-bezier(.34,1.56,.64,1) both}
   @keyframes popIn{0%{opacity:0;transform:scale(1.08)}100%{opacity:1;transform:none}}
