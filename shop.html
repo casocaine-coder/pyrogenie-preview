@@ -246,9 +246,22 @@
   .p__img img[style]{max-width:none;max-height:none}
   .cat__img img[style]{max-width:none;max-height:none}
   .win img[style]{max-width:none;max-height:none}
-  .p__img img.alt{position:absolute;left:50%;top:50%;translate:-50% -50%;opacity:0}
+  .p__track{position:absolute;inset:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+  .p__track::-webkit-scrollbar{display:none}
+  .p__s{flex:0 0 100%;display:flex;align-items:center;justify-content:center;scroll-snap-align:center;scroll-snap-stop:always}
+  .p__arr{position:absolute;top:50%;z-index:2;width:34px;height:56px;margin-top:-28px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .25s,transform .25s}
+  .p__arr svg{width:11px;height:22px;stroke:var(--gold);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 4px rgba(0,0,0,.7))}
+  .p__arr--prev{left:2px} .p__arr--next{right:2px}
+  .p:hover .p__arr{opacity:1}
+  .p__arr--prev:hover{transform:translateX(-2px)} .p__arr--next:hover{transform:translateX(2px)}
+  .p__arr:hover svg{stroke:var(--gold2)}
+  .p__img.is-first .p__arr--prev,.p__img.is-last .p__arr--next{opacity:0;pointer-events:none}
+  .p__dots{position:absolute;left:0;right:0;bottom:10px;z-index:2;display:flex;justify-content:center;gap:6px;pointer-events:none}
+  .p__dots i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);transition:background .25s}
+  .p__dots i.on{background:var(--gold)}
+  html.light .p__dots i{background:rgba(0,0,0,.22)} html.light .p__dots i.on{background:var(--gold-ink)}
+  @media (hover:none){ .p__arr{display:none} }
   .p:hover .p__img img{transform:scale(1.05)}
-  .p:hover .p__img img.alt{opacity:1}.p:hover .p__img img.has-alt:not(.alt){opacity:0}
   .p__code{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:14px;font-size:12px;line-height:1.45;transition:color .2s}
   .p__price{display:block;margin-top:8px;font-family:var(--head);font-weight:700;font-size:15px;color:var(--gold);letter-spacing:.02em}
   .p__price small{margin-left:5px;font-family:inherit;font-weight:400;font-size:11px;color:rgba(255,255,255,.45);letter-spacing:.04em}
@@ -482,6 +495,16 @@
   // Filter-Zustand
   var state = {cats:[], q:'', sort:'', f:{fx:[], fk:[], gk:[], cal:[], color:[], durB:[]}}, shown = 0, PAGE = 24, list = [];
   var grid = document.getElementById('grid'), tabs = document.getElementById('tabs');
+  grid.addEventListener('click', function(e){
+    var a = e.target.closest('.p__arr'); if (!a) return; e.preventDefault(); e.stopPropagation();
+    var t = a.parentNode.querySelector('.p__track'); t.scrollBy({left: (a.classList.contains('p__arr--prev') ? -1 : 1) * t.clientWidth, behavior: 'smooth'});
+  });
+  grid.addEventListener('scroll', function(e){
+    var t = e.target; if (!t.classList || !t.classList.contains('p__track')) return;
+    var n = t.children.length, i = Math.max(0, Math.min(n - 1, Math.round(t.scrollLeft / Math.max(1, t.clientWidth)))), b = t.parentNode;
+    b.classList.toggle('is-first', i === 0); b.classList.toggle('is-last', i === n - 1);
+    [].forEach.call(b.querySelectorAll('.p__dots i'), function(d, k){ d.classList.toggle('on', k === i); });
+  }, true);
   tabs.innerHTML = '<button class="tab" type="button" data-k="">Alle</button>' + TILES.map(function(c){ return '<button class="tab" type="button" data-k="'+c.slug+'">'+(c.tile||c.name)+'</button>'; }).join('');
   tabs.addEventListener('click', function(e){ var b = e.target.closest('.tab'); if (!b) return; setCat(b.dataset.k); setHash(); apply(); });
   // Erweiterte Filter: Kaliber (p.cal), Farbe (p.color), Laufzeit in Sekunden (p.dur) – mehrere Werte je Filter möglich
@@ -537,10 +560,16 @@
   vatSwitch(function(){ apply(); });
   document.getElementById('sort').onchange = function(){ state.sort = this.value; apply(); };
   document.getElementById('fltBtn').onclick = function(){ var c = flt.classList.toggle('closed'); this.setAttribute('aria-expanded', String(!c)); };
+  // Mehrere Bilder: am Computer mit den Pfeilen weiterklicken, am Handy wischen; Punkte zeigen, welches Bild gerade zu sehen ist
+  var CHEV = function(d){ return '<svg viewBox="0 0 12 24"><path d="' + (d < 0 ? 'M10 2 L2 12 L10 22' : 'M2 2 L10 12 L2 22') + '"/></svg>'; };
   function tile(p){
-    var c = catBy[p.cat], alt = p.more[0];
-    return '<a class="p" href="produkt.html#'+encodeURIComponent(p.code)+'"><div class="p__img"><img class="'+(alt?'has-alt':'')+'" src="'+IMG(p.img)+'"'+FIT(p.img,.75,.28,.8)+' alt="'+p.code+'" loading="lazy" decoding="async">'+
-           (alt ? '<img class="alt" src="'+IMG(alt)+'"'+FIT(alt,.75,.28,.8)+' alt="" loading="lazy" decoding="async">' : '')+'</div>'+
+    var c = catBy[p.cat], pics = [p.img].concat(p.more || []).filter(function(h, i, a){ return h && a.indexOf(h) === i; });
+    var img = function(h, i){ return '<img src="'+IMG(h)+'"'+FIT(h,.75,.28,.8)+' alt="'+(i ? '' : p.code)+'" loading="lazy" decoding="async" draggable="false">'; };
+    var box = pics.length < 2 ? '<div class="p__img">' + img(pics[0], 0) + '</div>' :
+      '<div class="p__img is-gal is-first"><div class="p__track">' + pics.map(function(h, i){ return '<div class="p__s">' + img(h, i) + '</div>'; }).join('') + '</div>' +
+      '<span class="p__arr p__arr--prev" aria-hidden="true">' + CHEV(-1) + '</span><span class="p__arr p__arr--next" aria-hidden="true">' + CHEV(1) + '</span>' +
+      '<span class="p__dots" aria-hidden="true">' + pics.map(function(h, i){ return '<i' + (i ? '' : ' class="on"') + '></i>'; }).join('') + '</span></div>';
+    return '<a class="p" href="produkt.html#'+encodeURIComponent(p.code)+'">' + box +
            '<span class="p__code zara">'+(p.name||p.code)+'</span>'+
            (p.pi ? '<span class="p__price">'+EUR(p.pi)+'<small>/ Stk.</small></span>' : '')+
            '<span class="p__meta muted">'+[p.cal ? p.cal+' mm' : '', p.fk || '', !p.pi ? c.name : ''].filter(Boolean).join(' · ')+'</span></a>';
