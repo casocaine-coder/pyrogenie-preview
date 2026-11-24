@@ -154,7 +154,7 @@
   .cats__grid.is-scrub{scroll-snap-type:none}
   /* Schiebeleiste aus Strichen unter den Kategorien (nur wenn die Reihe nicht ganz auf den Bildschirm passt) */
   .cscrub{position:relative;height:34px;margin:14px auto 0;overflow:hidden;touch-action:pan-y;cursor:grab;color:#fff;-webkit-user-select:none;user-select:none;
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent)}
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 10px,#000 calc(100% - 10px),transparent);mask-image:linear-gradient(90deg,transparent,#000 10px,#000 calc(100% - 10px),transparent)}
   .cscrub[hidden]{display:none}
   .cscrub.is-drag{cursor:grabbing}
   .cscrub__t{position:absolute;left:0;bottom:4px;display:flex;gap:10px;will-change:transform}
@@ -162,7 +162,7 @@
   html.light .cscrub{color:var(--ink)}
   @media (max-width:1040px){ .cats__grid{margin:0 -24px;padding:30px 24px 4px;scroll-padding-inline:24px;grid-auto-columns:104px;
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent)}
-    .cscrub{margin:10px -24px 0} }
+    .cscrub{width:calc((100% + 48px) * .75);margin:10px auto 0} }
   .more-cats{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;margin-top:clamp(26px,3vw,40px);font-size:12px}
   .more-cats a{padding:4px 0;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
   .more-cats a:hover{color:var(--gold2);border-color:var(--gold)}
@@ -601,7 +601,7 @@
     var row = document.getElementById('catGrid'), sc = document.getElementById('catScrub'), tk = document.getElementById('catTicks'); if (!row || !row.children.length) return;
     var calm = matchMedia('(prefers-reduced-motion:reduce)').matches, fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
     var its = [].slice.call(row.children), cur = its.map(function(){ return 0; }), mx = null, raf = 0;
-    var SP = 12, PAD = 24, ticks = [], tv = [], act = 0, drag = false, fx = null, goal = null, lastScroll = 0;
+    var SP = 12, ticks = [], tv = [], act = 0, drag = false, fx = null, goal = null, lastScroll = 0, sx = 0, s0 = 0;
     function maxS(){ return Math.max(0, row.scrollWidth - row.clientWidth); }
     function build(){
       if (!sc) return; sc.hidden = maxS() < 4; if (sc.hidden) return;
@@ -621,16 +621,17 @@
       });
       // Striche: Welle am Finger (beim Ziehen) bzw. an der aktuellen Position; in Ruhe bleibt ein kleiner Hügel als Positionsanzeige
       if (sc && !sc.hidden && ticks.length){
-        var R = sc.getBoundingClientRect(), m = maxS(), p = m ? row.scrollLeft / m : 0, cx = drag && fx !== null ? fx : R.left + PAD + p * (R.width - 2 * PAD);
+        var R = sc.getBoundingClientRect(), m = maxS(), p = m ? row.scrollLeft / m : 0, cx = drag && fx !== null ? fx : R.left + R.width * (.18 + .64 * p), mid = R.left + R.width / 2, half = R.width / 2;
         var busy = drag || mx !== null || now - lastScroll < 220, aim = busy ? 1 : .35;
         if (busy) go = true;
         act += (aim - act) * .12; if (Math.abs(aim - act) < .002) act = aim; else go = true;
         var off = -((row.scrollLeft * .6) % SP);
         tk.style.transform = 'translateX(' + off.toFixed(1) + 'px)';
         ticks.forEach(function(el, i){
-          var dd = (R.left + i * SP + off + 1 - cx) / 30, t = act * Math.exp(-dd * dd);
+          var x = R.left + i * SP + off + 1, dd = (x - cx) / 30, t = act * Math.exp(-dd * dd);
+          var e = Math.min(1, Math.abs(x - mid) / half), k = 1 - .78 * Math.pow(e, 1.5);   // nach links und rechts immer kleiner
           var v = calm || tv[i] < 0 ? t : tv[i] + (t - tv[i]) * .25; if (Math.abs(t - v) < .002) v = t; else go = true;
-          if (v !== tv[i]){ tv[i] = v; el.style.transform = 'scaleY(' + (.36 + .64 * v).toFixed(3) + ')'; el.style.opacity = (.26 + .74 * v).toFixed(3); }
+          tv[i] = v; el.style.transform = 'scaleY(' + ((.36 + .64 * v) * k).toFixed(3) + ')'; el.style.opacity = ((.26 + .74 * v) * (.45 + .55 * k)).toFixed(3);
         });
       }
       if (go) raf = requestAnimationFrame(frame);
@@ -646,10 +647,10 @@
     row.addEventListener('touchend', tend, {passive:true}); row.addEventListener('touchcancel', tend, {passive:true});
     row.addEventListener('scroll', function(){ lastScroll = Date.now(); kick(); }, {passive:true});
     if (sc){
-      var at = function(e){ var R = sc.getBoundingClientRect(); fx = Math.max(R.left + PAD, Math.min(R.right - PAD, e.clientX)); mx = fx;
-        goal = (fx - R.left - PAD) / Math.max(1, R.width - 2 * PAD) * maxS(); kick(); };
+      var at = function(e){ var R = sc.getBoundingClientRect(); fx = Math.max(R.left, Math.min(R.right, e.clientX)); mx = fx;
+        goal = Math.max(0, Math.min(maxS(), s0 + (e.clientX - sx) * maxS() / Math.max(1, R.width * .55))); kick(); };
       var up = function(){ if (!drag) return; drag = false; fx = null; mx = null; sc.classList.remove('is-drag'); kick(); };
-      sc.addEventListener('pointerdown', function(e){ drag = true; sc.classList.add('is-drag'); row.classList.add('is-scrub'); try { sc.setPointerCapture(e.pointerId); } catch(_){} at(e); });
+      sc.addEventListener('pointerdown', function(e){ drag = true; sx = e.clientX; s0 = goal !== null ? goal : row.scrollLeft; sc.classList.add('is-drag'); row.classList.add('is-scrub'); try { sc.setPointerCapture(e.pointerId); } catch(_){} at(e); });
       sc.addEventListener('pointermove', function(e){ if (drag) at(e); });
       sc.addEventListener('pointerup', up); sc.addEventListener('pointercancel', up); sc.addEventListener('lostpointercapture', up);
       addEventListener('resize', function(){ build(); kick(); });
