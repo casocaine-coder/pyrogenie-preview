@@ -247,7 +247,19 @@
   .buy .btn-gold{flex:1}
   .side__note{margin-top:12px;font-size:10px;line-height:1.6}
   .specs{margin-top:clamp(26px,3vw,40px);border-top:1px solid rgba(255,255,255,.12)}
-  .specs div{display:flex;justify-content:space-between;gap:20px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:12px}
+  .specs .sr{display:flex;justify-content:space-between;gap:20px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:11px}
+  .specs .sr span:last-child{text-align:right}
+  /* Wie im Shop: wichtigste Daten zuerst, die Herstellerangaben klappen mit dem Pfeil auf */
+  .specs__more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.7,.1,1)}
+  .specs__more > div{overflow:hidden;min-height:0}
+  .specs.open .specs__more{grid-template-rows:1fr}
+  .specs__src{padding:12px 0 2px;font-size:10px;line-height:1.7;text-transform:none;letter-spacing:.04em}
+  .specs__src a{text-decoration:underline;text-underline-offset:3px}.specs__src a:hover{color:var(--gold2)}
+  .specs__tog{display:flex;align-items:center;justify-content:center;width:100%;margin-top:4px;padding:12px 0 4px;background:none;border:0;cursor:pointer;color:var(--gold)}
+  .specs__tog svg{width:22px;height:12px;stroke:currentColor;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:transform .4s cubic-bezier(.2,.7,.1,1)}
+  .specs.open .specs__tog svg{transform:rotate(180deg)}
+  .specs__tog:hover{color:var(--gold2)}
+  .specs__tog:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   .hs{margin-top:clamp(50px,6vw,90px)}
   .hs__grid{display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(24px,4vw,70px);margin-top:clamp(18px,2vw,28px);border-top:1px solid rgba(255,255,255,.12)}
   .hs__grid div{display:flex;justify-content:space-between;gap:20px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:12px}
@@ -278,7 +290,7 @@
   html.light .stage.d,html.light .thumb.d{background:#0d0d0d}
   html.light .pill{border-color:rgba(0,0,0,.25)}html.light .pill:hover{border-color:var(--ink)}
   html.light .pill[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
-  html.light .specs,html.light .specs div{border-color:rgba(0,0,0,.12)}
+  html.light .specs,html.light .specs .sr{border-color:rgba(0,0,0,.12)}
   html.light .side__price strong{color:var(--gold-ink)}
   @media (max-width:900px){ .pd__top{grid-template-columns:1fr} .side{position:static} .grid{grid-template-columns:repeat(2,1fr)} }
 </style>
@@ -332,11 +344,6 @@
       <div class="specs zara" id="specs"></div>
     </aside>
   </div>
-  <section class="hs" id="hs" hidden>
-    <h2 class="h2">Hersteller<span class="gold">angaben</span></h2>
-    <div class="hs__grid zara" id="hsGrid"></div>
-    <p class="hs__src zara muted" id="hsSrc"></p>
-  </section>
   <section class="more">
     <div class="more__head"><h2 class="h2">Ähnliche <span class="gold">Artikel</span></h2>
       <div class="more__nav"><a class="zara muted" id="allCat" href="rental.html">Alle ansehen →</a>
@@ -460,13 +467,15 @@
     th.onclick = function(e){ var b = e.target.closest('.thumb'); if (b) show(+b.dataset.i); };
     show(cur.img.indexOf(RQ.light(cur)));
     var rows = [['Hersteller', cur.brand], ['Modell', cur.name]]; if (cur.code) rows.push(['Artikelnummer', cur.code]); rows.push(['Kategorie', c.name]);
-    document.getElementById('specs').innerHTML = rows.map(function(r){ return '<div><span class="muted">'+r[0]+'</span><span>'+r[1]+'</span></div>'; }).join('');
-    var hs = (typeof RENT_SPECS !== 'undefined') && RENT_SPECS[cur.slug], hsEl = document.getElementById('hs');
-    hsEl.hidden = !hs;
-    if (hs) {
-      document.getElementById('hsGrid').innerHTML = hs.rows.map(function(r){ return '<div><span class="muted">'+r[0]+'</span><span>'+r[1]+'</span></div>'; }).join('');
-      document.getElementById('hsSrc').innerHTML = (hs.note ? hs.note + ' · ' : '') + 'Quelle: <a href="'+hs.src+'" target="_blank" rel="noopener">'+hs.srcName+'</a> · Angaben ohne Gewähr, technische Änderungen durch den Hersteller vorbehalten.';
-    }
+    // Herstellerangaben hinter dem Aufklapp-Pfeil (wie im Shop)
+    var hs = (typeof RENT_SPECS !== 'undefined') && RENT_SPECS[cur.slug], sp = document.getElementById('specs');
+    var row = function(r){ return '<div class="sr"><span class="muted">'+r[0]+'</span><span>'+r[1]+'</span></div>'; };
+    sp.classList.remove('open');
+    sp.innerHTML = rows.map(row).join('') + (hs && hs.rows.length ?
+      '<div class="specs__more"><div>' + hs.rows.map(row).join('') +
+      '<p class="specs__src muted">' + (hs.note ? hs.note + ' · ' : '') + 'Quelle: <a href="'+hs.src+'" target="_blank" rel="noopener">'+hs.srcName+'</a> · Angaben ohne Gewähr, technische Änderungen durch den Hersteller vorbehalten.</p></div></div>' +
+      '<button class="specs__tog" type="button" aria-expanded="false" aria-label="Herstellerangaben anzeigen"><svg viewBox="0 0 22 12" aria-hidden="true"><path d="M2 2 L11 10 L20 2"/></svg></button>' : '');
+    if (!sp._b){ sp._b = 1; sp.addEventListener('click', function(e){ var t = e.target.closest('.specs__tog'); if (!t) return; var o = sp.classList.toggle('open'); t.setAttribute('aria-expanded', String(o)); }); }
     var same = RENT_PRODUCTS.filter(function(x){ return x.cat === cur.cat; }), k = same.indexOf(cur);
     document.getElementById('allCat').href = 'rental.html#' + c.slug;
     // ähnlich = gleiche Kategorie (gleiche Marke zuerst), danach gleiche Marke aus anderen Kategorien
