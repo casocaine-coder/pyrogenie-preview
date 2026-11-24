@@ -254,7 +254,9 @@
   html.light .cat__tag{color:#16130f;text-shadow:none}html.light .cat__tag b{color:#a8761c}
   html.light .cat__n{color:rgba(22,19,15,.55)}
   html.light .cat:hover{box-shadow:0 10px 30px rgba(0,0,0,.12)}
-  @media (max-width:700px){ .cats__grid{grid-template-columns:1fr} }
+  .cat picture{display:contents}
+  @media (max-width:700px){ .cats__grid{grid-template-columns:1fr 1fr;gap:8px} .cat{aspect-ratio:1/1} .cat__rest,.cat__n{display:none}
+    .cat__tag{left:0;right:0;bottom:12px;text-align:center;font-size:14px;letter-spacing:.08em} }
   /* Hersteller */
   .brands{margin-top:clamp(70px,8vw,130px)}
   .brands__row{display:grid;grid-template-columns:repeat(5,1fr);align-items:center;justify-items:center;gap:clamp(22px,3vw,48px) clamp(18px,2.4vw,40px);max-width:1080px;margin-inline:auto}
@@ -444,8 +446,9 @@
   var catBy = {}; RENT_CATS.forEach(function(c){ catBy[c.slug] = c; });
   document.getElementById('catGrid').innerHTML = RENT_CATS.map(function(c){
     var w = c.name.split(' '), first = w.shift();      // erstes Wort gold – wie „RENTAL“ / „SFX“
-    return '<a class="cat" href="#'+c.slug+'" data-cat="'+c.slug+'"><img class="cat__d" src="rental/cat/'+c.slug+'.webp" alt="'+c.name+'" loading="lazy" decoding="async">'+
-           '<span class="cat__tag"><b>'+first+'</b>'+(w.length ? ' '+w.join(' ') : '')+'</span><span class="cat__n zara">'+c.n+(c.n === 1 ? ' Gerät' : ' Geräte')+'</span></a>';
+    // Handy: quadratische Kachel mit nur einem Gerät (rental/cat/m/…), Beschriftung nur das goldene Wort
+    return '<a class="cat" href="#'+c.slug+'" data-cat="'+c.slug+'"><picture><source media="(max-width:700px)" srcset="rental/cat/m/'+c.slug+'.webp"><img class="cat__d" src="rental/cat/'+c.slug+'.webp" alt="'+c.name+'" loading="lazy" decoding="async"></picture>'+
+           '<span class="cat__tag"><b>'+first+'</b>'+(w.length ? '<span class="cat__rest"> '+w.join(' ')+'</span>' : '')+'</span><span class="cat__n zara">'+c.n+(c.n === 1 ? ' Gerät' : ' Geräte')+'</span></a>';
   }).join('');
   var state = {cat:'', q:'', brand:''};
   var brands = Object.keys(RENT_LOGOS).filter(function(b){ return RENT_PRODUCTS.some(function(p){ return p.brand === b; }); });
