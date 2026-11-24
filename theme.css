@@ -270,3 +270,6 @@ html body :is(.btn-gold,.req__send,.kf__send,.af__go,.hero__book){background-ima
 /* Geschlossenes Menü fängt keine Klicks/Wischgesten mehr ab (vorher lag ein unsichtbarer Kasten oben rechts über der Seite) */
 html body .nav:not(.open){pointer-events:none}
 html body .nav:not(.open) .menu-btn{pointer-events:auto}
+
+/* Produktbilder ohne Schatten-Schein drumherum (Produktseite, Shop-Kacheln, Kategorien, Warenkorb, Mietgeräte) */
+html body :is(.win--main,.win--pair,.p__img,.cat__img,.row__img,.stage,.sim__img,.rc__img) img{filter:none !important}
