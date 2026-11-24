@@ -185,15 +185,14 @@
   .search::placeholder{color:var(--gold);opacity:.85}
   .search:focus{border-color:var(--gold2);color:var(--gold2)}
   .count{font-size:11px}
-  /* Netto/Brutto: die gewohnte Zweier-Kachel, aber in Apple-Schalterform – ein durchsichtiger Glas-Knopf liegt auf der gewählten Seite und gleitet beim Umschalten rüber */
+  /* Netto/Brutto: die gewohnte Zweier-Kachel in Apple-Schalterform – ein durchsichtiger Knopf liegt auf der gewählten Seite und gleitet beim Umschalten rüber (ohne Liquid Glass) */
   .vat{position:relative;display:inline-grid;grid-template-columns:1fr 1fr;flex:none;padding:3px;border-radius:999px;background-color:rgba(255,255,255,.05);
     box-shadow:inset 0 1px 2px rgba(0,0,0,.4)}
   .vat__k{position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:999px;pointer-events:none;
-    background-color:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(6px) saturate(180%);backdrop-filter:blur(6px) saturate(180%);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.42),inset 0 -1px 0 rgba(255,255,255,.08),inset 0 0 0 .5px rgba(255,255,255,.22),0 2px 8px rgba(0,0,0,.3);
-    transition:transform .5s cubic-bezier(.3,1.25,.5,1),scale .3s cubic-bezier(.3,1.3,.5,1),background-color .3s}
+    background-color:rgba(255,255,255,.14);
+    transition:transform .5s cubic-bezier(.3,1.25,.5,1),scale .3s cubic-bezier(.3,1.3,.5,1)}
   .vat.is-on .vat__k{transform:translateX(100%)}
-  .vat.is-glide .vat__k{scale:1.06 1.1;background-color:rgba(255,255,255,.07)}
+  .vat.is-glide .vat__k{scale:1.06 1.1}
   .vat button{position:relative;z-index:1;background:none;border:0;border-radius:999px;font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
     color:rgba(255,255,255,.45);padding:9px 16px;min-height:30px;cursor:pointer;transition:color .25s}
   .vat button[aria-pressed="true"]{color:#fff}
@@ -201,7 +200,7 @@
   .vat button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   .price .vat{margin-top:12px}
   html.light .vat{background-color:rgba(0,0,0,.06);box-shadow:inset 0 1px 2px rgba(0,0,0,.12)}
-  html.light .vat__k{background-color:rgba(255,255,255,.75);box-shadow:inset 0 1px 0 #fff,0 1px 4px rgba(0,0,0,.15)}
+  html.light .vat__k{background-color:rgba(255,255,255,.85)}
   html.light .vat button{color:rgba(0,0,0,.45)} html.light .vat button[aria-pressed="true"]{color:var(--ink)}
   .bar__row .vat{margin-left:auto}
   .sort{margin-left:0;background:none;border:1px solid rgba(255,255,255,.4);color:#fff;font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 30px 8px 12px;cursor:pointer;

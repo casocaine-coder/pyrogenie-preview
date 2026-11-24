@@ -141,7 +141,7 @@ document.addEventListener('click', function(e){
 /* Liquid Glass: die Spiegelung am Rand von Kacheln und Knöpfen folgt dem Cursor */
 (function(){
   if (!window.matchMedia || !matchMedia('(hover:hover)').matches) return;
-  var BTN = '.btn,.pill,.loadmore,.fbtn,.fchip,.chip,.sim__arr,.more__arr,.igc__open,.info__btn,.cart__more,.flt__reset,.vat';
+  var BTN = '.btn,.pill,.loadmore,.fbtn,.fchip,.chip,.sim__arr,.more__arr,.igc__open,.info__btn,.cart__more,.flt__reset';
   var HOST = '.card,.moment,.person,.p,.rc,.sim__p,.fx,.ref,.reel__poster,.player__btn,.win--pair,.tile,.cat';
   var FRAME = '.card__img,.moment__img,.person__img,.p__img,.rc__img,.sim__img,.fx__media';
   var raf = 0, ev = null, last = null;
