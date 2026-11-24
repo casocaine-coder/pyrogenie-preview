@@ -137,3 +137,25 @@ document.addEventListener('click', function(e){
   if (s) s.placeholder = "Suchen";
 })();
 
+
+/* Liquid Glass: die Spiegelung am Rand von Kacheln und Knöpfen folgt dem Cursor */
+(function(){
+  if (!window.matchMedia || !matchMedia('(hover:hover)').matches) return;
+  var BTN = '.btn,.btn-gold,.pill,.loadmore,.fbtn,.vat,.fchip,.chip,.sim__arr,.more__arr,.marrow,.arrow,.igc__open,.info__btn,.req__send,.kf__send,.af__go,.hero__book,.cart__more,.flt__reset';
+  var HOST = '.card,.moment,.person,.p,.rc,.sim__p,.fx,.ref,.reel__poster,.player__btn,.win--pair,.tile,.cat';
+  var FRAME = '.card__img,.moment__img,.person__img,.p__img,.rc__img,.sim__img,.fx__media';
+  var raf = 0, ev = null, last = null;
+  function reset(el){ if (el){ el.style.removeProperty('--gx'); el.style.removeProperty('--gy'); } }
+  function upd(){
+    raf = 0; var e = ev, t = e.target; if (!t.closest) return;
+    var el = t.closest(BTN);
+    if (!el){ var h = t.closest(HOST); el = h ? (h.querySelector(FRAME) || h) : null; }
+    if (el !== last){ reset(last); last = el; }
+    if (!el) return;
+    var r = el.getBoundingClientRect(); if (!r.width || !r.height) return;
+    el.style.setProperty('--gx', Math.max(0, Math.min(100, (e.clientX - r.left) / r.width * 100)).toFixed(1) + '%');
+    el.style.setProperty('--gy', Math.max(0, Math.min(100, (e.clientY - r.top) / r.height * 100)).toFixed(1) + '%');
+  }
+  document.addEventListener('pointermove', function(e){ ev = e; if (!raf) raf = requestAnimationFrame(upd); }, {passive:true});
+  document.addEventListener('pointerleave', function(){ reset(last); last = null; });
+})();
