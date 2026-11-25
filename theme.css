@@ -301,3 +301,18 @@ html body .tab[aria-pressed="true"]{background-position:0 0}
 html body .tab[aria-pressed="true"]::after{transform:scaleX(1)}
 html.light body .tab{--base:var(--ink-muted,rgba(0,0,0,.5))} html.light body .tab:hover{--base:var(--ink,#000)}
 html body .tab:hover,html body .tab[aria-pressed]{color:transparent;border-bottom:0}
+
+/* ---------- Einheitliche Schriftgrößen (ganze Seite) ----------
+   Titel     = großer Titel im Kopfbild jeder Seite
+   Überschrift = alle Abschnittsüberschriften
+   Text      = Fließtext
+   Klein / Ganz klein = Beschriftungen, Hinweise */
+:root{--fs-title:clamp(28px,3vw,44px);--fs-h:clamp(22px,2.1vw,32px);--fs-text:clamp(15px,1.15vw,17px);--fs-small:12px;--fs-tiny:11px}
+html.mobile{--fs-title:30px;--fs-h:24px;--fs-text:15px}
+html body header .hero__title:not(#title):not(.wave-t),html body header .sfx-name,html body .cart__head h1,html body main > h1,html body .page-head h1,html body h1.kf__title{font-size:var(--fs-title)}
+html body header .hero__title.wave-t{font-size:var(--fs-title)}
+html body h2:not(.sr-only),html body .h2,html body .hello,html body .more__title,html body .req__title{font-size:var(--fs-h);line-height:1.15}
+html body main p:not(.zara):not(.muted):not([class*="note"]):not([class*="src"]):not([class*="msg"]),html body section p:not(.zara):not(.muted):not([class*="note"]):not([class*="src"]):not([class*="msg"]){font-size:var(--fs-text)}
+html body .cat__n,html body .specs__src,html body .specs__src a,html body .hs__src,html body .p__meta,html body .price__vat{font-size:var(--fs-tiny)}
+html body .moment__sub,html body .person__role{font-size:var(--fs-small)}
+html body h1:not(.sr-only):not(#title){font-size:var(--fs-title)}

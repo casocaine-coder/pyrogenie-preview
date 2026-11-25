@@ -338,7 +338,7 @@
   <div class="wrap">
     <h2 class="h2">We make the<br><span class="gold">Magic</span> happen!</h2>
     <p>Lernen Sie unser Team kennen und treten Sie mit uns in Kontakt!<br>Wir beraten Sie gern.</p>
-    <a class="btn" href="kontakt.html">Jetzt kontakt aufnehmen</a>
+    <a class="btn" href="kontakt.html">Jetzt Kontakt aufnehmen</a>
   </div>
 </section>
 
@@ -468,11 +468,11 @@
     if (x > cap){ x = cap; y = x * box / r; } if (y > cap){ y = cap; x = r * y / box; }
     return ' style="width:' + (x * 100).toFixed(1) + '%;height:' + (y * 100).toFixed(1) + '%"';
   }
-  // Reihenfolge der Kategorien + Sammel-Kachel „Ground/StageFx“ (nur bei den Kacheln, die Leiste zeigt die Einzel-Kategorien)
+  // Reihenfolge der Kategorien + Sammel-Kachel „Ground/StageFX“ (nur bei den Kacheln, die Leiste zeigt die Einzel-Kategorien)
   var ORDER = ['single-shots','fontaenen','bengal-flammen','flammenprojektoren','ab-komponenten','jets','cakeboxen','single-rows','shells','roemische-lichter','genie-fireworks','pyroship','gestelle-zubehoer','zuendsysteme'];
   var ix = function(c){ var i = ORDER.indexOf(c.slug); return i < 0 ? 99 : i; };
   SHOP_CATS.sort(function(a, b){ return ix(a) - ix(b); });
-  var GROUPS = {'ground-stage-fx': {slug:'ground-stage-fx', name:'Ground/StageFx', members:['fontaenen','bengal-flammen','flammenprojektoren','ab-komponenten','jets'], coverOf:'jets'}};
+  var GROUPS = {'ground-stage-fx': {slug:'ground-stage-fx', name:'Ground/StageFX', members:['fontaenen','bengal-flammen','flammenprojektoren','ab-komponenten','jets'], coverOf:'jets'}};
   function inCat(p){ return !state.cats.length || state.cats.indexOf(p.cat) > -1; }
   function setCat(k){ state.cats = !k ? [] : GROUPS[k] ? GROUPS[k].members.slice() : catBy[k] ? [k] : []; }
   function catKey(){   // für Adresse und Überschrift: Einzel-Kategorie oder Sammel-Kachel

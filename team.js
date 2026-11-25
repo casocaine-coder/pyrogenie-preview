@@ -13,7 +13,7 @@ var TEAM = [
  },
  {
   "slug": "tim",
-  "name": "Tim Hanning",
+  "name": "Tim Hannig",
   "role": "CCO & Marketing",
   "tile": "team/t-tim.jpg",
   "imgs": [

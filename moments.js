@@ -26,7 +26,7 @@ var MOMENTS = [
       gallery:G('moment/diff-2024-galerie-1.jpg',8).concat(G('moment/diff-2024-galerie-2.jpg',2))},
     {slug:'nationalgalerie-2024', img:'show/nationalgalerie.jpg', hero:'moment/nationalgalerie-2024.jpg', sub:'An der Neuen Nationalgalerie 2024',              title:'Feuerwerk Neue Nationalgalerie',
       gallery:G('moment/nationalgalerie-2024-galerie.jpg',5)},
-    {slug:'san-sebastian-2024',   img:'show/sansebastian.jpg',    hero:'moment/san-sebastian-2024.jpg',   sub:'Donostia/San Sebastián Aste Nagusia 2024',       title:'San Sebastian'}
+    {slug:'san-sebastian-2024',   img:'show/sansebastian.jpg',    hero:'moment/san-sebastian-2024.jpg',   sub:'Donostia/San Sebastián Aste Nagusia 2024',       title:'San Sebastián'}
   ],
   [ // Seite 2
     {slug:'lfc-2023', vimeo:'883174018',                 img:'show/lfc.jpg',           hero:'moment/lfc-2023.jpg',                 sub:'Liuyang Feuerwerksfestival 2023', title:'LFC',
@@ -39,18 +39,18 @@ var MOMENTS = [
     {slug:'show-p2-5',                img:'show/pink.jpg',          hero:'moment/show-p2-5.jpg',                sub:'',                                title:''}    // Text fehlt noch
   ],
   [ // Seite 3
-    {slug:'nights-of-lights-2020', file:'moment/video/nights-of-lights-2020-clip.mp4',    img:'show/nightsoflights.jpg',hero:'moment/nights-of-lights-2020.jpg',    sub:'MercedesBenz Arena 2020',         title:'Nights of Lights'},
+    {slug:'nights-of-lights-2020', file:'moment/video/nights-of-lights-2020-clip.mp4',    img:'show/nightsoflights.jpg',hero:'moment/nights-of-lights-2020.jpg',    sub:'Mercedes-Benz Arena 2020',         title:'Nights of Lights'},
     {slug:'kater-blau-2020',          img:'show/katerblau.jpg',             hero:'moment/kater-blau-2020.jpg',          sub:'Matrix Party im Kater Blau 2020',           title:'Kater Blau'},
-    {slug:'saint-brevin-2019', vimeo:'359290807',        img:'show/saintbrevin.jpg',           hero:'moment/saint-brevin-2019.jpg',        sub:'International Saint Brevin Les Pines 2019', title:'21. Festival Pyrotechnique',
+    {slug:'saint-brevin-2019', vimeo:'359290807',        img:'show/saintbrevin.jpg',           hero:'moment/saint-brevin-2019.jpg',        sub:'Saint-Brevin-les-Pins 2019', title:'21. Festival Pyrotechnique',
       gallery:[{yt:'NnyYQV9H8LM'}]},
     {slug:'pyroforum-2019', yt:'cEOc6dL412k',           img:'show/pyroforum.jpg',             hero:'moment/pyroforum-2019.jpg',           sub:'Pyroforum Witten 2019',                     title:'Pyroforum'},
     {slug:'feuerwerkersinfonie-2019', yt:'wLnziOtDtH0', img:'show/feuerwerkersinfonie18.jpg', hero:'moment/feuerwerkersinfonie-2019.jpg', sub:'Potsdamer Feuerwerkersinfonie 2019',        title:'18. Feuerwerkersinfonie'},
     {slug:'feuerwerkersinfonie-2018', yt:'_t6FM0jko0Q', img:'show/feuerwerkersinfonie17.jpg', hero:'moment/feuerwerkersinfonie-2018.jpg', sub:'Potsdamer Feuerwerkersinfonie 2018',        title:'17. Feuerwerkersinfonie'}
   ],
   [ // Seite 4
-    {slug:'hafenfest-2019',           img:'show/hafenfest.jpg',             hero:'moment/hafenfest-2019.jpg',           sub:'Tempelhowerhafen Fest 2019',                title:'Hafen Fest'},
-    {slug:'geburtstagsfeuerwerk', vimeo:'262802477', img:'show/geburtstag.jpg', hero:'moment/geburtstagsfeuerwerk.jpg', sub:'Indoore Feuerwerk Uber Arena', title:'Geburtstagsfeuerwerk'},
-    {slug:'arena',                img:'show/arena.jpg',      hero:'moment/arena.jpg',                sub:'Uber Arena – jede Season',     title:'Eisbären Einlaufshow'},
+    {slug:'hafenfest-2019',           img:'show/hafenfest.jpg',             hero:'moment/hafenfest-2019.jpg',           sub:'Tempelhofer Hafen 2019',                title:'Hafenfest'},
+    {slug:'geburtstagsfeuerwerk', vimeo:'262802477', img:'show/geburtstag.jpg', hero:'moment/geburtstagsfeuerwerk.jpg', sub:'Indoor-Feuerwerk Uber Arena', title:'Geburtstagsfeuerwerk'},
+    {slug:'arena',                img:'show/arena.jpg',      hero:'moment/arena.jpg',                sub:'Uber Arena – jede Saison',     title:'Eisbären Einlaufshow'},
     {slug:'dueben-2018', vimeo:'302021482',          img:'show/dueben.jpg',     hero:'moment/dueben-2018.jpg',          sub:'Düben 2018',                   title:'Pyromusical in Düben'}
   ]
 ];
