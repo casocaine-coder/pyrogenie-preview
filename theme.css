@@ -355,6 +355,6 @@ html.loading .loader.genie-hole{background:#000;transition:none}
 .gx__hole{position:absolute;inset:0;background:#000;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-composite:xor;mask-composite:exclude;will-change:opacity}
 .gx__ghost{position:absolute;inset:0;will-change:opacity}
 .gx__ghost img{position:absolute;max-width:none}
-.gx.go{transition:transform 1.8s cubic-bezier(.6,0,.85,.45)}
+.gx.go{transition:transform 2.3s cubic-bezier(.6,0,.85,.45)}
 /* kein Ausblenden des Schwarz mehr (das war der Nebel): das Fenster wächst einfach, bis kein Schwarz mehr im Bild ist */
 .gx.fade .gx__ghost{transition:opacity .5s cubic-bezier(.4,0,.4,1);opacity:0}   /* Farbe ist weg, bevor der Zoom startet */   /* eine durchgehende Kurve: 100 % → ~30 % → 0 */

@@ -150,7 +150,7 @@
         var S = Math.max(innerWidth, innerHeight) / 14;
         requestAnimationFrame(function(){ requestAnimationFrame(function(){ wrap.classList.add('fade');
           setTimeout(function(){ wrap.classList.add('go'); wrap.style.transform = 'scale(' + S.toFixed(2) + ')'; }, 520); }); });
-        setTimeout(function(){ wrap.remove(); L.removeAttribute('style'); L.classList.remove('genie-go'); g.remove(); }, 2550);
+        setTimeout(function(){ wrap.remove(); L.removeAttribute('style'); L.classList.remove('genie-go'); g.remove(); }, 3050);
       }, 2450);
     }, wait);
   }
