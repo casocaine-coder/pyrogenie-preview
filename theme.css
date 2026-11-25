@@ -331,7 +331,7 @@ html body h1:not(.sr-only):not(#title){font-size:var(--fs-title)}
 @keyframes genieSpark{0%{opacity:0;transform:scale(0) rotate(0)}40%{opacity:1;transform:scale(1.15) rotate(45deg)}100%{opacity:0;transform:scale(.3) rotate(90deg)}}
 @keyframes genieLampGlow{40%{filter:brightness(1.6) drop-shadow(0 0 22px rgba(255,210,120,.85));transform:translateY(16%)}100%{filter:none;transform:translateY(16%)}}
 .loader.genie-go .genie__glow{animation:genieGlow 2.4s ease-in-out .35s forwards}
-.loader.genie-go .genie__face{animation:genieRise .8s cubic-bezier(.2,1.3,.4,1) .75s forwards,genieOut .7s cubic-bezier(.6,0,.4,1) 2.35s forwards}
+.loader.genie-go .genie__face{animation:genieRise .8s cubic-bezier(.2,1.3,.4,1) .75s forwards}
 .loader.genie-go .genie__eye--r{animation:genieWink .36s ease-in-out 1.75s}
 .loader.genie-go.done{transition-delay:0s}
 @keyframes genieRingOut{to{opacity:0;transform:rotate(200deg) scale(1.25)}}
@@ -341,3 +341,7 @@ html body h1:not(.sr-only):not(#title){font-size:var(--fs-title)}
 @keyframes genieOut{to{opacity:0;transform:scale(3.2)}}
 @keyframes genieSmile{to{opacity:1;stroke-dashoffset:0}}
 @keyframes genieWink{50%{transform:scaleY(.12)}}
+
+/* Schluss des Intros: Gesicht wird zum Fenster in die Seite */
+html.loading .loader.genie-hole{background:#000}
+.loader.genie-hole .genie,.loader.genie-hole .loader__lamp,.loader.genie-hole .loader__ring{opacity:0!important;transition:opacity .15s}
