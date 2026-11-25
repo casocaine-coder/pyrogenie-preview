@@ -143,7 +143,7 @@
         L.style.visibility = 'hidden'; root.classList.remove('loading');
         var S = Math.max(innerWidth, innerHeight) / 14;
         requestAnimationFrame(function(){ requestAnimationFrame(function(){ wrap.classList.add('go'); wrap.style.transform = 'scale(' + S.toFixed(2) + ')'; }); });
-        setTimeout(function(){ wrap.remove(); L.removeAttribute('style'); L.classList.remove('genie-go'); g.remove(); }, 2900);
+        setTimeout(function(){ wrap.remove(); L.removeAttribute('style'); L.classList.remove('genie-go'); g.remove(); }, 2000);
       }, 2450);
     }, wait);
   }
