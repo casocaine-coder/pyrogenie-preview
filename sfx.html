@@ -179,6 +179,8 @@
     font-size:clamp(13px,1vw,16px);letter-spacing:.06em;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.8);pointer-events:none}
   .tile__tag b{font-weight:600;color:var(--gold)}
   .tile.open{height:48cqw}
+  /* weiches Ausfahren – überschreibt die allgemeine Hover-Regel aus theme.css, die das Höhen-Gleiten sonst abschaltet */
+  html body .serv__tiles .tile{transition:height 1.25s cubic-bezier(.65,0,.35,1),transform .55s cubic-bezier(.2,.8,.2,1),box-shadow .55s cubic-bezier(.2,.8,.2,1)}
   .tile.open img{object-position:50% 22%}
   .tile--machines.open img{object-position:50% 58%}
   .tile:hover{box-shadow:0 0 24px rgba(255,255,255,.18)}
@@ -340,11 +342,18 @@
   window.addEventListener('pageshow', function(e){ if (e.persisted) location.reload(); });
   function snap(){ var t = targets(); L = t[0]; R = t[1]; draw(); }
   var touch = document.documentElement.classList.contains('mobile') || matchMedia('(hover:none)').matches;
+  var hov = {x:-1, y:-1, t:0};
   [btn.rental, btn.sfx, tile.rental, tile.sfx].forEach(function(el){
     var k = el.dataset.k;
     if (touch){ el.addEventListener('click', function(e){ e.preventDefault(); if (state === k) return fly(k); go(k); }); return; }
-    el.addEventListener('mouseenter', function(){ go(k); });
-    el.addEventListener('mouseleave', function(){ leaveT = setTimeout(function(){ go(null); }, 120); });
+    // Nur echte Mausbewegung schaltet um – wenn sich die Kacheln unter der stillstehenden Maus verschieben, passiert nichts (kein Hin- und Herspringen)
+    el.addEventListener('mousemove', function(e){
+      if (e.clientX === hov.x && e.clientY === hov.y) return; hov.x = e.clientX; hov.y = e.clientY; clearTimeout(leaveT);
+      if (state === k) return;
+      if (state && performance.now() - hov.t < 700) return;   // während eine Kachel aufgeht, nicht sofort zurückschalten
+      hov.t = performance.now(); go(k);
+    });
+    el.addEventListener('mouseleave', function(){ clearTimeout(leaveT); leaveT = setTimeout(function(){ go(null); }, 350); });
     el.addEventListener('click', function(e){ e.preventDefault(); fly(k); });
   });
   window.addEventListener('resize', snap); if (document.fonts) document.fonts.ready.then(snap); snap();
