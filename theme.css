@@ -273,3 +273,7 @@ html body .nav:not(.open) .menu-btn{pointer-events:auto}
 
 /* Produktbilder ohne Schatten-Schein drumherum (Produktseite, Shop-Kacheln, Kategorien, Warenkorb, Mietgeräte) */
 html body :is(.win--main,.win--pair,.p__img,.cat__img,.row__img,.stage,.sim__img,.rc__img) img{filter:none !important}
+
+/* Zurück-Pfeil: bleibt oben stehen und blendet beim Runterscrollen aus (wie Warenkorb/Konto) */
+html body .back{transition:opacity .35s,transform .35s,visibility 0s}
+html body .back.away{opacity:0;visibility:hidden;transform:translateY(-12px);pointer-events:none;transition:opacity .35s,transform .35s,visibility 0s .35s}

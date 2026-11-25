@@ -93,7 +93,7 @@
 
   // beim Runterscrollen ausblenden (wie das Menü), oben wieder einblenden
   var tk = false;
-  function vis(){ tk = false; box.classList.toggle('away', window.scrollY > 80); }
+  function vis(){ tk = false; var aw = window.scrollY > 80; box.classList.toggle('away', aw); var bk = document.getElementById('back'); if (bk) bk.classList.toggle('away', aw); }
   window.addEventListener('scroll', function(){ if (!tk){ tk = true; requestAnimationFrame(vis); } }, {passive:true});
   vis();
 
