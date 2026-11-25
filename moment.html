@@ -506,7 +506,9 @@ render();
     var h = hero.getBoundingClientRect(), p = pl.getBoundingClientRect(), d = Math.max(0, Math.round(p.top + p.height / 2 - h.bottom));
     bg.style.bottom = -d + 'px';
     // Handy: Schrift und alle Boxen rutschen nach unten, bis dorthin, wo das Bild ins Schwarz übergeht
-    if (innerWidth <= 700){ main.style.marginTop = d + 'px'; if (cap) cap.style.transform = 'translateY(' + d + 'px)'; }
+    var lg = hero.querySelector('.pgb'); if (lg) lg.style.top = '';
+    if (innerWidth <= 700){ main.style.marginTop = d + 'px'; if (cap) cap.style.transform = 'translateY(' + d + 'px)';
+      if (lg) lg.style.top = Math.round((h.height + d) / 2) + 'px'; }   // Logo mittig im ganzen sichtbaren Showbild
   }
   fit(); addEventListener('resize', fit); addEventListener('load', fit); setTimeout(fit, 600);
 })();
