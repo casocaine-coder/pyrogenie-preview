@@ -31,7 +31,7 @@ var MOMENTS = [
   [ // Seite 2
     {slug:'lfc-2023', vimeo:'883174018',                 img:'show/lfc.jpg',           hero:'moment/lfc-2023.jpg',                 sub:'Liuyang Feuerwerksfestival 2023', title:'LFC',
       gallery:G('moment/lfc-2023-galerie.jpg',8)},
-    {slug:'san-fermin-2023', yt:'oN02JIi_-C0',          img:'moment/san-fermin-2023.jpg', hero:'moment/san-fermin-2023.jpg',      sub:'Pamplona – San Fermín 2023',      title:'Fuegos de Autor'},
+    {slug:'san-fermin-2023', yt:'oN02JIi_-C0',          img:'moment/san-fermin-2023.jpg?v=2', hero:'moment/san-fermin-2023.jpg?v=2',      sub:'Pamplona – San Fermín 2023',      title:'Fuegos de Autor'},
     {slug:'fireworks-for-peace-2023', file:'moment/video/fireworks-for-peace-2023.mp4', img:'show/mildenberg.jpg',    hero:'moment/fireworks-for-peace-2023.jpg', sub:'Ziegelpark Mildenberg 2023',      title:'Fireworks for Peace'},
     {slug:'compiegne-2023', yt:'W5VrrUfOfs8',           img:'show/compiegne2023.jpg', hero:'moment/compiegne-2023.jpg',           sub:'Compiègne 2023',                  title:'Les Masters de Feu',
       gallery:[{yt:'fBUsAamJNzM'}]},
