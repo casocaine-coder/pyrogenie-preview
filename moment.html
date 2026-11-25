@@ -10,6 +10,9 @@
     font-size:clamp(34px,4.2vw,64px);margin-top:clamp(14px,1.6vw,22px);text-shadow:0 3px 22px rgba(0,0,0,.6)}
   .pgb__sub{font-family:var(--head);font-weight:600;letter-spacing:.38em;padding-left:.38em;font-size:clamp(11px,1vw,15px);margin-top:clamp(10px,1.1vw,16px);color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.7)}
   @media (max-width:700px){ .pgb .hero__logo{width:56px} .pgb__name{font-size:28px;margin-top:10px} .pgb__sub{font-size:10px;margin-top:7px} }
+  /* Titelbild reicht bis zur Mitte des Videos – Video liegt halb auf dem Bild */
+  html body #hero{overflow:visible}
+  #main{position:relative;z-index:1}
 </style>
 <script>try{if(/(^|\/)(index\.html)?$/.test(location.pathname)&&!sessionStorage.getItem("pg-nointro")&&!sessionStorage.getItem("pg-introdone")){sessionStorage.setItem("pg-introdone","1");document.documentElement.classList.add("loading")}}catch(e){}</script>
 <script>(function(){var d=document.documentElement;function m(){var t=("ontouchstart" in window)||navigator.maxTouchPoints>0,s=Math.min(screen.width,screen.height)<=820||window.innerWidth<=820,u=/iPhone|iPod|Android.+Mobile|Mobile Safari/i.test(navigator.userAgent);d.classList.toggle("mobile",(t&&s)||u)}m();addEventListener("resize",m);addEventListener("orientationchange",m)})()</script>
@@ -488,5 +491,13 @@ render();
 <script src="transition.js"></script>
 <script src="totop.js"></script>
 <script src="theme.js"></script>
+<script>
+(function(){
+  var hero = document.getElementById('hero'), bg = hero && hero.querySelector(':scope > .bgfix'), pl = document.getElementById('player');
+  if (!bg || !pl) return;
+  function fit(){ var h = hero.getBoundingClientRect(), p = pl.getBoundingClientRect(); bg.style.bottom = -Math.max(0, Math.round(p.top + p.height / 2 - h.bottom)) + 'px'; }
+  fit(); addEventListener('resize', fit); addEventListener('load', fit); setTimeout(fit, 600);
+})();
+</script>
 </body>
 </html>
