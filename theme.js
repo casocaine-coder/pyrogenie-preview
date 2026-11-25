@@ -133,12 +133,12 @@
         wrap.style.transformOrigin = Ox.toFixed(1) + 'px ' + Oy.toFixed(1) + 'px';
         var hole = document.createElement('div'); hole.className = 'gx__hole';
         // Maske hart machen: jeder sichtbare Pixel wird voll ausgestanzt – keine halbdurchsichtigen Kanten, kein Nebel im Fenster
-        var hard = function(src){ try{ var im = new Image(); im.src = src; var w = im.naturalWidth, h = im.naturalHeight; if(!w || !h) return src;
+        var hard = function(im){ var src = im.src; try{ var w = im.naturalWidth, h = im.naturalHeight; if(!w || !h) return src;
           var k = Math.min(1, 1400 / Math.max(w, h)), c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k);
           var x = c.getContext('2d'); x.drawImage(im, 0, 0, c.width, c.height); var d = x.getImageData(0, 0, c.width, c.height), a = d.data;
           for(var i = 0; i < a.length; i += 4){ var on = a[i + 3] > 10; a[i] = a[i + 1] = a[i + 2] = 0; a[i + 3] = on ? 255 : 0; }
           x.putImageData(d, 0, 0); return c.toDataURL('image/png'); }catch(e){ return src; } };
-        hole.style.webkitMaskImage = hole.style.maskImage = 'linear-gradient(#000,#000),' + parts.map(function(p){ return 'url("' + hard(p[0]) + '")'; }).join(',');
+        hole.style.webkitMaskImage = hole.style.maskImage = 'linear-gradient(#000,#000),' + [imgs[0], imgs[1], lampEl].map(function(im){ return 'url("' + hard(im) + '")'; }).join(',');
         hole.style.webkitMaskSize = hole.style.maskSize = '100% 100%,' + parts.map(function(p){ return p[1].width.toFixed(1) + 'px ' + p[1].height.toFixed(1) + 'px'; }).join(',');
         hole.style.webkitMaskPosition = hole.style.maskPosition = '0 0,' + parts.map(function(p){ return p[1].left.toFixed(1) + 'px ' + p[1].top.toFixed(1) + 'px'; }).join(',');
         var ghost = document.createElement('div'); ghost.className = 'gx__ghost';
@@ -149,7 +149,7 @@
         L.style.visibility = 'hidden'; root.classList.remove('loading');
         var S = Math.max(innerWidth, innerHeight) / 14;
         requestAnimationFrame(function(){ requestAnimationFrame(function(){ wrap.classList.add('fade');
-          setTimeout(function(){ wrap.classList.add('go'); wrap.style.transform = 'scale(' + S.toFixed(2) + ')'; }, 520); }); });
+          setTimeout(function(){ ghost.style.display = 'none'; wrap.classList.add('go'); wrap.style.transform = 'scale(' + S.toFixed(2) + ')'; }, 520); }); });
         setTimeout(function(){ wrap.remove(); L.removeAttribute('style'); L.classList.remove('genie-go'); g.remove(); }, 3050);
       }, 2450);
     }, wait);
