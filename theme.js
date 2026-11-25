@@ -146,13 +146,17 @@
         var ghost = document.createElement('div'); ghost.className = 'gx__ghost';
         parts.forEach(function(p){ var im = document.createElement('img'); im.src = p[0]; im.alt = ''; var r = p[1];
           im.style.cssText = 'left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + r.height + 'px'; ghost.appendChild(im); });
-        wrap.appendChild(hole); wrap.appendChild(ghost); document.body.appendChild(wrap);
+        wrap.appendChild(hole);
+        // Computer: Bewegungsunschärfe beim Zoom – leicht kleinere, halbdurchsichtige Kopien des Schwarz ziehen an den Fensterkanten nach
+        if (fast) [.965, .93, .895].forEach(function(k){ var t = hole.cloneNode(); t.className = 'gx__hole gx__trail';
+          t.style.transformOrigin = wrap.style.transformOrigin; t.style.transform = 'scale(' + k + ')'; wrap.appendChild(t); });
+        wrap.appendChild(ghost); document.body.appendChild(wrap);
         // Ladebildschirm darunter sofort weg – das Fenster liegt deckungsgleich darüber, es springt also nichts
         L.style.visibility = 'hidden'; root.classList.remove('loading');
         var S = Math.max(innerWidth, innerHeight) / 14;
         requestAnimationFrame(function(){ requestAnimationFrame(function(){ wrap.classList.add('fade');
           setTimeout(function(){ wrap.classList.add('go'); wrap.style.transform = 'scale(' + S.toFixed(2) + ')'; }, fast ? 380 : 520); }); });
-        setTimeout(function(){ wrap.remove(); L.removeAttribute('style'); L.classList.remove('genie-go'); L.classList.remove('genie-fast'); g.remove(); }, fast ? 2100 : 3050);
+        setTimeout(function(){ wrap.remove(); L.removeAttribute('style'); L.classList.remove('genie-go'); L.classList.remove('genie-fast'); g.remove(); }, fast ? 1600 : 3050);
       }, fast ? 1600 : 2450);
     }, wait);
   }
