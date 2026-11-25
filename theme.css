@@ -277,3 +277,9 @@ html body :is(.win--main,.win--pair,.p__img,.cat__img,.row__img,.stage,.sim__img
 /* Zurück-Pfeil: bleibt oben stehen und blendet beim Runterscrollen aus (wie Warenkorb/Konto) */
 html body .back{transition:opacity .35s,transform .35s,visibility 0s}
 html body .back.away{opacity:0;visibility:hidden;transform:translateY(-12px);pointer-events:none;transition:opacity .35s,transform .35s,visibility 0s .35s}
+
+/* fliegendes Logo (oben links beim Scrollen) */
+.logo-fly{position:fixed;left:0;top:0;z-index:30;display:none;will-change:transform}
+.logo-fly.on{display:block}
+.logo-fly img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 2px 8px rgba(0,0,0,.6))}
+/* der Zurück-Pfeil macht oben links Platz, sobald das Logo dort ist */

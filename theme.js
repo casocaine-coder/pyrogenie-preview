@@ -159,3 +159,32 @@ document.addEventListener('click', function(e){
   document.addEventListener('pointermove', function(e){ ev = e; if (!raf) raf = requestAnimationFrame(upd); }, {passive:true});
   document.addEventListener('pointerleave', function(){ reset(last); last = null; });
 })();
+
+/* Logo wandert beim Scrollen sauber aus der Mitte des Titelbilds nach oben links und bleibt dort (nicht auf der Startseite) */
+(function(){
+  var logo = document.querySelector('.hero__logo');
+  if (!logo || /(^|\/)(index\.html)?$/.test(location.pathname)) return;
+  var home = logo.closest('a'), href = home ? home.getAttribute('href') : 'index.html';
+  var fly = document.createElement('a'); fly.className = 'logo-fly'; fly.href = href; fly.setAttribute('aria-label', 'Zur Startseite');
+  var img = document.createElement('img'); img.src = logo.currentSrc || logo.src; img.alt = ''; fly.appendChild(img);
+  document.body.appendChild(fly);
+  var base = null, raf = 0;
+  function measure(){ var r = logo.getBoundingClientRect(); base = {x: r.left + scrollX, y: r.top + scrollY, w: r.width, h: r.height}; }
+  function target(){ var m = innerWidth <= 700, s = m ? 42 : 58; return {x: m ? 12 : Math.max(14, Math.min(44, innerWidth * .026)), y: m ? 12 : Math.max(16, Math.min(32, innerWidth * .022)), w: s, h: s}; }
+  function ease(t){ return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+  function upd(){
+    raf = 0; if (!base || !base.w) { measure(); if (!base.w) return; }
+    var T = target(), sy = scrollY, nat = {x: base.x - scrollX, y: base.y - sy, w: base.w, h: base.h};
+    var dist = Math.max(60, base.y - T.y), t = Math.max(0, Math.min(1, sy / dist)), e = ease(t);
+    var x = nat.x + (T.x - nat.x) * e, y = (base.y - sy * (1 - e)) + (T.y - base.y) * e, w = nat.w + (T.w - nat.w) * e, h = nat.h + (T.h - nat.h) * e;
+    if (t <= 0){ fly.classList.remove('on'); logo.style.visibility = ''; return; }
+    fly.classList.add('on'); logo.style.visibility = 'hidden';
+    fly.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)'; fly.style.width = w.toFixed(1) + 'px'; fly.style.height = h.toFixed(1) + 'px';
+  }
+  function kick(){ if (!raf) raf = requestAnimationFrame(upd); }
+  addEventListener('scroll', kick, {passive:true});
+  addEventListener('resize', function(){ logo.style.visibility = ''; base = null; var y = scrollY; measure(); kick(); });
+  addEventListener('load', function(){ base = null; kick(); });
+  setTimeout(function(){ base = null; kick(); }, 1200);
+  kick();
+})();
