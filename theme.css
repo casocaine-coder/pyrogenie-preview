@@ -316,3 +316,25 @@ html body main p:not(.zara):not(.muted):not([class*="note"]):not([class*="src"])
 html body .cat__n,html body .specs__src,html body .specs__src a,html body .hs__src,html body .p__meta,html body .price__vat{font-size:var(--fs-tiny)}
 html body .moment__sub,html body .person__role{font-size:var(--fs-small)}
 html body h1:not(.sr-only):not(#title){font-size:var(--fs-title)}
+
+/* ---------- Genie-Intro nach dem Laden ---------- */
+.genie{position:absolute;inset:0;pointer-events:none}
+.genie__glow{position:absolute;left:50%;top:58%;width:70%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;opacity:0;
+  background:radial-gradient(circle,rgba(255,226,160,.95) 0%,rgba(200,149,58,.55) 30%,rgba(200,149,58,0) 70%)}
+.genie__face{position:absolute;left:50%;top:50%;width:78%;translate:-50% -50%;opacity:0;overflow:visible}
+.genie__eye{fill:#fff;transform-box:fill-box;transform-origin:50% 50%}
+.genie__smile{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;stroke-dasharray:6 5;stroke-dashoffset:60;opacity:0}
+.loader.genie-go .loader__ring{animation:genieRingOut .5s ease-in forwards}
+.loader.genie-go .loader__lamp{animation:genieLampOut .7s ease-in .25s forwards}
+.loader.genie-go .genie__glow{animation:genieGlow 2.4s ease-in-out .35s forwards}
+.loader.genie-go .genie__face{animation:genieRise .8s cubic-bezier(.2,1.3,.4,1) .75s forwards,genieOut .7s cubic-bezier(.6,0,.4,1) 2.35s forwards}
+.loader.genie-go .genie__smile{animation:genieSmile .5s ease-out 1.15s forwards}
+.loader.genie-go .genie__eye--r{animation:genieWink .36s ease-in-out 1.75s}
+.loader.genie-go.done{transition-delay:0s}
+@keyframes genieRingOut{to{opacity:0;transform:rotate(200deg) scale(1.25)}}
+@keyframes genieLampOut{40%{filter:brightness(2.2) drop-shadow(0 0 30px rgba(255,210,120,.9));opacity:1}100%{filter:brightness(3) blur(6px);opacity:0;transform:scale(.8) translateY(8%)}}
+@keyframes genieGlow{0%{opacity:0;scale:.4}25%{opacity:1;scale:1}70%{opacity:.75;scale:1.1}100%{opacity:0;scale:2.2}}
+@keyframes genieRise{0%{opacity:0;transform:translateY(35%) scale(.25)}100%{opacity:1;transform:none}}
+@keyframes genieOut{to{opacity:0;transform:scale(3.2)}}
+@keyframes genieSmile{to{opacity:1;stroke-dashoffset:0}}
+@keyframes genieWink{50%{transform:scaleY(.12)}}

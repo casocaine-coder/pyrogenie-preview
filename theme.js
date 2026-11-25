@@ -113,9 +113,19 @@
     if (gone) return; gone = true;
     var e = performance.now() - t0, wait = Math.max(TURN, Math.ceil(e / TURN) * TURN) - e;   // Drehung zu Ende laufen lassen
     setTimeout(function(){
-      L.classList.add('done');
       try { sessionStorage.setItem('pg-intro', '1'); } catch(_){}
-      setTimeout(function(){ root.classList.remove('loading'); }, 650);
+      var calm = matchMedia('(prefers-reduced-motion:reduce)').matches, B = L.querySelector('.loader__badge');
+      function out(){ L.classList.add('done'); setTimeout(function(){ root.classList.remove('loading'); }, 650); }
+      if (calm || !B) return out();
+      // Genie-Intro: Schriftzug verschwindet, die Lampe löst sich in Licht auf, aus dem Licht steigt das Gesicht, zwinkert und blendet groß in die Seite über
+      var g = document.createElement('div'); g.className = 'genie'; g.setAttribute('aria-hidden', 'true');
+      g.innerHTML = '<span class="genie__glow"></span><svg class="genie__face" viewBox="0 0 200 130">' +
+        '<path class="genie__eye genie__eye--l" d="M22 44 C40 26 66 22 84 30 C66 46 42 52 22 44Z"/>' +
+        '<path class="genie__eye genie__eye--r" d="M116 36 C130 18 152 8 172 6 C162 26 140 40 116 36Z"/>' +
+        '<path class="genie__smile" d="M70 104 C88 110 108 106 126 92 L132 84"/></svg>';
+      B.appendChild(g);
+      L.classList.add('genie-go');
+      setTimeout(out, 3000);
     }, wait);
   }
   if (document.readyState === 'complete') hide(); else window.addEventListener('load', hide);
