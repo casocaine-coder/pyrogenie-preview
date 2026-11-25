@@ -163,7 +163,7 @@ document.addEventListener('click', function(e){
 /* Logo wandert beim Scrollen sauber aus der Mitte des Titelbilds nach oben links und bleibt dort (nicht auf der Startseite) */
 (function(){
   var logo = document.querySelector('.hero__logo');
-  if (!logo || /(^|\/)(index\.html)?$/.test(location.pathname)) return;
+  if (!logo) return;
   var home = logo.closest('a'), href = home ? home.getAttribute('href') : 'index.html';
   var fly = document.createElement('a'); fly.className = 'logo-fly'; fly.href = href; fly.setAttribute('aria-label', 'Zur Startseite');
   var img = document.createElement('img'); img.src = logo.currentSrc || logo.src; img.alt = ''; fly.appendChild(img);

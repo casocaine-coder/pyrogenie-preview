@@ -117,3 +117,14 @@ html.mobile .hero__down::after{content:"";position:absolute;inset:-12px -14px}
 html.mobile .serv__tabs button{padding-top:9px;padding-bottom:9px}
 html.mobile .igc__open{padding:10px 12px}
 html.mobile .igc__foot a{display:inline-block;padding:6px 0}
+
+/* ---------- Handy-Check: größere Tippflächen und keine Mini-Schrift ---------- */
+html.mobile .tab{padding:10px 0}                                      /* Kategorie-Reiter Shop/Rental */
+html.mobile .specs__tog{padding:16px 0 10px}                          /* Aufklapp-Pfeil der Datentabelle */
+html.mobile .specs__src,html.mobile .specs__src a{font-size:11px}
+html.mobile .specs__src a{display:inline-block;padding:6px 0}
+html.mobile .price .muted,html.mobile .price small{font-size:11px}   /* „netto, zzgl. MwSt.“ */
+html.mobile .dots button{min-width:32px;min-height:32px;background-clip:content-box;padding:10px}  /* Galerie-Punkte Show-Seiten */
+html.mobile .kf a,html.mobile .contact a,html.mobile .kontakt a,html.mobile .socials a,html.mobile .legal a,html.mobile .af a{display:inline-block;padding:8px 0}
+html.mobile .igc__more,html.mobile .igc a{padding-top:10px;padding-bottom:10px}
+html.mobile .ki__soc a,html.mobile .ki a[href^="mailto:"],html.mobile .ki a[href^="tel:"]{display:inline-block;padding:9px 0}
