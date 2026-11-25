@@ -229,13 +229,11 @@
   .hero__title{position:relative;z-index:3;margin-top:clamp(36px,6vh,80px);font-family:var(--head);font-weight:600;text-transform:uppercase;
     font-size:clamp(24px,2.8vw,42px);letter-spacing:.22em;padding-left:.22em;text-shadow:0 2px 18px rgba(0,0,0,.9),0 0 40px rgba(0,0,0,.7)}
   .hero__title .gold{color:var(--gold)}
-  /* „RENTAL“: weiße Welle läuft durch die Buchstaben (Nickelodeon-Stil) und rastet am Ende mit einem Klick ein */
+  /* „RENTAL“: weißer Farbwisch läuft durch die Buchstaben */
   .wave-t .wl{display:inline-block;--c0:#fff}
   .wave-t .wl.gold{--c0:var(--gold)}
-  .wave-t.play .wl{animation:wl-wave .62s cubic-bezier(.3,.7,.3,1) calc(var(--i) * 75ms) both}
-  .wave-t.play .wl:last-child{animation:wl-wave .62s cubic-bezier(.3,.7,.3,1) calc(var(--i) * 75ms) both,wl-click .38s cubic-bezier(.2,1.8,.4,1) calc(var(--i) * 75ms + .5s) both}
-  @keyframes wl-wave{0%{transform:none;color:var(--c0)}35%{transform:translateY(-.32em) scale(1.08);color:#fff;text-shadow:0 0 18px rgba(255,255,255,.7)}70%{transform:translateY(.05em);color:#fff}100%{transform:none;color:var(--c0);text-shadow:none}}
-  @keyframes wl-click{0%{transform:scale(1)}40%{transform:scale(1.28)}100%{transform:scale(1)}}
+  .wave-t.play .wl{animation:wl-wipe .5s ease-in-out calc(var(--i) * 75ms) both}
+  @keyframes wl-wipe{0%{color:var(--c0)}40%{color:#fff;text-shadow:0 0 16px rgba(255,255,255,.55)}100%{color:var(--c0)}}
   html.light .wave-t .wl{--c0:#16130f} html.light .wave-t .wl.gold{--c0:#a8761c}
   @media (prefers-reduced-motion:reduce){ .wave-t.play .wl{animation:none} }
   .hero__down{position:absolute;z-index:3;left:50%;bottom:clamp(26px,5vh,54px);transform:translateX(-50%);width:34px;height:20px;animation:bob 2.4s ease-in-out infinite}

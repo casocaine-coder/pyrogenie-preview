@@ -208,7 +208,7 @@ document.addEventListener('click', function(e){
    (beim ersten Sichtbarwerden und beim Drüberfahren/Antippen; die Titel im Kopfbild wiederholen sich ab und zu). */
 (function(){
   if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-  var heads = [].slice.call(document.querySelectorAll('h1:not(.sr-only):not([id]):not(.wave-t), h2.h2, h2.sec-title, .moments__head'))
+  var heads = [].slice.call(document.querySelectorAll('h1:not(.sr-only):not([id]):not(.wave-t)'))
     .filter(function(h, i, a){ return a.indexOf(h) === i && h.textContent.trim() && !h.closest('.nav,.pg-gate,footer') && !h.querySelector('input,button,a'); });
   heads.forEach(function(h){
     var letters = [];
