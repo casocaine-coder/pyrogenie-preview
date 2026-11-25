@@ -171,15 +171,29 @@ document.addEventListener('click', function(e){
   var base = null, raf = 0;
   function measure(){ var r = logo.getBoundingClientRect(); base = {x: r.left + scrollX, y: r.top + scrollY, w: r.width, h: r.height}; }
   function target(){ var m = innerWidth <= 700, s = m ? 42 : 58; return {x: m ? 12 : Math.max(14, Math.min(44, innerWidth * .026)), y: m ? 12 : Math.max(16, Math.min(32, innerWidth * .022)), w: s, h: s}; }
-  function ease(t){ return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+  function ease(t){ return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  // Ablauf: das Logo scrollt erst ganz normal mit nach oben; sobald es auf Höhe der oberen Leiste ist, bleibt es dort
+  // und gleitet nur noch nach links in die Ecke (dabei etwas kleiner). Die Anzeige läuft weich hinterher.
+  var cur = null;
+  function goal(){
+    var T = target(), sy = scrollY, cy = T.y + T.h / 2, nat = {x: base.x - scrollX, cy: base.y + base.h / 2 - sy, w: base.w, h: base.h};
+    var D = base.y + base.h / 2 - cy;                 // ab hier „dockt“ das Logo oben an
+    if (sy <= D) return {x: nat.x, cy: nat.cy, w: nat.w, h: nat.h, on: sy > 0 && false};
+    var L = Math.max(160, innerHeight * .35), e = ease(Math.max(0, Math.min(1, (sy - D) / L)));
+    return {x: nat.x + (T.x - nat.x) * e, cy: cy, w: nat.w + (T.w - nat.w) * e, h: nat.h + (T.h - nat.h) * e, on: true};
+  }
   function upd(){
     raf = 0; if (!base || !base.w) { measure(); if (!base.w) return; }
-    var T = target(), sy = scrollY, nat = {x: base.x - scrollX, y: base.y - sy, w: base.w, h: base.h};
-    var dist = Math.max(60, base.y - T.y), t = Math.max(0, Math.min(1, sy / dist)), e = ease(t);
-    var x = nat.x + (T.x - nat.x) * e, y = (base.y - sy * (1 - e)) + (T.y - base.y) * e, w = nat.w + (T.w - nat.w) * e, h = nat.h + (T.h - nat.h) * e;
-    if (t <= 0){ fly.classList.remove('on'); logo.style.visibility = ''; return; }
+    var g = goal();
+    if (!cur) cur = {x: g.x, cy: g.cy, w: g.w, h: g.h};
+    var docked = scrollY > base.y + base.h / 2 - (target().y + target().h / 2);
+    if (!docked){ cur = {x: g.x, cy: g.cy, w: g.w, h: g.h}; fly.classList.remove('on'); logo.style.visibility = ''; return; }
+    var k = .22, more = false;
+    ['x','w','h'].forEach(function(p){ var d = g[p] - cur[p]; if (Math.abs(d) > .3){ cur[p] += d * k; more = true; } else cur[p] = g[p]; });
+    cur.cy = g.cy;
     fly.classList.add('on'); logo.style.visibility = 'hidden';
-    fly.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)'; fly.style.width = w.toFixed(1) + 'px'; fly.style.height = h.toFixed(1) + 'px';
+    fly.style.transform = 'translate(' + cur.x.toFixed(1) + 'px,' + (cur.cy - cur.h / 2).toFixed(1) + 'px)'; fly.style.width = cur.w.toFixed(1) + 'px'; fly.style.height = cur.h.toFixed(1) + 'px';
+    if (more) raf = requestAnimationFrame(upd);
   }
   function kick(){ if (!raf) raf = requestAnimationFrame(upd); }
   addEventListener('scroll', kick, {passive:true});
