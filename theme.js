@@ -124,36 +124,26 @@
       L.classList.add('genie-go');
       // Zum Schluss: das Gesicht wird zum Fenster – Augen und Lächeln sind ausgeschnitten, durch das linke Auge wird hineingezoomt, bis die Seite ganz zu sehen ist
       setTimeout(function(){
-        // Lampe und Gesicht werden gemeinsam zum Fenster (wie ein ausgestanztes Logo) und wachsen gleichmäßig, bis die Seite ganz zu sehen ist
+        // Lampe und Gesicht werden gemeinsam zum Fenster (wie ein ausgestanztes Logo) und wachsen gleichmäßig, bis die Seite ganz zu sehen ist.
+        // Alles läuft über CSS-Übergänge auf der Grafikkarte (transform/opacity) – dadurch ohne Ruckeln.
         var F = g.querySelector('.genie__face'), imgs = F.querySelectorAll('img'), lampEl = L.querySelector('.loader__lamp');
         var parts = [[imgs[0].src, F.getBoundingClientRect()], [imgs[1].src, F.getBoundingClientRect()], [lampEl.src, lampEl.getBoundingClientRect()]];
         var lr = parts[2][1], Ox = lr.left + .466 * lr.width, Oy = lr.top + .521 * lr.height;   // Zoom-Mitte: im Lampenkörper
-        L.classList.add('genie-hole');
-        L.style.webkitMaskImage = L.style.maskImage = 'linear-gradient(#000,#000),' + parts.map(function(p){ return 'url("' + p[0] + '")'; }).join(',');
-        L.style.webkitMaskRepeat = L.style.maskRepeat = 'no-repeat';
-        L.style.webkitMaskComposite = 'xor'; L.style.maskComposite = 'exclude';
-        // Lampe und Gesicht bleiben beim Zoomen mit 30 % sichtbar – man erkennt Logo und Lächeln und sieht trotzdem das Bild dahinter
-        var ghost = document.createElement('div'); ghost.className = 'genie-ghost'; ghost.setAttribute('aria-hidden', 'true');
-        var gim = parts.map(function(p){ var im = document.createElement('img'); im.src = p[0]; im.alt = ''; ghost.appendChild(im); return im; });
-        document.body.appendChild(ghost);
-        var S1 = Math.max(innerWidth, innerHeight) / 18, T = 2400, t0 = performance.now();
-        function sm(x){ x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); }
-        function frame(now){
-          var t = Math.min(1, (now - t0) / T), e = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2, k = Math.pow(S1, e);
-          var sz = ['100% 100%'], pos = ['0 0'];
-          parts.forEach(function(p){ var r = p[1];
-            sz.push((r.width * k).toFixed(1) + 'px ' + (r.height * k).toFixed(1) + 'px');
-            pos.push((Ox + (r.left - Ox) * k).toFixed(1) + 'px ' + (Oy + (r.top - Oy) * k).toFixed(1) + 'px'); });
-          L.style.webkitMaskSize = L.style.maskSize = sz.join(',');
-          L.style.webkitMaskPosition = L.style.maskPosition = pos.join(',');
-          parts.forEach(function(p, n){ var r = p[1], st = gim[n].style;
-            st.left = (Ox + (r.left - Ox) * k).toFixed(1) + 'px'; st.top = (Oy + (r.top - Oy) * k).toFixed(1) + 'px';
-            st.width = (r.width * k).toFixed(1) + 'px'; st.height = (r.height * k).toFixed(1) + 'px'; });
-          ghost.style.opacity = ((1 - .7 * sm(t / .35)) * (1 - sm((t - .6) / .4))).toFixed(3);   // erst volle Farbe, weich auf 30 %, zum Schluss ganz aus
-          L.style.opacity = (1 - sm((t - .55) / .45)).toFixed(3);   // auch der schwarze Rand blendet weich aus – nichts springt
-          if (t < 1) requestAnimationFrame(frame); else { ghost.remove(); root.classList.remove('loading'); L.removeAttribute('style'); L.classList.remove('genie-go', 'genie-hole'); g.remove(); }
-        }
-        requestAnimationFrame(frame);
+        var wrap = document.createElement('div'); wrap.className = 'gx'; wrap.setAttribute('aria-hidden', 'true');
+        wrap.style.transformOrigin = Ox.toFixed(1) + 'px ' + Oy.toFixed(1) + 'px';
+        var hole = document.createElement('div'); hole.className = 'gx__hole';
+        hole.style.webkitMaskImage = hole.style.maskImage = 'linear-gradient(#000,#000),' + parts.map(function(p){ return 'url("' + p[0] + '")'; }).join(',');
+        hole.style.webkitMaskSize = hole.style.maskSize = '100% 100%,' + parts.map(function(p){ return p[1].width.toFixed(1) + 'px ' + p[1].height.toFixed(1) + 'px'; }).join(',');
+        hole.style.webkitMaskPosition = hole.style.maskPosition = '0 0,' + parts.map(function(p){ return p[1].left.toFixed(1) + 'px ' + p[1].top.toFixed(1) + 'px'; }).join(',');
+        var ghost = document.createElement('div'); ghost.className = 'gx__ghost';
+        parts.forEach(function(p){ var im = document.createElement('img'); im.src = p[0]; im.alt = ''; var r = p[1];
+          im.style.cssText = 'left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + r.height + 'px'; ghost.appendChild(im); });
+        wrap.appendChild(hole); wrap.appendChild(ghost); document.body.appendChild(wrap);
+        // Ladebildschirm darunter sofort weg – das Fenster liegt deckungsgleich darüber, es springt also nichts
+        L.style.visibility = 'hidden'; root.classList.remove('loading');
+        var S = Math.max(innerWidth, innerHeight) / 14;
+        requestAnimationFrame(function(){ requestAnimationFrame(function(){ wrap.classList.add('go'); wrap.style.transform = 'scale(' + S.toFixed(2) + ')'; }); });
+        setTimeout(function(){ wrap.remove(); L.removeAttribute('style'); L.classList.remove('genie-go'); g.remove(); }, 2900);
       }, 2450);
     }, wait);
   }
