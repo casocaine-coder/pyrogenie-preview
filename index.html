@@ -439,7 +439,7 @@
     c.style.marginTop = '';
     if (innerWidth <= 700) return;
     var r = a.getBoundingClientRect(), s = Math.max(r.width / 1920, r.height / 1327), dh = 1327 * s;
-    var cat = r.top + (r.height - dh) / 2 + 0.695 * dh;          // Oberkante der Katze im Bild (cover, zentriert)
+    var cat = r.top + (r.height - dh) / 2 + 0.718 * dh;          // Oberkante der Katze im Bild (cover, zentriert)
     c.style.marginTop = Math.round(cat - g.getBoundingClientRect().top) + 'px';
   }
   f(); addEventListener('resize', f); addEventListener('load', f);
