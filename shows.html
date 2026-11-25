@@ -204,7 +204,10 @@
   /* Handy: keine große schwarze Fläche zwischen Titelbild und Text */
   @media (max-width:700px){ .marrow{display:none} .intro{padding-top:20px} .moment__img{aspect-ratio:4/3} .moments__track{--peek:14px} }
   /* „Alle Momente“ mit goldener, länglicher Kontur */
-  .moments__box{display:inline-block;border:1px solid rgba(200,149,58,.85);padding:.32em .9em .26em}
+  .moments__box{position:relative;display:inline-block;padding:.32em .9em .26em}
+  /* Kontur zeichnet sich beim Scrollen wie ein Ladebalken einmal um den Text herum */
+  .moments__line{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+  .moments__line rect{fill:none;stroke:rgba(200,149,58,.9);stroke-width:1.2}
 </style>
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="mobile.css">
@@ -246,7 +249,7 @@
 
 <!-- 3 · ALLE MOMENTE -->
 <section class="moments" id="momente">
-  <h2 class="moments__head h2"><span class="moments__box">Alle Momente</span></h2>
+  <h2 class="moments__head h2"><span class="moments__box">Alle Momente<svg class="moments__line" aria-hidden="true"><rect pathLength="100"/></svg></span></h2>
   <div class="moments__nav">
     <button class="marrow marrow--prev" id="mPrev" type="button" aria-label="Vorherige Seite"><svg viewBox="0 0 20 60"><path d="M16 4 L4 30 L16 56"/></svg></button>
     <div class="moments__track" id="track" aria-roledescription="Karussell"></div>
@@ -468,5 +471,18 @@
 <script src="transition.js"></script>
 <script src="totop.js"></script>
 <script src="theme.js"></script>
+<script>
+/* „Alle Momente“: Kontur füllt sich beim Scrollen (0 → 100 %) */
+(function(){
+  var box = document.querySelector('.moments__box'); if (!box) return; var raf = 0;
+  var rect = box.querySelector('rect');
+  function upd(){ raf = 0; var r = box.getBoundingClientRect(), vh = innerHeight;
+    rect.setAttribute('x', .6); rect.setAttribute('y', .6); rect.setAttribute('width', Math.max(0, r.width - 1.2)); rect.setAttribute('height', Math.max(0, r.height - 1.2));
+    var p = (vh * 0.95 - r.top) / (vh * 0.45); p = Math.max(0, Math.min(1, p));
+    rect.style.strokeDasharray = '100 100'; rect.style.strokeDashoffset = (100 - p * 100).toFixed(2); }
+  addEventListener('scroll', function(){ if (!raf) raf = requestAnimationFrame(upd); }, {passive:true});
+  addEventListener('resize', upd); upd();
+})();
+</script>
 </body>
 </html>
