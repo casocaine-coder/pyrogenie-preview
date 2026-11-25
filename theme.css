@@ -283,3 +283,24 @@ html body .back.away{opacity:0;visibility:hidden;transform:translateY(-12px);poi
 .logo-fly.on{display:block}
 .logo-fly img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 2px 8px rgba(0,0,0,.6))}
 /* der Zurück-Pfeil macht oben links Platz, sobald das Logo dort ist */
+
+/* ---------- Text-Effekte ---------- */
+.tfx .tw{display:inline-block;white-space:nowrap}
+.tfx .tl{display:inline-block}
+.tfx.tplay .tl{animation:tl-wave .62s cubic-bezier(.3,.7,.3,1) var(--d,0ms) both}
+.tfx.tplay .tl--end{animation:tl-wave .62s cubic-bezier(.3,.7,.3,1) var(--d,0ms) both,tl-click .38s cubic-bezier(.2,1.8,.4,1) calc(var(--d,0ms) + .5s) both}
+@keyframes tl-wave{35%{transform:translateY(-.3em) scale(1.08);color:#fff;text-shadow:0 0 18px rgba(255,255,255,.6)}70%{transform:translateY(.05em);color:#fff}100%{transform:none}}
+@keyframes tl-click{0%{transform:scale(1)}40%{transform:scale(1.28)}100%{transform:scale(1)}}
+html.light .tfx.tplay .tl{animation-name:tl-wave-l} html.light .tfx.tplay .tl--end{animation-name:tl-wave-l,tl-click}
+@keyframes tl-wave-l{35%{transform:translateY(-.3em) scale(1.08)}70%{transform:translateY(.05em)}100%{transform:none}}
+
+/* Reiter (Shop, Rental …): beim Antippen füllen sich Schrift und Balken von links nach rechts mit Gold */
+html body .tab{--base:rgba(255,255,255,.5);position:relative;border-bottom:0;color:transparent;
+  background:linear-gradient(90deg,var(--gold) 50%,var(--base) 50%) 100% 0/200% 100% no-repeat;-webkit-background-clip:text;background-clip:text;
+  transition:background-position .55s cubic-bezier(.65,0,.35,1)}
+html body .tab::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .55s cubic-bezier(.65,0,.35,1)}
+html body .tab:hover{--base:#fff}
+html body .tab[aria-pressed="true"]{background-position:0 0}
+html body .tab[aria-pressed="true"]::after{transform:scaleX(1)}
+html.light body .tab{--base:var(--ink-muted,rgba(0,0,0,.5))} html.light body .tab:hover{--base:var(--ink,#000)}
+html body .tab:hover,html body .tab[aria-pressed]{color:transparent;border-bottom:0}

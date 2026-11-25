@@ -202,3 +202,44 @@ document.addEventListener('click', function(e){
   setTimeout(function(){ base = null; kick(); }, 1200);
   kick();
 })();
+
+/* Text-Effekte auf der ganzen Seite:
+   Überschriften – weiße Welle läuft durch die Buchstaben und das letzte Zeichen rastet mit einem Klick ein
+   (beim ersten Sichtbarwerden und beim Drüberfahren/Antippen; die Titel im Kopfbild wiederholen sich ab und zu). */
+(function(){
+  if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var heads = [].slice.call(document.querySelectorAll('h1:not(.sr-only):not([id]):not(.wave-t), h2.h2, h2.sec-title, .moments__head'))
+    .filter(function(h, i, a){ return a.indexOf(h) === i && h.textContent.trim() && !h.closest('.nav,.pg-gate,footer') && !h.querySelector('input,button,a'); });
+  heads.forEach(function(h){
+    var letters = [];
+    (function walk(n){
+      [].slice.call(n.childNodes).forEach(function(c){
+        if (c.nodeType === 3){
+          var frag = document.createDocumentFragment();
+          c.textContent.split(/(\s+)/).forEach(function(w){
+            if (!w) return;
+            if (/^\s+$/.test(w)){ frag.appendChild(document.createTextNode(w)); return; }
+            var word = document.createElement('span'); word.className = 'tw';
+            Array.from(w).forEach(function(ch){ var l = document.createElement('span'); l.className = 'tl'; l.textContent = ch; word.appendChild(l); letters.push(l); });
+            frag.appendChild(word);
+          });
+          c.parentNode.replaceChild(frag, c);
+        } else if (c.nodeType === 1 && !/^(svg|img|br)$/i.test(c.tagName)) walk(c);
+      });
+    })(h);
+    if (!letters.length) return;
+    var step = Math.min(75, 900 / letters.length);
+    letters.forEach(function(l, i){ l.style.setProperty('--d', (i * step).toFixed(0) + 'ms'); });
+    letters[letters.length - 1].classList.add('tl--end');
+    if (!h.getAttribute('aria-label')) h.setAttribute('aria-label', h.textContent.replace(/\s+/g, ' ').trim());
+    h.classList.add('tfx');
+    h._play = function(){ h.classList.remove('tplay'); void h.offsetWidth; h.classList.add('tplay'); };
+    h.addEventListener('mouseenter', h._play); h.addEventListener('click', h._play);
+  });
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting){ var h = e.target; setTimeout(h._play, h.classList.contains('hero__title') ? 700 : 150); io.unobserve(h); } });
+  }, {threshold: .6}) : null;
+  heads.forEach(function(h){ if (h._play){ if (io) io.observe(h); else h._play(); } });
+  setInterval(function(){ if (document.hidden || scrollY > innerHeight * .6) return;
+    heads.forEach(function(h){ if (h._play && h.classList.contains('hero__title')) h._play(); }); }, 7000);
+})();
