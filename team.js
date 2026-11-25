@@ -89,13 +89,12 @@ var TEAM = [
   "text": []
  },
  {
-  "slug": "torsten",
-  "name": "Torsten Fischer",
-  "role": "Pyrotechniker",
-  "tile": "team/t-torsten.jpg",
+  "slug": "fabian",
+  "name": "Fabian Schüßler",
+  "role": "Head of IT",
+  "tile": "team/t-fabian.jpg",
   "imgs": [
-   "team/torsten-1.jpg",
-   "team/torsten-2.jpg"
+   "team/fabian-1.jpg"
   ],
   "text": []
  },
@@ -110,23 +109,24 @@ var TEAM = [
   "text": []
  },
  {
-  "slug": "anton",
-  "name": "Anton Krause",
-  "role": "Teamassistenz",
-  "tile": "team/t-anton.jpg",
+  "slug": "patrick",
+  "name": "Patrick Lariviere",
+  "role": "Pyrotechniker",
+  "tile": "team/t-patrick.jpg",
   "imgs": [
-   "team/anton-1.jpg",
-   "team/anton-2.jpg"
+   "team/patrick-1.jpg",
+   "team/patrick-2.jpg"
   ],
   "text": []
  },
  {
-  "slug": "fabian",
-  "name": "Fabian Schüßler",
-  "role": "Head of IT",
-  "tile": "team/t-fabian.jpg",
+  "slug": "torsten",
+  "name": "Torsten Fischer",
+  "role": "Pyrotechniker",
+  "tile": "team/t-torsten.jpg",
   "imgs": [
-   "team/fabian-1.jpg"
+   "team/torsten-1.jpg",
+   "team/torsten-2.jpg"
   ],
   "text": []
  },
@@ -151,13 +151,13 @@ var TEAM = [
   "text": []
  },
  {
-  "slug": "patrick",
-  "name": "Patrick Lariviere",
-  "role": "Pyrotechniker",
-  "tile": "team/t-patrick.jpg",
+  "slug": "anton",
+  "name": "Anton Krause",
+  "role": "Teamassistenz",
+  "tile": "team/t-anton.jpg",
   "imgs": [
-   "team/patrick-1.jpg",
-   "team/patrick-2.jpg"
+   "team/anton-1.jpg",
+   "team/anton-2.jpg"
   ],
   "text": []
  }
