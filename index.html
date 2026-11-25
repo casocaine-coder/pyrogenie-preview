@@ -200,6 +200,12 @@
   .pt{position:fixed;inset:0;z-index:9999;background:#000;pointer-events:none;opacity:1;transition:opacity .18s ease}
   .pt.off{opacity:0}
   @media (prefers-reduced-motion:reduce){.pt{transition:none}}
+  /* Siegel: Schriftring dreht sich langsam um die Lampe */
+  .badge--spin{position:relative;aspect-ratio:1/1}
+  .badge--spin img{position:absolute;inset:0;width:100%;height:100%}
+  .badge__ring{animation:badge-spin 18s linear infinite}
+  @keyframes badge-spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){ .badge__ring{animation:none} }
 </style>
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="mobile.css">
@@ -256,7 +262,7 @@
   <div class="about__bg" role="img" aria-label="DJ vor einer Konfetti-Wolke"><div class="about__zoom"></div></div>
   <div class="wrap">
     <div class="about__intro">
-      <img loading="lazy" decoding="async" class="badge" src="img/badge.png" alt="Pyrogenie Siegel">
+      <div class="badge badge--spin" role="img" aria-label="Pyrogenie Siegel"><img class="badge__ring" src="img/loader-ring.png" alt="" loading="lazy" decoding="async"><img class="badge__lamp" src="img/loader-lamp.png" alt="" loading="lazy" decoding="async"></div>
       <div>
         <h2 class="hello"><span class="gold">HALLO.</span><br>WIR SIND DIE PYROGENIE<br>FEUERWERK GMBH.</h2>
         <p class="about__text">
