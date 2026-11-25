@@ -495,7 +495,14 @@ render();
 (function(){
   var hero = document.getElementById('hero'), bg = hero && hero.querySelector(':scope > .bgfix'), pl = document.getElementById('player');
   if (!bg || !pl) return;
-  function fit(){ var h = hero.getBoundingClientRect(), p = pl.getBoundingClientRect(); bg.style.bottom = -Math.max(0, Math.round(p.top + p.height / 2 - h.bottom)) + 'px'; }
+  var main = document.getElementById('main'), cap = hero.querySelector('.hero__cap');
+  function fit(){
+    main.style.marginTop = ''; if (cap) cap.style.transform = '';
+    var h = hero.getBoundingClientRect(), p = pl.getBoundingClientRect(), d = Math.max(0, Math.round(p.top + p.height / 2 - h.bottom));
+    bg.style.bottom = -d + 'px';
+    // Handy: Schrift und alle Boxen rutschen nach unten, bis dorthin, wo das Bild ins Schwarz übergeht
+    if (innerWidth <= 700){ main.style.marginTop = d + 'px'; if (cap) cap.style.transform = 'translateY(' + d + 'px)'; }
+  }
   fit(); addEventListener('resize', fit); addEventListener('load', fit); setTimeout(fit, 600);
 })();
 </script>
