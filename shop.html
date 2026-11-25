@@ -135,20 +135,20 @@
   .hero__down svg{width:100%;height:100%;stroke:var(--gold);stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round}
   @keyframes bob{50%{transform:translate(-50%,6px)}}
   /* KATEGORIEN */
-  .cats{width:min(1320px,100% - 48px);margin:clamp(70px,9vw,150px) auto 0}
+  .cats{width:min(1640px,100% - 24px);margin:clamp(70px,9vw,150px) auto 0}
   .sec-title{text-align:center;margin-bottom:clamp(34px,4.5vw,64px)}
   /* Kategorien in einer Reihe (wie die Produktleiste bei Apple); beim Drüberfahren läuft eine Welle mit dem Cursor mit */
   .cats .sec-title{margin-bottom:clamp(6px,1.4vw,24px)}
-  .cats__grid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(96px,1fr);max-width:1320px;margin:0 auto;padding:38px 0 6px;
+  .cats__grid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(96px,1fr);max-width:1640px;margin:0 auto;padding:38px 0 6px;
     overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;scroll-snap-type:x proximity}
   .cats__grid::-webkit-scrollbar{display:none}
-  .cat{--w:0;position:relative;display:block;min-width:0;cursor:pointer;text-align:center;padding:0 clamp(4px,.6vw,10px);scroll-snap-align:start}
-  .cat__img{position:relative;display:flex;align-items:flex-end;justify-content:center;aspect-ratio:1/1;width:100%;max-width:118px;margin:0 auto;
+  .cat{--w:0;position:relative;display:block;min-width:0;cursor:pointer;text-align:center;padding:0 clamp(2px,.3vw,8px);scroll-snap-align:start}
+  .cat__img{position:relative;display:flex;align-items:flex-end;justify-content:center;aspect-ratio:4/5;width:100%;max-width:168px;margin:0 auto;
     transform-origin:50% 100%;transform:translateY(calc(var(--w) * -16px)) scale(calc(1 + var(--w) * .16))}
   .cat__img img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 12px 18px rgba(0,0,0,.6))}
-  .cat__name{display:block;margin-top:clamp(12px,1.2vw,18px);text-align:center;font-size:clamp(10px,.8vw,12px);line-height:1.4;text-wrap:balance;
+  .cat__name{display:block;margin-top:clamp(12px,1.2vw,18px);text-align:center;font-size:clamp(10px,.95vw,14px);line-height:1.4;text-wrap:balance;
     transform:translateY(calc(var(--w) * -5px));transition:color .25s}
-  .cat__n{display:block;margin-top:5px;text-align:center;font-size:11px;color:var(--gold);opacity:.85;transform:translateY(calc(var(--w) * -5px))}
+  .cat__n{display:block;margin-top:5px;text-align:center;font-size:clamp(11px,.85vw,13px);color:var(--gold);opacity:.85;transform:translateY(calc(var(--w) * -5px))}
   .cat:hover .cat__name{color:var(--gold2)}
   html.light .cat__n{color:var(--gold-ink,#8a6a1f)}
   .cats__grid.is-scrub{scroll-snap-type:none}
@@ -160,6 +160,7 @@
   .cscrub__t{position:absolute;left:0;bottom:4px;display:flex;gap:10px;will-change:transform}
   .cscrub__t i{flex:none;width:2px;height:26px;border-radius:2px;background:currentColor;opacity:.26;transform-origin:50% 100%;transform:scaleY(.36)}
   html.light .cscrub{color:var(--ink)}
+  @media (max-width:1040px){ .cats{width:min(1320px,100% - 48px)} .cat{padding:0 clamp(4px,.6vw,10px)} .cat__img{aspect-ratio:1/1} }   /* Handy/Tablet wie bisher */
   @media (max-width:1040px){ .cats__grid{margin:0 -24px;padding:30px 24px 4px;scroll-padding-inline:24px;grid-auto-columns:104px;
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent)}
     .cscrub{width:calc((100% + 48px) * .75);margin:10px auto 0} }
