@@ -149,7 +149,8 @@
           parts.forEach(function(p, n){ var r = p[1], st = gim[n].style;
             st.left = (Ox + (r.left - Ox) * k).toFixed(1) + 'px'; st.top = (Oy + (r.top - Oy) * k).toFixed(1) + 'px';
             st.width = (r.width * k).toFixed(1) + 'px'; st.height = (r.height * k).toFixed(1) + 'px'; });
-          ghost.style.opacity = ((1 - .7 * sm(t / .35)) * (1 - sm((t - .72) / .28))).toFixed(3);   // erst volle Farbe, weich auf 30 %, zum Schluss ganz aus
+          ghost.style.opacity = ((1 - .7 * sm(t / .35)) * (1 - sm((t - .6) / .4))).toFixed(3);   // erst volle Farbe, weich auf 30 %, zum Schluss ganz aus
+          L.style.opacity = (1 - sm((t - .55) / .45)).toFixed(3);   // auch der schwarze Rand blendet weich aus – nichts springt
           if (t < 1) requestAnimationFrame(frame); else { ghost.remove(); root.classList.remove('loading'); L.removeAttribute('style'); L.classList.remove('genie-go', 'genie-hole'); g.remove(); }
         }
         requestAnimationFrame(frame);

@@ -343,7 +343,7 @@ html body h1:not(.sr-only):not(#title){font-size:var(--fs-title)}
 @keyframes genieWink{50%{transform:scaleY(.12)}}
 
 /* Schluss des Intros: Gesicht wird zum Fenster in die Seite */
-html.loading .loader.genie-hole{background:#000}
+html.loading .loader.genie-hole{background:#000;transition:none}
 .loader.genie-hole .genie,.loader.genie-hole .loader__lamp,.loader.genie-hole .loader__ring{opacity:0!important;transition:none}
 
 .genie__glow{display:none}
