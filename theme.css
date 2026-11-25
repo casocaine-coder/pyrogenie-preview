@@ -344,8 +344,8 @@ html body h1:not(.sr-only):not(#title){font-size:var(--fs-title)}
 
 /* Schluss des Intros: Gesicht wird zum Fenster in die Seite */
 html.loading .loader.genie-hole{background:#000}
-.loader.genie-hole .genie,.loader.genie-hole .loader__lamp,.loader.genie-hole .loader__ring{opacity:0!important;transition:opacity .15s}
+.loader.genie-hole .genie,.loader.genie-hole .loader__lamp,.loader.genie-hole .loader__ring{opacity:0!important;transition:none}
 
 .genie__glow{display:none}
-.genie-ghost{position:fixed;inset:0;z-index:10000;pointer-events:none;opacity:.3}
+.genie-ghost{position:fixed;inset:0;z-index:10000;pointer-events:none;opacity:1;will-change:opacity}
 .genie-ghost img{position:absolute;max-width:none}
