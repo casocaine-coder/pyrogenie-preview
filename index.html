@@ -110,7 +110,8 @@
 
   /* ---------- 3 · KARTEN: einheitliche hohe Kacheln, Titel im Bild ---------- */
   .cards{position:relative;z-index:1;padding:clamp(30px,4vw,56px) 0 clamp(60px,7vw,110px)}
-  .cards__grid{--cols:4;--gap:clamp(14px,2.6vw,40px);display:flex;flex-wrap:wrap;justify-content:center;gap:var(--gap);max-width:1100px}
+  .cards__grid{--cols:5;--gap:clamp(14px,2.6vw,40px);display:flex;flex-wrap:wrap;justify-content:center;gap:var(--gap);max-width:1380px}
+  .wrap.cards__grid{width:min(1380px,100% - 48px)}
   .card{position:relative;flex:0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));cursor:pointer;
     aspect-ratio:1/2;border-radius:clamp(14px,1.6vw,26px);overflow:hidden;
     box-shadow:0 0 18px rgba(255,255,255,.14),0 0 2px rgba(255,255,255,.35);transition:transform .25s,box-shadow .25s}
@@ -176,7 +177,7 @@
 
   /* ---------- Responsive ---------- */
   @media (max-width:1000px){
-    .cards__grid{--cols:4}
+    .cards__grid{--cols:5}
     .footer__top{grid-template-columns:1fr 1fr 1fr}
     .footer__brand{grid-column:1/-1}
     .footer__bottom{grid-template-columns:repeat(3,auto);justify-content:space-between}
@@ -290,6 +291,7 @@
     <a class="card" href="shop.html"><div class="card__img"><img loading="lazy" decoding="async" src="img/vertrieb.jpg?v=3" alt="Paletten mit Feuerwerkskartons"></div><span class="card__label">SHOP</span></a>
     <a class="card" href="effekte.html"><div class="card__img"><img loading="lazy" decoding="async" src="img/sfx.jpg?v=4" alt="Konzertpublikum vor einer Bühne mit CO2-Jets und Lichtstrahlen"></div><span class="card__label">SPECIAL EFFECTS</span></a>
     <a class="card" href="rental.html"><div class="card__img"><img loading="lazy" decoding="async" src="img/rental.jpg?v=6" alt="Fünf Effektgeräte von Magic FX und Spark Fabrica im schwarzen Studio"></div><span class="card__label">RENTAL</span></a>
+    <a class="card" href="ueber-uns.html"><div class="card__img"><img loading="lazy" decoding="async" src="img/ueberuns.jpg" alt="Das Pyrogenie-Team nachts nach einer Show"></div><span class="card__label">ÜBER UNS</span></a>
   </div>
 </section>
 
