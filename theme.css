@@ -357,4 +357,5 @@ html.loading .loader.genie-hole{background:#000;transition:none}
 .gx__ghost img{position:absolute;max-width:none}
 .gx.go{transition:transform 2.3s cubic-bezier(.6,0,.85,.45)}
 /* kein Ausblenden des Schwarz mehr (das war der Nebel): das Fenster wächst einfach, bis kein Schwarz mehr im Bild ist */
-.gx.fade .gx__ghost{transition:opacity .5s cubic-bezier(.4,0,.4,1);opacity:0}   /* Farbe ist weg, bevor der Zoom startet */   /* eine durchgehende Kurve: 100 % → ~30 % → 0 */
+.gx.fade .gx__ghost{transition:opacity .5s cubic-bezier(.4,0,.4,1);opacity:.5}   /* vor dem Zoom: Farbe auf 50 % */
+.gx.go .gx__ghost{transition:opacity .5s cubic-bezier(.3,0,.5,1);opacity:0}   /* beim Reinzoomen zügig auf 0 (fertig bei ca. 2,7-facher Größe) */
