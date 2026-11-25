@@ -203,6 +203,8 @@
   .marrow:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
   /* Handy: keine große schwarze Fläche zwischen Titelbild und Text */
   @media (max-width:700px){ .marrow{display:none} .intro{padding-top:20px} .moment__img{aspect-ratio:4/3} .moments__track{--peek:14px} }
+  /* „Alle Momente“ mit goldener, länglicher Kontur */
+  .moments__box{display:inline-block;border:1px solid rgba(200,149,58,.85);padding:.32em .9em .26em}
 </style>
 <link rel="stylesheet" href="theme.css">
 <link rel="stylesheet" href="mobile.css">
@@ -244,7 +246,7 @@
 
 <!-- 3 · ALLE MOMENTE -->
 <section class="moments" id="momente">
-  <h2 class="moments__head h2">Alle Momente</h2>
+  <h2 class="moments__head h2"><span class="moments__box">Alle Momente</span></h2>
   <div class="moments__nav">
     <button class="marrow marrow--prev" id="mPrev" type="button" aria-label="Vorherige Seite"><svg viewBox="0 0 20 60"><path d="M16 4 L4 30 L16 56"/></svg></button>
     <div class="moments__track" id="track" aria-roledescription="Karussell"></div>
