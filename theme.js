@@ -132,6 +132,10 @@
         L.style.webkitMaskImage = L.style.maskImage = 'linear-gradient(#000,#000),' + parts.map(function(p){ return 'url("' + p[0] + '")'; }).join(',');
         L.style.webkitMaskRepeat = L.style.maskRepeat = 'no-repeat';
         L.style.webkitMaskComposite = 'xor'; L.style.maskComposite = 'exclude';
+        // Lampe und Gesicht bleiben beim Zoomen mit 30 % sichtbar – man erkennt Logo und Lächeln und sieht trotzdem das Bild dahinter
+        var ghost = document.createElement('div'); ghost.className = 'genie-ghost'; ghost.setAttribute('aria-hidden', 'true');
+        var gim = parts.map(function(p){ var im = document.createElement('img'); im.src = p[0]; im.alt = ''; ghost.appendChild(im); return im; });
+        document.body.appendChild(ghost);
         var S1 = Math.max(innerWidth, innerHeight) / 18, T = 1900, t0 = performance.now();
         function frame(now){
           var t = Math.min(1, (now - t0) / T), e = t * t * t, k = Math.pow(S1, e);
@@ -141,7 +145,11 @@
             pos.push((Ox + (r.left - Ox) * k).toFixed(1) + 'px ' + (Oy + (r.top - Oy) * k).toFixed(1) + 'px'); });
           L.style.webkitMaskSize = L.style.maskSize = sz.join(',');
           L.style.webkitMaskPosition = L.style.maskPosition = pos.join(',');
-          if (t < 1) requestAnimationFrame(frame); else { root.classList.remove('loading'); L.removeAttribute('style'); L.classList.remove('genie-go', 'genie-hole'); g.remove(); }
+          parts.forEach(function(p, n){ var r = p[1], st = gim[n].style;
+            st.left = (Ox + (r.left - Ox) * k).toFixed(1) + 'px'; st.top = (Oy + (r.top - Oy) * k).toFixed(1) + 'px';
+            st.width = (r.width * k).toFixed(1) + 'px'; st.height = (r.height * k).toFixed(1) + 'px'; });
+          ghost.style.opacity = (.3 * (1 - Math.max(0, (t - .7) / .3))).toFixed(3);
+          if (t < 1) requestAnimationFrame(frame); else { ghost.remove(); root.classList.remove('loading'); L.removeAttribute('style'); L.classList.remove('genie-go', 'genie-hole'); g.remove(); }
         }
         requestAnimationFrame(frame);
       }, 2450);
