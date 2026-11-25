@@ -142,8 +142,9 @@
         // Ladebildschirm darunter sofort weg – das Fenster liegt deckungsgleich darüber, es springt also nichts
         L.style.visibility = 'hidden'; root.classList.remove('loading');
         var S = Math.max(innerWidth, innerHeight) / 14;
-        requestAnimationFrame(function(){ requestAnimationFrame(function(){ wrap.classList.add('go'); wrap.style.transform = 'scale(' + S.toFixed(2) + ')'; }); });
-        setTimeout(function(){ wrap.remove(); L.removeAttribute('style'); L.classList.remove('genie-go'); g.remove(); }, 2000);
+        requestAnimationFrame(function(){ requestAnimationFrame(function(){ wrap.classList.add('fade');
+          setTimeout(function(){ wrap.classList.add('go'); wrap.style.transform = 'scale(' + S.toFixed(2) + ')'; }, 520); }); });
+        setTimeout(function(){ wrap.remove(); L.removeAttribute('style'); L.classList.remove('genie-go'); g.remove(); }, 2550);
       }, 2450);
     }, wait);
   }
